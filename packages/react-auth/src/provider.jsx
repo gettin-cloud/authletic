@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const AuthContext = React.createContext();
 
-class AuthProvider extends PureComponent {
+export class AuthProvider extends PureComponent {
   constructor(props) {
     super(props);
     if (!props.auth) {
@@ -42,4 +42,3 @@ AuthProvider.defaultProps = {
   auth: undefined,
 };
 
-export default AuthProvider;

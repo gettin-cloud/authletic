@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import AuthProvider from './provider';
+import { AuthProvider } from './index';
 
 describe('A <AuthProvider>', () => {
   const node = document.createElement('div');
