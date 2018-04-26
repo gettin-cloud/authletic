@@ -4,11 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint \"src/**\"",
+    "lint:fix": "yarn run lint -- --fix"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "express": "^4.16.3",
     "jest": "^22.4.3",
     "supertest": "^3.0.0"
   }
