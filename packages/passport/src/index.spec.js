@@ -1,7 +1,11 @@
-const { LocalProvider } = require('./index');
+const {
+  PassportAuth,
+  LocalProvider,
+} = require('./index');
 
 describe('Package public API', () => {
-  it('exports LocalProvider', () => {
+  it('exports are ok', () => {
+    expect(PassportAuth).toBeDefined();
     expect(LocalProvider).toBeDefined();
   });
 });
