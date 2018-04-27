@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 class LocalProvider {
   constructor(options) {
     this.options = {
-      routePath: 'local',
+      rootPath: '/local',
       usernameField: 'email',
       passwordField: 'password',
       ...options,
@@ -15,40 +15,66 @@ class LocalProvider {
     }
   }
   setupPassport(passport) {
+    const passportLogin = userPool => (username, password, cb) => {
+      // userPool.find({ username }, (err, user) => {
+      //   if (err) { return cb(err); }
+      //   if (!user) { return cb(null, false); }
+      //   if (user.password !== password) { return cb(null, false); }
+      //   return cb(null, user);
+      // });
+      return cb(null, false);
+    };
+
+    const passportSignUp = userPool => (username, password, cb) => {
+      // userPool.create({ username }, (err, user) => {
+      //   if (err) { return cb(err); }
+      //   if (!user) { return cb(null, false); }
+      //   if (user.password !== password) { return cb(null, false); }
+      //   return cb(null, user);
+      // });
+      return cb(null, false);
+    };
+
     const { userPool, usernameField, passwordField } = this.options;
-    passport.use(new LocalStrategy({
+
+    const config = {
       usernameField,
       passwordField,
       session: false,
-    }, (username, password, cb) => {
-      userPool.users.findByUsername(username, (err, user) => {
-        if (err) { return cb(err); }
-        if (!user) { return cb(null, false); }
-        if (user.password !== password) { return cb(null, false); }
-        return cb(null, user);
-      });
-    }));
+    };
+
+    passport.use('local-login', new LocalStrategy(config, passportLogin(userPool)));
+    passport.use('local-signup', new LocalStrategy(config, passportSignUp(userPool)));
   }
   setupApp(app, passport) {
     const router = express.Router();
-    const { routePath } = this.options;
+    const { rootPath } = this.options;
 
+    app.use(rootPath, router);
+
+    router.use(bodyParser.json());
     router.use(bodyParser.urlencoded({ extended: true }));
 
     router.post(
-      `${routePath}/login`,
-      (req, res, next) => {
+      '/login',
+      passport.authenticate('local-login'),
+      (req, res, next, err) => {
         debugger;
         next();
       },
-      passport.authenticate('local', { failureRedirect: '/login' }),
-      (req, res) => {
-        res.redirect('/');
+    );
+
+    router.post(
+      '/signup',
+      passport.authenticate('local-signup'),
+      (req, res, next, err) => {
+        debugger;
+        next();
       },
     );
 
     router.get(
-      `${routePath}/logout`,
+      '/logout',
       (req, res) => {
         req.logout();
         res.redirect('/');
@@ -56,14 +82,12 @@ class LocalProvider {
     );
 
     router.get(
-      `${routePath}/profile`,
+      '/profile',
       // require('connect-ensure-login').ensureLoggedIn(),
       (req, res) => {
-        res.render('profile', { user: req.user });
+        res.send(JSON.stringify({ user: req.user }));
       },
     );
-
-    app.use(`${routePath}/*`, router);
   }
 }
 

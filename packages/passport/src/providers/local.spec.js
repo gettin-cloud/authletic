@@ -13,11 +13,14 @@ describe('LocalProvider middleware', () => {
   auth.addProvider(provider);
   auth.setupApp(app);
 
-  it('handles local/login route', (done) => {
-    request(app).post('local/login').then((response) => {
-      debugger;
-      expect(response.statusCode).toBe(200);
-      done();
+  fit('handles /local/login route', (done) => {
+    request(app)
+      .post('/local/login')
+      .send({ email: 'testuser', password: '123' })
+      .then((response) => {
+        debugger;
+        expect(response.statusCode).toBe(200);
+        done();
     });
   });
 });
