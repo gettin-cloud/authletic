@@ -6,7 +6,7 @@ class LocalProvider {
   constructor(options) {
     this.options = {
       rootPath: '/local',
-      usernameField: 'email',
+      usernameField: 'username',
       passwordField: 'password',
       ...options,
     };
