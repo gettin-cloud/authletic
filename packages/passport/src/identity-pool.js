@@ -1,8 +1,5 @@
 const uuid = require('uuid/v1');
-
-function delegateTo(target, method) {
-  return (...args) => (target[method](...args));
-}
+const { delegateTo } = require('./utils');
 
 class IdentityPool {
   constructor(options) {
@@ -19,18 +16,30 @@ class IdentityPool {
 }
 
 class InMemoryAdapter {
-  constructor() {
+  constructor(options) {
+    this.options = {
+      newId: uuid,
+      ...options,
+    };
+    this.identities = {};
+  }
+  clear() {
     this.identities = {};
   }
   createIdentity(login, meta) {
-    const identityId = uuid();
-    this.identities[identityId] = {
-      id: identityId,
-      logins: [
-        login,
-      ],
-      meta,
-    };
+    return new Promise((resolve) => {
+      const { newId } = this.options;
+      const identityId = newId();
+      const newIdentity = {
+        id: identityId,
+        logins: [
+          login,
+        ],
+        meta,
+      };
+      this.identities[identityId] = newIdentity;
+      resolve(newIdentity);
+    });
   }
 }
 
@@ -46,4 +55,5 @@ class InMemoryIdentityPool extends IdentityPool {
 module.exports = {
   IdentityPool,
   InMemoryIdentityPool,
+  InMemoryAdapter,
 };

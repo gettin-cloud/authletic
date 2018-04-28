@@ -15,27 +15,35 @@ class LocalProvider {
     }
   }
   setupPassport(passport) {
-    const passportLogin = userPool => (username, password, cb) => {
-      // userPool.find({ username }, (err, user) => {
-      //   if (err) { return cb(err); }
-      //   if (!user) { return cb(null, false); }
-      //   if (user.password !== password) { return cb(null, false); }
-      //   return cb(null, user);
-      // });
-      return cb(null, false);
-    };
-
-    const passportSignUp = userPool => (username, password, cb) => {
-      // userPool.create({ username }, (err, user) => {
-      //   if (err) { return cb(err); }
-      //   if (!user) { return cb(null, false); }
-      //   if (user.password !== password) { return cb(null, false); }
-      //   return cb(null, user);
-      // });
-      return cb(null, false);
-    };
-
     const { userPool, usernameField, passwordField } = this.options;
+    const removeSencitiveData = (user) => {
+      const { [passwordField]: toRemove, ...rest } = user;
+      return rest;
+    };
+    const passportLogin = (username, password, cb) => {
+      userPool
+        .findUser(username)
+        .then((user) => {
+          if (!user) {
+            return cb(null, false);
+          }
+          if (user.password !== password) {
+            return cb(null, false);
+          }
+          return cb(null, removeSencitiveData(user));
+        })
+        .catch(err => cb(err));
+    };
+
+    const passportSignUp = (username, password, cb) => {
+      userPool.create({ username }, (err, user) => {
+        if (err) { return cb(err); }
+        if (!user) { return cb(null, false); }
+        if (user.password !== password) { return cb(null, false); }
+        return cb(null, removeSencitiveData(user));
+      });
+      return cb(null, false);
+    };
 
     const config = {
       usernameField,
@@ -43,13 +51,14 @@ class LocalProvider {
       session: false,
     };
 
-    passport.use('local-login', new LocalStrategy(config, passportLogin(userPool)));
-    passport.use('local-signup', new LocalStrategy(config, passportSignUp(userPool)));
+    passport.use('local-login', new LocalStrategy(config, passportLogin));
+    passport.use('local-signup', new LocalStrategy(config, passportSignUp));
   }
   setupApp(app, passport) {
     const router = express.Router();
     const { rootPath } = this.options;
 
+    app.use(passport.initialize());
     app.use(rootPath, router);
 
     router.use(bodyParser.json());
@@ -57,19 +66,18 @@ class LocalProvider {
 
     router.post(
       '/login',
-      passport.authenticate('local-login'),
-      (req, res, next, err) => {
-        debugger;
-        next();
+      passport.authenticate('local-login', { session: false }),
+      (req, res) => {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(req.user));
       },
     );
 
     router.post(
       '/signup',
-      passport.authenticate('local-signup'),
-      (req, res, next, err) => {
+      passport.authenticate('local-signup', { session: false }),
+      (req, res) => {
         debugger;
-        next();
       },
     );
 

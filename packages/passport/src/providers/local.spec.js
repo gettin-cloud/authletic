@@ -3,23 +3,33 @@ const request = require('supertest');
 const { Passport } = require('passport');
 const { PassportAuth } = require('../index');
 const { LocalProvider } = require('./local');
-const { InMemoryIdentityPool } = require('../identity-pool');
-const { InMemoryUserPool } = require('../identity-pool');
+const {
+  IdentityPool,
+  InMemoryAdapter: IdentityPoolAdapter,
+} = require('../identity-pool');
+const {
+  UserPool,
+  InMemoryAdapter: UserPoolAdapter,
+} = require('../user-pool');
 
 describe('LocalProvider', () => {
   const app = express();
   const passport = new Passport();
-  const identityPool = new InMemoryIdentityPool();
+
+  const identityPoolAdapter = new IdentityPoolAdapter();
+  const identityPool = new IdentityPool({ adapter: identityPoolAdapter });
   const auth = new PassportAuth({ passport, identityPool });
-  const userPool = new InMemoryUserPool();
+
+  const userPoolAdapter = new UserPoolAdapter();
+  const userPool = new UserPool({ adapter: userPoolAdapter });
   const provider = new LocalProvider({ userPool });
 
   auth.addProvider(provider);
   auth.setupApp(app);
 
   beforeEach(() => {
-    identityPool.clear();
-    userPool.clear();
+    identityPoolAdapter.clear();
+    userPoolAdapter.clear();
   });
 
   it('login returns status 400 if a username is not provided', () => (
@@ -45,20 +55,24 @@ describe('LocalProvider', () => {
       .post('/local/login')
       .send({ username: 'unknown', password: '123' })
       .then((response) => {
-        expect(response.statusCode).toBe(400);
+        expect(response.statusCode).toBe(401);
       })
   ));
 
   it('login returns status 200 and an access token if credentials are ok', () => {
-    userPool.createUser({
+    const user = {
       username: 'unknown',
       password: '123',
-    });
+    };
+    userPool.createUser(user);
     return request(app)
       .post('/local/login')
-      .send({ username: 'unknown', password: '123' })
+      .send(user)
       .then((response) => {
-        expect(response.statusCode).toBe(400);
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toEqual({
+          accessToken: 'unknown',
+        });
       });
   });
 });
