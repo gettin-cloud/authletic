@@ -91,13 +91,14 @@ class LocalProvider {
       },
     );
 
-    router.get(
-      '/logout',
-      (req, res) => {
-        req.logout();
-        res.redirect('/');
-      },
-    );
+    // Server-side logout doesn't make sense for SPA apps
+    // router.get(
+    //   '/logout',
+    //   (req, res) => {
+    //     req.logout();
+    //     res.redirect('/');
+    //   },
+    // );
 
     router.get(
       '/profile',
