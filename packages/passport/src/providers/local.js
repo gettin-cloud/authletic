@@ -1,8 +1,17 @@
 const express = require('express');
 const { Strategy: LocalStrategy } = require('passport-local');
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
 
 const nullEncrypt = password => password;
+
+const createAccessToken = ({ userId, expiresInMinutes }, secret) => {
+  const exp = Math.floor(Date.now() / 1000) + (expiresInMinutes * 60);
+  return jwt.sign({
+    userId,
+    exp,
+  }, secret);
+};
 
 class LocalProvider {
   constructor(options) {
@@ -79,7 +88,11 @@ class LocalProvider {
       passport.authenticate('local-login', { session: false }),
       (req, res) => {
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify(req.user));
+        //console.log()
+        const accessToken = createAccessToken({ userId: req.user.username, expiresInMinutes: 60 }, 'secret');
+        res.send(JSON.stringify({
+          accessToken,
+        }));
       },
     );
 
