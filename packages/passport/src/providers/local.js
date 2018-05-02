@@ -2,12 +2,15 @@ const express = require('express');
 const { Strategy: LocalStrategy } = require('passport-local');
 const bodyParser = require('body-parser');
 
+const nullEncrypt = password => password;
+
 class LocalProvider {
   constructor(options) {
     this.options = {
       rootPath: '/local',
       usernameField: 'username',
       passwordField: 'password',
+      encryptPassword: nullEncrypt,
       ...options,
     };
     if (!options.userPool) {
@@ -15,11 +18,18 @@ class LocalProvider {
     }
   }
   setupPassport(passport) {
-    const { userPool, usernameField, passwordField } = this.options;
-    const removeSencitiveData = (user) => {
+    const {
+      userPool,
+      usernameField,
+      passwordField,
+      encryptPassword,
+    } = this.options;
+
+    const removeSensitiveData = (user) => {
       const { [passwordField]: toRemove, ...rest } = user;
       return rest;
     };
+
     const passportLogin = (username, password, cb) => {
       userPool
         .findUser(username)
@@ -27,10 +37,10 @@ class LocalProvider {
           if (!user) {
             return cb(null, false);
           }
-          if (user.password !== password) {
+          if (user.password !== encryptPassword(password)) {
             return cb(null, false);
           }
-          return cb(null, removeSencitiveData(user));
+          return cb(null, removeSensitiveData(user));
         })
         .catch(err => cb(err));
     };
@@ -40,7 +50,7 @@ class LocalProvider {
         if (err) { return cb(err); }
         if (!user) { return cb(null, false); }
         if (user.password !== password) { return cb(null, false); }
-        return cb(null, removeSencitiveData(user));
+        return cb(null, removeSensitiveData(user));
       });
       return cb(null, false);
     };
