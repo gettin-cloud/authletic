@@ -12,6 +12,14 @@ class IdentityPool {
     this.createIdentity = delegateTo(options.adapter, 'createIdentity');
     this.updateIdentity = delegateTo(options.adapter, 'updateIdentity');
     this.deleteIdentity = delegateTo(options.adapter, 'deleteIdentity');
+    this.mergeIdentities = delegateTo(options.adapter, 'mergeIdentities');
+  }
+  findIdentity(login) {
+    if (!login || !login.provider || !login.userId) {
+      throw new Error('The \'findIdentity\' method accepts a login object as { provider: \'...\', userId: \'...\' }');
+    }
+    const { adapter } = this.options;
+    return adapter.findIdentity(login);
   }
 }
 
@@ -21,10 +29,10 @@ class InMemoryAdapter {
       newId: uuid,
       ...options,
     };
-    this.identities = {};
+    this.identities = [];
   }
   clear() {
-    this.identities = {};
+    this.identities = [];
   }
   createIdentity(login, meta) {
     return new Promise((resolve) => {
@@ -37,8 +45,16 @@ class InMemoryAdapter {
         ],
         meta,
       };
-      this.identities[identityId] = newIdentity;
+      this.identities.push(newIdentity);
       resolve(newIdentity);
+    });
+  }
+  findIdentity(login) {
+    const findLogin = l => l.provider === login.provider && l.userId === login.userId;
+    return new Promise((resolve) => {
+      const match = this.identities
+        .filter(id => id.logins.filter(findLogin).length)[0];
+      resolve(match);
     });
   }
 }

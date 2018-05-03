@@ -59,12 +59,12 @@ describe('LocalProvider', () => {
       })
   ));
 
-  it('login returns status 200 and an access token if credentials are ok', () => {
+  it('login returns status 200 and an access token if credentials are ok', async () => {
     const user = {
       username: 'unknown',
       password: '123',
     };
-    userPool.createUser(user);
+    await userPool.createUser(user);
     return request(app)
       .post('/local/login')
       .send(user)

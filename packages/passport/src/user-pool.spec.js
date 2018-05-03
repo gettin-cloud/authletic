@@ -1,16 +1,6 @@
 const { UserPool } = require('./user-pool');
 
 describe('UserPool', () => {
-  it('exposes required public API', () => {
-    const pool = new UserPool({ adapter: {} });
-    expect(Object.keys(pool).length).toBe(5);
-    expect(pool.options).toBeDefined();
-    expect(pool.createUser).toBeDefined();
-    expect(pool.deleteUser).toBeDefined();
-    expect(pool.updateUser).toBeDefined();
-    expect(pool.findUser).toBeDefined();
-  });
-
   it('delegates operations to its adapter', () => {
     const adapter = {
       createUser: jest.fn(),
