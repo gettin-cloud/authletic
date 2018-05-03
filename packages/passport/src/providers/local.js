@@ -1,17 +1,8 @@
 const express = require('express');
 const { Strategy: LocalStrategy } = require('passport-local');
 const bodyParser = require('body-parser');
-const jwt = require('jsonwebtoken');
 
 const nullEncrypt = password => password;
-
-const createAccessToken = ({ userId, expiresInMinutes }, secret) => {
-  const exp = Math.floor(Date.now() / 1000) + (expiresInMinutes * 60);
-  return jwt.sign({
-    userId,
-    exp,
-  }, secret);
-};
 
 class LocalProvider {
   constructor(options) {
@@ -44,24 +35,36 @@ class LocalProvider {
         .findUser(username)
         .then((user) => {
           if (!user) {
-            return cb(null, false);
+            cb(null, false);
           }
           if (user.password !== encryptPassword(password)) {
-            return cb(null, false);
+            cb(null, false);
           }
-          return cb(null, removeSensitiveData(user));
+          const userInfo = {
+            provider: 'local',
+            userId: user.id,
+            profile: removeSensitiveData(user),
+          };
+          cb(null, userInfo);
         })
         .catch(err => cb(err));
     };
 
     const passportSignUp = (username, password, cb) => {
-      userPool.create({ username }, (err, user) => {
-        if (err) { return cb(err); }
-        if (!user) { return cb(null, false); }
-        if (user.password !== password) { return cb(null, false); }
-        return cb(null, removeSensitiveData(user));
-      });
-      return cb(null, false);
+      userPool
+        .create({ username, password })
+        .then((user) => {
+          if (!user) {
+            cb(null, false);
+          }
+          const userInfo = {
+            provider: 'local',
+            userId: user.id,
+            profile: removeSensitiveData(user),
+          };
+          cb(null, userInfo);
+        })
+        .catch(err => cb(err));
     };
 
     const config = {
@@ -77,7 +80,7 @@ class LocalProvider {
     const router = express.Router();
     const { rootPath } = this.options;
 
-    app.use(passport.initialize());
+    //app.use(passport.initialize());
     app.use(rootPath, router);
 
     router.use(bodyParser.json());
@@ -86,22 +89,19 @@ class LocalProvider {
     router.post(
       '/login',
       passport.authenticate('local-login', { session: false }),
-      (req, res) => {
-        res.setHeader('Content-Type', 'application/json');
-        //console.log()
-        const accessToken = createAccessToken({ userId: req.user.username, expiresInMinutes: 60 }, 'secret');
-        res.send(JSON.stringify({
-          accessToken,
-        }));
-      },
+      // (req, res) => {
+      //   res.setHeader('Content-Type', 'application/json');
+      //   //console.log()
+      //   const accessToken = createAccessToken({ userId: req.user.username, expiresInMinutes: 60 }, 'secret');
+      //   res.send(JSON.stringify({
+      //     accessToken,
+      //   }));
+      // },
     );
 
     router.post(
       '/signup',
       passport.authenticate('local-signup', { session: false }),
-      (req, res) => {
-        debugger;
-      },
     );
 
     // Server-side logout doesn't make sense for SPA apps
@@ -113,13 +113,13 @@ class LocalProvider {
     //   },
     // );
 
-    router.get(
-      '/profile',
-      // require('connect-ensure-login').ensureLoggedIn(),
-      (req, res) => {
-        res.send(JSON.stringify({ user: req.user }));
-      },
-    );
+    // router.get(
+    //   '/profile',
+    //   passport.authenticate('jwt', { session: false }),
+    //   (req, res) => {
+    //     res.send(JSON.stringify({ user: req.user }));
+    //   },
+    // );
   }
 }
 

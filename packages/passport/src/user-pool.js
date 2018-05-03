@@ -33,6 +33,7 @@ class InMemoryAdapter {
   createUser(user) {
     return new Promise((resolve) => {
       const newUser = {
+        id: user.username,
         ...user,
       };
       if (this.users[user.username]) {

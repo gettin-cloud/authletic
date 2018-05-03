@@ -12,7 +12,7 @@ class IdentityPool {
     this.createIdentity = delegateTo(options.adapter, 'createIdentity');
     this.updateIdentity = delegateTo(options.adapter, 'updateIdentity');
     this.deleteIdentity = delegateTo(options.adapter, 'deleteIdentity');
-    this.mergeIdentities = delegateTo(options.adapter, 'mergeIdentities');
+    this.linkIdentities = delegateTo(options.adapter, 'linkIdentities');
   }
   findIdentity(login) {
     if (!login || !login.provider || !login.userId) {

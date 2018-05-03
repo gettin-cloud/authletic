@@ -60,17 +60,28 @@ describe('LocalProvider', () => {
   ));
 
   it('login returns status 200 and an access token if credentials are ok', async () => {
-    const user = {
+    const userInfo = {
       username: 'unknown',
       password: '123',
     };
-    await userPool.createUser(user);
+    const user = await userPool.createUser(userInfo);
+    const meta = { username: 'unknown' };
+    const identity = await identityPool.createIdentity({
+      provider: 'local',
+      userId: user.id,
+    }, meta);
+
     return request(app)
       .post('/local/login')
       .send(user)
       .then((response) => {
         expect(response.statusCode).toBe(200);
         expect(response.body.accessToken).toBeDefined();
+        expect(response.body.identityId).toBe(identity.id);
+        expect(response.body.profile).toEqual({
+          id: 'unknown',
+          username: 'unknown',
+        });
       });
   });
 });
