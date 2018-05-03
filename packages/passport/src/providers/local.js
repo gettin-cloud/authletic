@@ -80,7 +80,6 @@ class LocalProvider {
     const router = express.Router();
     const { rootPath } = this.options;
 
-    //app.use(passport.initialize());
     app.use(rootPath, router);
 
     router.use(bodyParser.json());
@@ -89,29 +88,12 @@ class LocalProvider {
     router.post(
       '/login',
       passport.authenticate('local-login', { session: false }),
-      // (req, res) => {
-      //   res.setHeader('Content-Type', 'application/json');
-      //   //console.log()
-      //   const accessToken = createAccessToken({ userId: req.user.username, expiresInMinutes: 60 }, 'secret');
-      //   res.send(JSON.stringify({
-      //     accessToken,
-      //   }));
-      // },
     );
 
     router.post(
       '/signup',
       passport.authenticate('local-signup', { session: false }),
     );
-
-    // Server-side logout doesn't make sense for SPA apps
-    // router.get(
-    //   '/logout',
-    //   (req, res) => {
-    //     req.logout();
-    //     res.redirect('/');
-    //   },
-    // );
 
     // router.get(
     //   '/profile',

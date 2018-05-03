@@ -34,6 +34,9 @@ const findIdentity = identityPool => async (req, res, next) => {
 
 class PassportAuth {
   constructor(options) {
+    if (!options.identityPool) {
+      throw new Error('The \'identityPool\' option should be specified');
+    }
     this.options = {
       passport: globalPassport,
       ...options,
