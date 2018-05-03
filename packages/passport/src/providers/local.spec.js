@@ -55,15 +55,15 @@ describe('LocalProvider', () => {
   it('login returns status 401 if a user is not found', () => (
     request(app)
       .post('/local/login')
-      .send({ username: 'unknown', password: '123' })
+      .send({ username: 'testuser', password: '123' })
       .then((response) => {
         expect(response.statusCode).toBe(401);
       })
   ));
 
-  it('login puts user info into req if credentials are ok', async () => {
+  it('login puts login info into req if credentials are ok', async () => {
     const userInfo = {
-      username: 'unknown',
+      username: 'testuser',
       password: '123',
     };
 
@@ -73,12 +73,13 @@ describe('LocalProvider', () => {
       .send(user)
       .then((response) => {
         expect(response.statusCode).toBe(200);
+        expect(response.body.accessToken).toBeDefined();
         expect(response.body).toMatchObject({
           provider: 'local',
-          userId: 'unknown',
+          userId: 'testuser',
           profile: {
-            id: 'unknown',
-            username: 'unknown',
+            id: 'testuser',
+            username: 'testuser',
           },
         });
       });
