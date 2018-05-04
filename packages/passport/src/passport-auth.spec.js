@@ -14,7 +14,7 @@ describe('PassportAuth', () => {
   beforeEach(() => {
     identityPool = new InMemoryIdentityPool();
     passport = new globalPassport.Passport();
-    auth = new PassportAuth({ identityPool, passport });
+    auth = new PassportAuth({ identityPool, passport, jwtSecret: 'test' });
 
     provider = {
       setupPassport: jest.fn(),
@@ -23,7 +23,11 @@ describe('PassportAuth', () => {
   });
 
   it('throws if the \'identityPool\' option is not specified', () => {
-    expect(() => new PassportAuth()).toThrow();
+    expect(() => new PassportAuth({ jwtSecret: 'test' })).toThrow();
+  });
+
+  it('throws if the \'jwtSecret\' option is not specified', () => {
+    expect(() => new PassportAuth({ identityPool: {} })).toThrow();
   });
 
   it('#addProvider registers a provider', () => {

@@ -1,11 +1,19 @@
 const express = require('express');
 const { Strategy: LocalStrategy } = require('passport-local');
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
+const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 
 const nullEncrypt = password => password;
 
 class LocalProvider {
   constructor(options) {
+    // rootPath
+    // usernameField
+    // passwordField
+    // encriptPassword
+    // userPool
+    // jwtSecret
     this.options = {
       rootPath: '/local',
       usernameField: 'username',
@@ -16,6 +24,9 @@ class LocalProvider {
     if (!options.userPool) {
       throw new Error('The \'userPool\' option of LocalProvider is required');
     }
+    if (!options.jwtSecret) {
+      throw new Error('The \'jwtSecret\' option of LocalProvider is required');
+    }
   }
   setupPassport(passport) {
     const {
@@ -23,6 +34,7 @@ class LocalProvider {
       usernameField,
       passwordField,
       encryptPassword,
+      jwtSecret,
     } = this.options;
 
     const removeSensitiveData = (user) => {
@@ -40,10 +52,20 @@ class LocalProvider {
           if (user.password !== encryptPassword(password)) {
             cb(null, false);
           }
+          const accessToken = jwt.sign(
+            {
+              userId: user.id,
+              username: user.username,
+            },
+            jwtSecret,
+            { expiresIn: '1h' },
+          );
           const userInfo = {
             provider: 'local',
             userId: user.id,
+            username: user.username,
             profile: removeSensitiveData(user),
+            accessToken,
           };
           cb(null, userInfo);
         })
@@ -52,29 +74,62 @@ class LocalProvider {
 
     const passportSignUp = (username, password, cb) => {
       userPool
-        .create({ username, password })
+        .createUser({ username, password })
         .then((user) => {
           if (!user) {
             cb(null, false);
           }
+          const accessToken = jwt.sign(
+            {
+              userId: user.id,
+              username: user.username,
+            },
+            jwtSecret,
+            { expiresIn: '1h' },
+          );
           const userInfo = {
             provider: 'local',
             userId: user.id,
+            username: user.username,
             profile: removeSensitiveData(user),
+            accessToken,
           };
           cb(null, userInfo);
         })
         .catch(err => cb(err));
     };
 
-    const config = {
+    const getProfile = (jwtPayload, cb) => {
+      const { username } = jwtPayload;
+      userPool
+        .findUser(username)
+        .then((user) => {
+          if (!user) {
+            cb(null, false);
+          } else {
+            const profile = removeSensitiveData(user);
+            cb(null, profile);
+          }
+        })
+        .catch(err => cb(err));
+    };
+
+    const localConfig = {
       usernameField,
       passwordField,
       session: false,
     };
 
-    passport.use('local-login', new LocalStrategy(config, passportLogin));
-    passport.use('local-signup', new LocalStrategy(config, passportSignUp));
+    passport.use('local-login', new LocalStrategy(localConfig, passportLogin));
+    passport.use('local-signup', new LocalStrategy(localConfig, passportSignUp));
+
+    const jwtConfig = {
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: jwtSecret,
+      session: false,
+    };
+
+    passport.use('jwt', new JwtStrategy(jwtConfig, getProfile));
   }
   setupApp(app, passport) {
     const router = express.Router();
@@ -95,13 +150,14 @@ class LocalProvider {
       passport.authenticate('local-signup', { session: false }),
     );
 
-    // router.get(
-    //   '/profile',
-    //   passport.authenticate('jwt', { session: false }),
-    //   (req, res) => {
-    //     res.send(JSON.stringify({ user: req.user }));
-    //   },
-    // );
+    router.get(
+      '/profile',
+      passport.authenticate('jwt', { session: false }),
+      (req, res) => {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(req.user));
+      },
+    );
   }
 }
 

@@ -1,15 +1,7 @@
 const globalPassport = require('passport');
 const jwt = require('jsonwebtoken');
 
-const createAccessToken = ({ userId, expiresInMinutes }, secret) => {
-  const exp = Math.floor(Date.now() / 1000) + (expiresInMinutes * 60);
-  return jwt.sign({
-    userId,
-    exp,
-  }, secret);
-};
-
-const findIdentity = identityPool => async (req, res, next) => {
+const findIdentity = (identityPool, { jwtSecret }) => async (req, res, next) => {
   if (!req.user) {
     next();
   }
@@ -18,8 +10,11 @@ const findIdentity = identityPool => async (req, res, next) => {
 
   const identity = await identityPool.findIdentity({ provider, userId });
   if (identity) {
-    // TODO
-    const accessToken = createAccessToken({ identityId: identity.id, expiresInMinutes: 60 }, 'secret');
+    const accessToken = jwt.sign(
+      { identityId: identity.id },
+      jwtSecret,
+      { expiresIn: '1h' },
+    );
     const result = {
       accessToken,
       identityId: identity.id,
@@ -35,8 +30,15 @@ const findIdentity = identityPool => async (req, res, next) => {
 class PassportAuth {
   constructor(options) {
     if (!options.identityPool) {
+      // TODO extract to a util
       throw new Error('The \'identityPool\' option should be specified');
     }
+    if (!options.jwtSecret) {
+      throw new Error('The \'jwtSecret\' option should be specified');
+    }
+    // passport
+    // identityPool
+    // jwtSecret
     this.options = {
       passport: globalPassport,
       ...options,
@@ -54,7 +56,7 @@ class PassportAuth {
       provider.setupApp(app, passport);
     });
 
-    app.use(findIdentity(identityPool));
+    app.use(findIdentity(identityPool, this.options));
   }
 }
 
