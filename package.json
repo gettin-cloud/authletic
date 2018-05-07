@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "authmo",
+  "name": "saasless",
   "license": "SEE LICENSE IN README.md",
   "devDependencies": {
     "check-node-version": "^3.2.0",
@@ -21,7 +21,10 @@
     "lint:ci": "lerna run lint:ci",
     "test": "lerna run test"
   },
-  "workspaces": [
-    "packages/*"
-  ]
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "examples/*"
+    ]
+  }
 }
