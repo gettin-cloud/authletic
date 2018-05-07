@@ -12,7 +12,7 @@ describe('A <Authenticator>', () => {
 
   describe('without an auth provided', () => {
     it('throws an error', () => {
-      spyOn(console, 'error');
+      jest.spyOn(console, 'error');
 
       expect(() => {
         ReactDOM.render(

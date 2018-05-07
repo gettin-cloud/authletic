@@ -42,8 +42,8 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
     "jest": "^22.4.3",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "react": "^16.3.0",
+    "react-dom": "^16.3.0",
     "react-router-dom": "^4.2.2",
     "react-test-renderer": "^16.3.1",
     "rollup": "0.50.0",
@@ -57,8 +57,8 @@
   },
   "peerDependencies": {
     "@saasless/auth-react": "^0.0.1",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "react": "^16.3.0",
+    "react-dom": "^16.3.0",
     "react-router-dom": "^4.2.2"
   }
 }
