@@ -1,17 +1,33 @@
+/* */
+
+import { InMemoryStore } from './client-store';
+
+
+function onStateChanged() {
+  const { onStateChange } = this.options;
+  if (onStateChange) {
+    onStateChange();
+  }
+}
+
 export class Auth {
   constructor(authOptions) {
     if (authOptions === undefined) {
       throw new Error('Options should be provided to create an Auth');
     }
 
-    const { service } = authOptions;
+    const { service, sessionStore } = authOptions;
     if (service === undefined) {
-      throw new Error('The \'service\' option should be specified');
+      //throw new Error('The \'service\' option should be specified');
     }
 
-    this.options = { ...authOptions };
+    this.options = {
+      ...authOptions,
+    };
     this.service = service;
+    this.sessionStore = sessionStore || (window && window.localStorage ? window.localStorage : new InMemoryStore());
     this.currentUser = undefined;
+    this.sessionStoreKey = `${this.options.appName || 'Auth'}_credentials`;
     this.providers = {};
   }
 
@@ -31,7 +47,7 @@ export class Auth {
   }
 
   isAuthenticated() {
-    return !!this.currentUser;
+    return !!this.sessionStore.getItem(this.sessionStoreKey);
   }
 
   getUser() {
@@ -43,23 +59,22 @@ export class Auth {
   }
 
   login(providerName, options) {
-    return this.getProvider(providerName).login(options);
-    // return new Promise((resolve, reject) => {
-    //   setTimeout(() => {
-    //     const loggedUser = {
-    //       username: 'test user',
-    //     };
-    //     this.currentUser = loggedUser;
-    //     if (options.onStateChange) {
-    //       options.onStateChange();
-    //     }
-    //     resolve(this.currentUser);
-    //   }, 2000);
-    // });
+    const provider = this.getProvider(providerName);
+    return new Promise((resolve, reject) => {
+      provider
+        .login(options)
+        .then((credentials) => {
+          this.sessionStore.setItem(this.sessionStoreKey, JSON.stringify(credentials));
+          onStateChanged.call(this);
+          resolve(credentials);
+        })
+        .catch(reject);
+    });
   }
 
   logout() {
-
+    this.sessionStore.removeItem(this.sessionStoreKey);
+    onStateChanged.call(this);
   }
 
   getProfile(providerName, options) {

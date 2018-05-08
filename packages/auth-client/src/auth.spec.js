@@ -1,14 +1,15 @@
 import { Auth } from './auth';
+import { InMemoryStore } from './client-store';
 
 describe('Auth', () => {
-  describe('constructor', () => {
+  describe('#constructor', () => {
     it('throws if options are not passed', () => {
       expect(() => new Auth()).toThrow();
     });
 
-    it('throws if the \'service\' option is not passed', () => {
-      expect(() => new Auth({})).toThrow();
-    });
+    // it('throws if the \'service\' option is not passed', () => {
+    //   expect(() => new Auth({})).toThrow();
+    // });
 
     it('doesn\'t throw if proper options are passed', () => {
       expect(() => new Auth({ service: {} })).toBeDefined();
@@ -26,7 +27,7 @@ describe('Auth', () => {
     });
   });
 
-  describe('signUp', () => {
+  describe('#signUp', () => {
     const auth = new Auth({ service: {} });
     const provider = {
       signUp: jest.fn(),
@@ -63,9 +64,12 @@ describe('Auth', () => {
         expect(provider.signUp.mock.calls[0][0]).toBe(options);
       });
     });
+
+    it('stores credentials', () => {
+    });
   });
 
-  describe('login', () => {
+  describe('#login', () => {
     const auth = new Auth({ service: {} });
     const provider = {
       login: jest.fn(),
@@ -102,44 +106,29 @@ describe('Auth', () => {
         expect(provider.login.mock.calls[0][0]).toBe(options);
       });
     });
+
+    it('stores credentials', () => {
+    });
   });
 
-  describe('logout', () => {
-    const auth = new Auth({ service: {} });
-    const provider = {
-      logout: jest.fn(),
-    };
-
-    auth.addProvider('test', provider);
+  describe('#logout', () => {
+    const store = new InMemoryStore();
+    const auth = new Auth({ sessionStore: store, appName: 'testApp' });
 
     beforeEach(() => {
-      provider.logout.mockReset();
+      store.clear();
+    });
+    it('clears credentials', async () => {
+      expect(auth.isAuthenticated()).toBeFalsy();
+      store.setItem('testApp_credentials', {});
+      expect(auth.isAuthenticated()).toBeTruthy();
+      auth.logout();
+      expect(auth.isAuthenticated()).toBeFalsy();
     });
 
-    it('throws if logs out without a provider', () => {
-      expect(() => auth.logout('unknown')).toThrow();
-    });
-
-    it('resolves if its provider resolves', () => {
-      const resolveValue = {};
-      provider.logout.mockReturnValueOnce(Promise.resolve(resolveValue));
-      return expect(auth.logout('test')).resolves.toBe(resolveValue);
-    });
-
-    it('rejects if its provider rejects', () => {
-      const rejectValue = {};
-      provider.logout.mockReturnValueOnce(Promise.reject(rejectValue));
-      return expect(auth.logout('test')).rejects.toBe(rejectValue);
-    });
-
-    it('passes logout options to its provider', () => {
-      expect.assertions(1);
-      const options = {};
-
-      provider.logout.mockReturnValueOnce(Promise.resolve());
-      return auth.logout('test', options).then(() => {
-        expect(provider.logout.mock.calls[0][0]).toBe(options);
-      });
+    it('does\'n throw if not logged in', async () => {
+      expect(auth.isAuthenticated()).toBeFalsy();
+      auth.logout();
     });
   });
 
@@ -159,10 +148,10 @@ describe('Auth', () => {
       expect(auth.getUser()).toBeUndefined();
     });
 
-    it('returns a user if logged in', () => {
-      const user = {};
-      provider.login.mockReturnValueOnce(Promise.resolve(user));
-      expect(auth.getUser()).toBe(user);
-    });
+    // it('returns a user if logged in', () => {
+    //   const user = {};
+    //   provider.login.mockReturnValueOnce(Promise.resolve(user));
+    //   expect(auth.getUser()).toBe(user);
+    // });
   });
 });
