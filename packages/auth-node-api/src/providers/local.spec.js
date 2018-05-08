@@ -34,106 +34,164 @@ describe('LocalProvider', () => {
     userPoolAdapter.clear();
   });
 
-  it('login returns status 400 if a username is not provided', async () => {
-    await request(app)
-      .post('/local/login')
-      .send({ password: '123' })
-      .then((response) => {
-        expect(response.statusCode).toBe(400);
-      });
-  });
-
-  it('login returns status 400 if a password is not provided', async () => {
-    await request(app)
-      .post('/local/login')
-      .send({ username: 'testuser' })
-      .then((response) => {
-        expect(response.statusCode).toBe(400);
-      });
-  });
-
-  it('login returns status 401 if a user is not found', async () => {
-    await request(app)
-      .post('/local/login')
-      .send({ username: 'testuser', password: '123' })
-      .then((response) => {
-        expect(response.statusCode).toBe(401);
-      });
-  });
-
-  it('login puts login info into req if credentials are ok', async () => {
-    const userInfo = {
-      username: 'testuser',
-      password: '123',
-    };
-
-    await userPool.createUser(userInfo);
-    await request(app)
-      .post('/local/login')
-      .send(userInfo)
-      .then((response) => {
-        expect(response.statusCode).toBe(200);
-        expect(response.body.accessToken).toBeDefined();
-        expect(response.body).toMatchObject({
-          provider: 'local',
-          userId: 'testuser',
-          profile: {
-            id: 'testuser',
-            username: 'testuser',
-          },
+  describe('login', () => {
+    it('returns status 400 if a username is not provided', async () => {
+      await request(app)
+        .post('/local/login')
+        .send({ password: '123' })
+        .then((response) => {
+          expect(response.statusCode).toBe(400);
         });
-      });
+    });
+
+    it('returns status 400 if a password is not provided', async () => {
+      await request(app)
+        .post('/local/login')
+        .send({ username: 'testuser' })
+        .then((response) => {
+          expect(response.statusCode).toBe(400);
+        });
+    });
+
+    it('returns status 401 if a user is not found', async () => {
+      await request(app)
+        .post('/local/login')
+        .send({ username: 'testuser', password: '123' })
+        .then((response) => {
+          expect(response.statusCode).toBe(401);
+        });
+    });
+
+    it('puts login info into req if credentials are ok', async () => {
+      const userInfo = {
+        username: 'testuser',
+        password: '123',
+      };
+
+      await userPool.createUser(userInfo);
+      await request(app)
+        .post('/local/login')
+        .send(userInfo)
+        .then((response) => {
+          expect(response.statusCode).toBe(200);
+          expect(response.body.accessToken).toBeDefined();
+          expect(response.body).toMatchObject({
+            provider: 'local',
+            userId: 'testuser',
+            profile: {
+              id: 'testuser',
+              username: 'testuser',
+            },
+          });
+        });
+    });
   });
 
-  it('profile returns status 401 if accessToken is not provided', async () => {
-    await request(app)
-      .get('/local/profile')
-      .send()
-      .then((response) => {
-        expect(response.statusCode).toBe(401);
-        expect(response.body).toBeDefined();
-        expect(Object.keys(response.body).length).toBe(0);
-      });
+  describe('signup', () => {
+    it('returns status 400 if a username is not provided', async () => {
+      await request(app)
+        .post('/local/signup')
+        .send({ password: '123' })
+        .then((response) => {
+          expect(response.statusCode).toBe(400);
+        });
+    });
+
+    it('returns status 400 if a password is not provided', async () => {
+      await request(app)
+        .post('/local/signup')
+        .send({ username: 'testuser' })
+        .then((response) => {
+          expect(response.statusCode).toBe(400);
+        });
+    });
+
+    // it('returns status 401 if a user is not found', async () => {
+    //   await request(app)
+    //     .post('/local/signup')
+    //     .send({ username: 'testuser', password: '123' })
+    //     .then((response) => {
+    //       expect(response.statusCode).toBe(401);
+    //     });
+    // });
+
+    // it('puts login info into req if credentials are ok', async () => {
+    //   const userInfo = {
+    //     username: 'testuser',
+    //     password: '123',
+    //   };
+
+    //   await userPool.createUser(userInfo);
+    //   await request(app)
+    //     .post('/local/signup')
+    //     .send(userInfo)
+    //     .then((response) => {
+    //       expect(response.statusCode).toBe(200);
+    //       expect(response.body.accessToken).toBeDefined();
+    //       expect(response.body).toMatchObject({
+    //         provider: 'local',
+    //         userId: 'testuser',
+    //         profile: {
+    //           id: 'testuser',
+    //           username: 'testuser',
+    //         },
+    //       });
+    //     });
+    // });
   });
 
-  it('profile returns status 401 if accessToken is not valid', async () => {
-    await request(app)
-      .get('/local/profile')
-      .set('Authorization', 'bearer invalid')
-      .send()
-      .then((response) => {
-        expect(response.statusCode).toBe(401);
-        expect(response.body).toBeDefined();
-        expect(Object.keys(response.body).length).toBe(0);
-      });
-  });
-  it('profile returns status 200 and profile data if accessToken is valid', async () => {
-    const userInfo = {
-      username: 'testuser',
-      password: '123',
-    };
+  describe('profile', () => {
+    it('returns status 401 if accessToken is not provided', async () => {
+      await request(app)
+        .get('/local/profile')
+        .send()
+        .then((response) => {
+          expect(response.statusCode).toBe(401);
+          expect(response.body).toBeDefined();
+          expect(Object.keys(response.body).length).toBe(0);
+        });
+    });
 
-    const { password, ...user } = await userPool.createUser(userInfo);
+    it('returns status 401 if accessToken is not valid', async () => {
+      await request(app)
+        .get('/local/profile')
+        .set('Authorization', 'bearer invalid')
+        .send()
+        .then((response) => {
+          expect(response.statusCode).toBe(401);
+          expect(response.body).toBeDefined();
+          expect(Object.keys(response.body).length).toBe(0);
+        });
+    });
 
-    let res;
-    await request(app)
-      .post('/local/login')
-      .send(userInfo)
-      .then((response) => {
-        expect(response.statusCode).toBe(200);
-        res = response;
-      });
+    it('returns status 200 and profile data if accessToken is valid', async () => {
+      const userInfo = {
+        username: 'testuser',
+        password: '123',
+      };
 
-    const { accessToken } = res.body;
-    expect(accessToken).toBeDefined();
+      const { password, ...user } = await userPool.createUser(userInfo);
 
-    await request(app)
-      .get('/local/profile')
-      .set('Authorization', `bearer ${accessToken}`)
-      .send()
-      .then((response) => {
-        expect(response.statusCode).toBe(200);
-        expect(response.body).toEqual(user);
-      });
+      let res;
+      await request(app)
+        .post('/local/login')
+        .send(userInfo)
+        .then((response) => {
+          expect(response.statusCode).toBe(200);
+          res = response;
+        });
+
+      const { accessToken } = res.body;
+      expect(accessToken).toBeDefined();
+
+      await request(app)
+        .get('/local/profile')
+        .set('Authorization', `bearer ${accessToken}`)
+        .send()
+        .then((response) => {
+          expect(response.statusCode).toBe(200);
+          expect(response.body).toEqual(user);
+        });
+    });
   });
 });

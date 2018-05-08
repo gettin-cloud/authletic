@@ -4,27 +4,30 @@ const jwt = require('jsonwebtoken');
 const findIdentity = (identityPool, { jwtSecret }) => async (req, res, next) => {
   if (!req.user) {
     next();
-    return Promise.resolve();
-  }
-
-  const { provider, userId, profile } = req.user;
-
-  const identity = await identityPool.findIdentity({ provider, userId });
-  if (identity) {
-    const accessToken = jwt.sign(
-      { identityId: identity.id },
-      jwtSecret,
-      { expiresIn: '1h' },
-    );
-    const result = {
-      accessToken,
-      identityId: identity.id,
-      profile,
-    };
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(result));
   } else {
-    res.status(401).send('Not authorized');
+    const { provider, userId, profile } = req.user;
+
+    let identity = await identityPool.findIdentity({ provider, userId });
+    // TODO find by email
+    if (!identity) {
+      identity = await identityPool.createIdentity({ provider, userId });
+    }
+    if (identity) {
+      const accessToken = jwt.sign(
+        { identityId: identity.id },
+        jwtSecret,
+        { expiresIn: '1h' },
+      );
+      const result = {
+        accessToken,
+        identityId: identity.id,
+        profile,
+      };
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify(result));
+    } else {
+      res.status(401).send('Not authorized');
+    }
   }
 };
 

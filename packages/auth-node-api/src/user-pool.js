@@ -37,7 +37,7 @@ class InMemoryAdapter {
         ...user,
       };
       if (this.users[user.username]) {
-        throw new Error(`User ${user.username} already exists`);
+        throw new Error(`User '${user.username}' already exists`);
       }
       this.users[user.username] = newUser;
       resolve(newUser);
