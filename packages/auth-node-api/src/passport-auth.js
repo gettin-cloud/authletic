@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const findIdentity = (identityPool, { jwtSecret }) => async (req, res, next) => {
   if (!req.user) {
     next();
+    return Promise.resolve();
   }
 
   const { provider, userId, profile } = req.user;
