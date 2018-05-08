@@ -18,14 +18,16 @@ export class Auth {
 
     const { service, sessionStore } = authOptions;
     if (service === undefined) {
-      //throw new Error('The \'service\' option should be specified');
+      // throw new Error('The \'service\' option should be specified');
     }
 
     this.options = {
       ...authOptions,
     };
     this.service = service;
-    this.sessionStore = sessionStore || (window && window.localStorage ? window.localStorage : new InMemoryStore());
+    this.sessionStore = sessionStore || (window && window.localStorage
+      ? window.localStorage
+      : new InMemoryStore());
     this.currentUser = undefined;
     this.sessionStoreKey = `${this.options.appName || 'Auth'}_credentials`;
     this.providers = {};
