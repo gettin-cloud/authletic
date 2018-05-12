@@ -1,7 +1,7 @@
 const express = require('express');
 const request = require('supertest');
 
-const { Passport } = require('passport');
+//const { Passport } = require('passport');
 const { LocalProvider } = require('./local');
 const {
   UserPool,
@@ -10,14 +10,15 @@ const {
 
 describe('LocalProvider', () => {
   const app = express();
-  const passport = new Passport();
+  //const passport = new Passport();
 
   const userPoolAdapter = new UserPoolAdapter();
   const userPool = new UserPool({ adapter: userPoolAdapter });
   const provider = new LocalProvider({ userPool, jwtSecret: 'test' });
 
-  provider.setupPassport(passport);
-  provider.setupApp(app, passport);
+  //provider.setupPassport(passport);
+  //provider.setupApp(app, passport);
+  app.use(provider.router());
 
   const testOutput = (req, res, next) => {
     if (req.user) {

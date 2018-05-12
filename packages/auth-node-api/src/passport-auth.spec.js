@@ -17,8 +17,10 @@ describe('PassportAuth', () => {
     auth = new PassportAuth({ identityPool, passport, jwtSecret: 'test' });
 
     provider = {
-      setupPassport: jest.fn(),
-      setupApp: jest.fn(),
+      //setupPassport: jest.fn(),
+      //setupApp: jest.fn(),
+      router: jest.fn().mockImplementation(() => (() => {})),
+      rootPath: jest.fn().mockImplementation(() => '/'),
     };
   });
 
@@ -30,31 +32,35 @@ describe('PassportAuth', () => {
     expect(() => new PassportAuth({ identityPool: {} })).toThrow();
   });
 
-  it('#addProvider registers a provider', () => {
+  it('#use registers a provider', () => {
     expect(auth.providers.length).toBe(0);
 
-    auth.addProvider(provider);
+    auth.use(provider);
     expect(auth.providers.length).toBe(1);
   });
 
   describe('#setupApp', () => {
     beforeEach(() => {
-      auth.addProvider(provider);
+      auth.use(provider);
     });
 
     it('setups passport and app with each provider', () => {
       const app = express();
 
-      expect(provider.setupPassport.mock.calls.length).toBe(0);
-      expect(provider.setupApp.mock.calls.length).toBe(0);
+      //expect(provider.setupPassport.mock.calls.length).toBe(0);
+      //expect(provider.setupApp.mock.calls.length).toBe(0);
 
-      auth.setupApp(app);
+      //auth.setupApp(app);
+      app.use('/auth', auth.middleware());
 
-      expect(provider.setupPassport.mock.calls.length).toBe(1);
-      expect(provider.setupPassport.mock.calls[0][0]).toBe(passport);
-      expect(provider.setupApp.mock.calls.length).toBe(1);
-      expect(provider.setupApp.mock.calls[0][0]).toBe(app);
-      expect(provider.setupApp.mock.calls[0][1]).toBe(passport);
+      expect(provider.router.mock.calls.length).toBe(1);
+      expect(provider.rootPath.mock.calls.length).toBe(1);
+
+      //expect(provider.setupPassport.mock.calls.length).toBe(1);
+      //expect(provider.setupPassport.mock.calls[0][0]).toBe(passport);
+      //expect(provider.setupApp.mock.calls.length).toBe(1);
+      //expect(provider.setupApp.mock.calls[0][0]).toBe(app);
+      //expect(provider.setupApp.mock.calls[0][1]).toBe(passport);
     });
 
     describe('findIdentity middleware', () => {

@@ -1,4 +1,5 @@
 const express = require('express');
+const { Passport } = require('passport');
 const { Strategy: LocalStrategy } = require('passport-local');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
@@ -27,6 +28,8 @@ class LocalProvider {
     if (!options.jwtSecret) {
       throw new Error('The \'jwtSecret\' option of LocalProvider is required');
     }
+    this.passport = new Passport();
+    this.setupPassport(this.passport);
   }
   setupPassport(passport) {
     const {
@@ -131,33 +134,38 @@ class LocalProvider {
 
     passport.use('jwt', new JwtStrategy(jwtConfig, getProfile));
   }
-  setupApp(app, passport) {
+  rootPath() {
+    return this.options.rootPath;
+  }
+  router() {
     const router = express.Router();
-    const { rootPath } = this.options;
+    //const { rootPath } = this.options;
 
-    app.use(rootPath, router);
+    //app.use(rootPath, router);
 
     router.use(bodyParser.json());
     router.use(bodyParser.urlencoded({ extended: true }));
 
     router.post(
       '/login',
-      passport.authenticate('local-login', { session: false }),
+      this.passport.authenticate('local-login', { session: false }),
     );
 
     router.post(
       '/signup',
-      passport.authenticate('local-signup', { session: false }),
+      this.passport.authenticate('local-signup', { session: false }),
     );
 
     router.get(
       '/profile',
-      passport.authenticate('jwt', { session: false }),
+      this.passport.authenticate('jwt', { session: false }),
       (req, res) => {
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(req.user));
       },
     );
+
+    return router;
   }
 }
 

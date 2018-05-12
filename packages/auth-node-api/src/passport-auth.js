@@ -1,3 +1,4 @@
+const express = require('express');
 const globalPassport = require('passport');
 const jwt = require('jsonwebtoken');
 
@@ -49,18 +50,29 @@ class PassportAuth {
     };
     this.providers = [];
   }
-  addProvider(provider) {
+  use(provider) {
     this.providers.push(provider);
   }
-  setupApp(app) {
-    const { passport, identityPool } = this.options;
+  // setupApp(app) {
+  //   const { passport, identityPool } = this.options;
+
+  //   this.providers.forEach((provider) => {
+  //     provider.setupPassport(passport);
+  //     provider.setupApp(app, passport);
+  //   });
+
+  //   app.use(findIdentity(identityPool, this.options));
+  // }
+  middleware() {
+    const router = express.Router();
 
     this.providers.forEach((provider) => {
-      provider.setupPassport(passport);
-      provider.setupApp(app, passport);
+      router.use(provider.rootPath(), provider.router());
     });
 
-    app.use(findIdentity(identityPool, this.options));
+    const { identityPool } = this.options;
+    router.use(findIdentity(identityPool, this.options));
+    return router;
   }
 }
 
