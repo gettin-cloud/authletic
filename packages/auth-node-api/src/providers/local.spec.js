@@ -1,7 +1,6 @@
 const express = require('express');
 const request = require('supertest');
 
-//const { Passport } = require('passport');
 const { LocalProvider } = require('./local');
 const {
   UserPool,
@@ -10,15 +9,12 @@ const {
 
 describe('LocalProvider', () => {
   const app = express();
-  //const passport = new Passport();
 
   const userPoolAdapter = new UserPoolAdapter();
   const userPool = new UserPool({ adapter: userPoolAdapter });
   const provider = new LocalProvider({ userPool, jwtSecret: 'test' });
 
-  //provider.setupPassport(passport);
-  //provider.setupApp(app, passport);
-  app.use(provider.router());
+  app.use(provider.api());
 
   const testOutput = (req, res, next) => {
     if (req.user) {
@@ -38,7 +34,7 @@ describe('LocalProvider', () => {
   describe('login', () => {
     it('returns status 400 if a username is not provided', async () => {
       await request(app)
-        .post('/local/login')
+        .post('/login')
         .send({ password: '123' })
         .then((response) => {
           expect(response.statusCode).toBe(400);
@@ -47,7 +43,7 @@ describe('LocalProvider', () => {
 
     it('returns status 400 if a password is not provided', async () => {
       await request(app)
-        .post('/local/login')
+        .post('/login')
         .send({ username: 'testuser' })
         .then((response) => {
           expect(response.statusCode).toBe(400);
@@ -56,7 +52,7 @@ describe('LocalProvider', () => {
 
     it('returns status 401 if a user is not found', async () => {
       await request(app)
-        .post('/local/login')
+        .post('/login')
         .send({ username: 'testuser', password: '123' })
         .then((response) => {
           expect(response.statusCode).toBe(401);
@@ -71,7 +67,7 @@ describe('LocalProvider', () => {
 
       await userPool.createUser(userInfo);
       await request(app)
-        .post('/local/login')
+        .post('/login')
         .send(userInfo)
         .then((response) => {
           expect(response.statusCode).toBe(200);
@@ -91,7 +87,7 @@ describe('LocalProvider', () => {
   describe('signup', () => {
     it('returns status 400 if a username is not provided', async () => {
       await request(app)
-        .post('/local/signup')
+        .post('/signup')
         .send({ password: '123' })
         .then((response) => {
           expect(response.statusCode).toBe(400);
@@ -100,22 +96,24 @@ describe('LocalProvider', () => {
 
     it('returns status 400 if a password is not provided', async () => {
       await request(app)
-        .post('/local/signup')
+        .post('/signup')
         .send({ username: 'testuser' })
         .then((response) => {
           expect(response.statusCode).toBe(400);
         });
     });
 
+    // TODO: sign up if a user doesn't exist
     // it('returns status 401 if a user is not found', async () => {
     //   await request(app)
-    //     .post('/local/signup')
+    //     .post('/signup')
     //     .send({ username: 'testuser', password: '123' })
     //     .then((response) => {
     //       expect(response.statusCode).toBe(401);
     //     });
     // });
 
+    // TODO: sign up if a user exists
     // it('puts login info into req if credentials are ok', async () => {
     //   const userInfo = {
     //     username: 'testuser',
@@ -124,7 +122,7 @@ describe('LocalProvider', () => {
 
     //   await userPool.createUser(userInfo);
     //   await request(app)
-    //     .post('/local/signup')
+    //     .post('/signup')
     //     .send(userInfo)
     //     .then((response) => {
     //       expect(response.statusCode).toBe(200);
@@ -144,7 +142,7 @@ describe('LocalProvider', () => {
   describe('profile', () => {
     it('returns status 401 if accessToken is not provided', async () => {
       await request(app)
-        .get('/local/profile')
+        .get('/profile')
         .send()
         .then((response) => {
           expect(response.statusCode).toBe(401);
@@ -155,7 +153,7 @@ describe('LocalProvider', () => {
 
     it('returns status 401 if accessToken is not valid', async () => {
       await request(app)
-        .get('/local/profile')
+        .get('/profile')
         .set('Authorization', 'bearer invalid')
         .send()
         .then((response) => {
@@ -175,7 +173,7 @@ describe('LocalProvider', () => {
 
       let res;
       await request(app)
-        .post('/local/login')
+        .post('/login')
         .send(userInfo)
         .then((response) => {
           expect(response.statusCode).toBe(200);
@@ -186,7 +184,7 @@ describe('LocalProvider', () => {
       expect(accessToken).toBeDefined();
 
       await request(app)
-        .get('/local/profile')
+        .get('/profile')
         .set('Authorization', `bearer ${accessToken}`)
         .send()
         .then((response) => {

@@ -32,7 +32,7 @@ const findIdentity = (identityPool, { jwtSecret }) => async (req, res, next) => 
   }
 };
 
-class PassportAuth {
+class Auth {
   constructor(options) {
     if (!options.identityPool) {
       // TODO extract to a util
@@ -53,21 +53,11 @@ class PassportAuth {
   use(provider) {
     this.providers.push(provider);
   }
-  // setupApp(app) {
-  //   const { passport, identityPool } = this.options;
-
-  //   this.providers.forEach((provider) => {
-  //     provider.setupPassport(passport);
-  //     provider.setupApp(app, passport);
-  //   });
-
-  //   app.use(findIdentity(identityPool, this.options));
-  // }
-  middleware() {
+  api() {
     const router = express.Router();
 
     this.providers.forEach((provider) => {
-      router.use(provider.rootPath(), provider.router());
+      router.use(provider.rootPath(), provider.api());
     });
 
     const { identityPool } = this.options;
@@ -77,5 +67,5 @@ class PassportAuth {
 }
 
 module.exports = {
-  PassportAuth,
+  Auth,
 };

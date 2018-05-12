@@ -2,10 +2,10 @@ const globalPassport = require('passport');
 const express = require('express');
 const request = require('supertest');
 
-const { PassportAuth } = require('./passport-auth');
+const { Auth } = require('./auth');
 const { InMemoryIdentityPool } = require('./identity-pool');
 
-describe('PassportAuth', () => {
+describe('Auth', () => {
   let identityPool;
   let auth;
   let provider;
@@ -14,22 +14,20 @@ describe('PassportAuth', () => {
   beforeEach(() => {
     identityPool = new InMemoryIdentityPool();
     passport = new globalPassport.Passport();
-    auth = new PassportAuth({ identityPool, passport, jwtSecret: 'test' });
+    auth = new Auth({ identityPool, passport, jwtSecret: 'test' });
 
     provider = {
-      //setupPassport: jest.fn(),
-      //setupApp: jest.fn(),
-      router: jest.fn().mockImplementation(() => (() => {})),
+      api: jest.fn().mockImplementation(() => ((req, res, next) => next())),
       rootPath: jest.fn().mockImplementation(() => '/'),
     };
   });
 
   it('throws if the \'identityPool\' option is not specified', () => {
-    expect(() => new PassportAuth({ jwtSecret: 'test' })).toThrow();
+    expect(() => new Auth({ jwtSecret: 'test' })).toThrow();
   });
 
   it('throws if the \'jwtSecret\' option is not specified', () => {
-    expect(() => new PassportAuth({ identityPool: {} })).toThrow();
+    expect(() => new Auth({ identityPool: {} })).toThrow();
   });
 
   it('#use registers a provider', () => {
@@ -47,20 +45,9 @@ describe('PassportAuth', () => {
     it('setups passport and app with each provider', () => {
       const app = express();
 
-      //expect(provider.setupPassport.mock.calls.length).toBe(0);
-      //expect(provider.setupApp.mock.calls.length).toBe(0);
-
-      //auth.setupApp(app);
-      app.use('/auth', auth.middleware());
-
-      expect(provider.router.mock.calls.length).toBe(1);
+      app.use('/', auth.api());
+      expect(provider.api.mock.calls.length).toBe(1);
       expect(provider.rootPath.mock.calls.length).toBe(1);
-
-      //expect(provider.setupPassport.mock.calls.length).toBe(1);
-      //expect(provider.setupPassport.mock.calls[0][0]).toBe(passport);
-      //expect(provider.setupApp.mock.calls.length).toBe(1);
-      //expect(provider.setupApp.mock.calls[0][0]).toBe(app);
-      //expect(provider.setupApp.mock.calls[0][1]).toBe(passport);
     });
 
     describe('findIdentity middleware', () => {
@@ -77,11 +64,11 @@ describe('PassportAuth', () => {
         };
 
         app.get('/', (req, res, next) => {
-          req.user = userInfo;
+          req.user = userInfo; // Emulate auth succeeded
           next();
         });
 
-        auth.setupApp(app);
+        app.use('/', auth.api());
       });
 
       it('creates identity if no identity is found and a user exists', async () => {

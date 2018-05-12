@@ -2,7 +2,7 @@ const express = require('express');
 
 const {
   LocalProvider,
-  PassportAuth,
+  Auth,
   InMemoryIdentityPool,
   InMemoryUserPool,
 } = require('@saasless/auth-node-api');
@@ -13,14 +13,11 @@ const userPool = new InMemoryUserPool();
 const localProvider = new LocalProvider({ userPool, jwtSecret: 'test' });
 
 const identityPool = new InMemoryIdentityPool();
-const auth = new PassportAuth({ identityPool, jwtSecret: 'test' });
+const auth = new Auth({ identityPool, jwtSecret: 'test' });
 
-auth.addProvider(localProvider);
+auth.use(localProvider);
 
-auth.setupApp(app);
-
-// provider.setupPassport(passport);
-// provider.setupApp(app, passport);
+app.use('/', auth.api());
 
 // app.use(express.static(path.join(__dirname, 'react-client/build')));
 

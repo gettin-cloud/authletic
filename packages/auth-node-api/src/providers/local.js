@@ -137,11 +137,8 @@ class LocalProvider {
   rootPath() {
     return this.options.rootPath;
   }
-  router() {
+  api() {
     const router = express.Router();
-    //const { rootPath } = this.options;
-
-    //app.use(rootPath, router);
 
     router.use(bodyParser.json());
     router.use(bodyParser.urlencoded({ extended: true }));
