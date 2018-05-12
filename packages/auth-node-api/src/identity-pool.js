@@ -9,6 +9,7 @@ class IdentityPool {
     if (!options.adapter) {
       throw new Error('The \'adapter\' option should be specified');
     }
+    this.adapter = options.adapter;
     this.createIdentity = delegateTo(options.adapter, 'createIdentity');
     this.updateIdentity = delegateTo(options.adapter, 'updateIdentity');
     this.deleteIdentity = delegateTo(options.adapter, 'deleteIdentity');
@@ -18,8 +19,7 @@ class IdentityPool {
     if (!login || !login.provider || !login.userId) {
       throw new Error('The \'findIdentity\' method accepts a login object as { provider: \'...\', userId: \'...\' }');
     }
-    const { adapter } = this.options;
-    return adapter.findIdentity(login);
+    return this.adapter.findIdentity(login);
   }
 }
 

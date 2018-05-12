@@ -78,12 +78,23 @@ describe('PassportAuth', () => {
         auth.setupApp(app);
       });
 
-      it('returns status 401 if no identity is found', async () => {
+      it('creates identity if no identity is found and a user exists', async () => {
+        expect(identityPool.adapter.identities).toHaveLength(0);
         await request(app)
           .get('/')
           .send()
           .then((response) => {
-            expect(response.statusCode).toBe(401);
+            expect(response.statusCode).toBe(200);
+            expect(identityPool.adapter.identities).toHaveLength(1);
+            expect(identityPool.adapter.identities[0]).toMatchObject({
+              logins: [
+                {
+                  provider: 'test-provider',
+                  userId: 'test-id',
+                },
+              ],
+              meta: undefined,
+            });
           });
       });
 
