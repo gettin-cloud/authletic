@@ -43,7 +43,7 @@ export class Auth {
   getProvider(providerName) {
     const provider = this.providers[providerName];
     if (!provider) {
-      throw new Error(`The '${providerName}' is not registered. Use auth.addProvider() before.`);
+      throw new Error(`The '${providerName}' provider is not registered. Use auth.addProvider() before.`);
     }
     return provider;
   }

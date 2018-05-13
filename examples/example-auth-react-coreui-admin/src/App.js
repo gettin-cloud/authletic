@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { HashRouter, Route, Switch, withRouter } from 'react-router-dom';
 
-import { createAuth } from '@saasless/auth-client';
+import { Auth } from '@saasless/auth-client';
 import { Authenticator } from '@saasless/auth-react';
 import { PrivateRoute } from '@saasless/auth-react-router';
 
@@ -25,9 +25,14 @@ import { create } from 'domain';
 
 // import { renderRoutes } from 'react-router-config';
 
-const auth = createAuth({ service: {}});
-
-auth.login();
+const auth = new Auth({ service: {}});
+auth.addProvider('local', {
+  login: (options) => {
+    console.log(options);
+    return Promise.resolve({ user: 'AAA' });
+  }
+});
+//auth.login();
 
 PrivateRoute.configure({ loginPath: '/login' });
 

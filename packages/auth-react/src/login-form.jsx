@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { withAuth } from './index';
 
-export class LoginForm extends PureComponent {
+class LoginForm extends PureComponent {
   constructor(props) {
     super(props);
     if (!props.children || typeof props.children !== 'function') {
@@ -11,32 +12,34 @@ export class LoginForm extends PureComponent {
       username: '',
       password: '',
     };
-    this.inputProps = this.inputProps.bind(this);
-    this.buttonProps = this.buttonProps.bind(this);
+    this.onFormDataChange = this.onFormDataChange.bind(this);
+    this.login = this.login.bind(this);
   }
-  inputProps(fieldName) {
-    return {
-      value: this.state[fieldName],
-      onChange: (event) => {
-        this.setState({
-          [fieldName]: event.target.value,
-        });
-      },
-    };
+  onFormDataChange(formData) {
+    this.setState(formData);
   }
-  buttonProps(buttonName) {
-    return {
-      onClick: (event) => {
-        console.log(buttonName);
-        console.log(this.state);
-      },
-    };
+  login() {
+    this.props.auth
+      .login('local', {
+        ...this.state,
+      })
+      .then((user) => {
+        console.log('logged in');
+        console.log(user);
+      })
+      .catch(error => {});
+
+    console.log('login');
+    console.log(this.state);
   }
   render() {
     const { children } = this.props;
     return children({
-      inputProps: this.inputProps,
-      buttonProps: this.buttonProps,
+      formData: this.state,
+      onFormDataChange: this.onFormDataChange,
+      login: this.login,
     });
   }
 }
+
+export default withAuth(LoginForm);

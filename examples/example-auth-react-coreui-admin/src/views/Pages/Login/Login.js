@@ -7,8 +7,8 @@ class Login extends Component {
   render() {
     return (
       <LoginForm>
-        {({ inputProps, buttonProps }) => (
-          //const { value: username, onValueChange: onUsernameChanged } = inputProps('username');
+        {({ formData, formErrors, onFormDataChange, login }) => (
+          //const { username, password } = formData;
           <div className="app flex-row align-items-center">
           <Container>
             <Row className="justify-content-center">
@@ -24,7 +24,12 @@ class Login extends Component {
                             <i className="icon-user"></i>
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Input type="text" placeholder="Username" {...inputProps('username')} />
+                        <Input
+                          type="text"
+                          placeholder="Username"
+                          value={formData.username}
+                          onChange={e => onFormDataChange({ username: e.target.value })}
+                        />
                       </InputGroup>
                       <InputGroup className="mb-4">
                         <InputGroupAddon addonType="prepend">
@@ -32,14 +37,19 @@ class Login extends Component {
                             <i className="icon-lock"></i>
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Input type="password" placeholder="Password" {...inputProps('password')} />
+                        <Input
+                          type="password"
+                          placeholder="Password"
+                          value={formData.password}
+                          onChange={e => onFormDataChange({ password: e.target.value })}
+                        />
                       </InputGroup>
                       <Row>
                         <Col xs="6">
-                          <Button color="primary" className="px-4" {...buttonProps('login')}>Login</Button>
+                          <Button color="primary" className="px-4" onClick={login}>Login</Button>
                         </Col>
                         <Col xs="6" className="text-right">
-                          <Button color="link" className="px-0" {...buttonProps('forgot-password')}>Forgot password?</Button>
+                          <Button color="link" className="px-0">Forgot password?</Button>
                         </Col>
                       </Row>
                     </CardBody>
