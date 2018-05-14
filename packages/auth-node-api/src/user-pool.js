@@ -25,21 +25,21 @@ class InMemoryAdapter {
   clear() {
     this.users = {};
   }
-  findUser(username) {
+  findUser(email) {
     return new Promise((resolve) => {
-      resolve(this.users[username]);
+      resolve(this.users[email]);
     });
   }
   createUser(user) {
     return new Promise((resolve) => {
       const newUser = {
-        id: user.username,
+        id: user.email,
         ...user,
       };
-      if (this.users[user.username]) {
-        throw new Error(`User '${user.username}' already exists`);
+      if (this.users[user.email]) {
+        throw new Error(`User with '${user.email}' email already exists`);
       }
-      this.users[user.username] = newUser;
+      this.users[user.email] = newUser;
       resolve(newUser);
     });
   }

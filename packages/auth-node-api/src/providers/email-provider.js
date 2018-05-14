@@ -1,32 +1,32 @@
 const express = require('express');
 const { Passport } = require('passport');
-const { Strategy: LocalStrategy } = require('passport-local');
+const { Strategy: EmailStrategy } = require('passport-local');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 
 const nullEncrypt = password => password;
 
-class LocalProvider {
+class EmailProvider {
   constructor(options) {
     // rootPath
-    // usernameField
+    // emailField
     // passwordField
     // encriptPassword
     // userPool
     // jwtSecret
     this.options = {
-      rootPath: '/local',
-      usernameField: 'username',
+      rootPath: '/email',
+      emailField: 'email',
       passwordField: 'password',
       encryptPassword: nullEncrypt,
       ...options,
     };
     if (!options.userPool) {
-      throw new Error('The \'userPool\' option of LocalProvider is required');
+      throw new Error('The \'userPool\' option of EmailProvider is required');
     }
     if (!options.jwtSecret) {
-      throw new Error('The \'jwtSecret\' option of LocalProvider is required');
+      throw new Error('The \'jwtSecret\' option of EmailProvider is required');
     }
     this.passport = new Passport();
     this.setupPassport(this.passport);
@@ -34,7 +34,7 @@ class LocalProvider {
   setupPassport(passport) {
     const {
       userPool,
-      usernameField,
+      emailField,
       passwordField,
       encryptPassword,
       jwtSecret,
@@ -45,9 +45,9 @@ class LocalProvider {
       return rest;
     };
 
-    const passportLogin = (username, password, cb) => {
+    const passportLogin = (email, password, cb) => {
       userPool
-        .findUser(username)
+        .findUser(email)
         .then((user) => {
           if (!user) {
             cb(null, false);
@@ -58,15 +58,15 @@ class LocalProvider {
           const accessToken = jwt.sign(
             {
               userId: user.id,
-              username: user.username,
+              userEmail: user.email,
             },
             jwtSecret,
             { expiresIn: '1h' },
           );
           const userInfo = {
-            provider: 'local',
+            provider: 'email',
             userId: user.id,
-            username: user.username,
+            userEmail: user.email,
             profile: removeSensitiveData(user),
             accessToken,
           };
@@ -75,9 +75,9 @@ class LocalProvider {
         .catch(err => cb(err));
     };
 
-    const passportSignUp = (username, password, cb) => {
+    const passportSignUp = (email, password, cb) => {
       userPool
-        .createUser({ username, password })
+        .createUser({ email, password })
         .then((user) => {
           if (!user) {
             cb(null, false);
@@ -85,15 +85,15 @@ class LocalProvider {
           const accessToken = jwt.sign(
             {
               userId: user.id,
-              username: user.username,
+              userEmail: user.email,
             },
             jwtSecret,
             { expiresIn: '1h' },
           );
           const userInfo = {
-            provider: 'local',
+            provider: 'email',
             userId: user.id,
-            username: user.username,
+            userEmail: user.email,
             profile: removeSensitiveData(user),
             accessToken,
           };
@@ -103,9 +103,9 @@ class LocalProvider {
     };
 
     const getProfile = (jwtPayload, cb) => {
-      const { username } = jwtPayload;
+      const { userEmail } = jwtPayload;
       userPool
-        .findUser(username)
+        .findUser(userEmail)
         .then((user) => {
           if (!user) {
             cb(null, false);
@@ -117,14 +117,14 @@ class LocalProvider {
         .catch(err => cb(err));
     };
 
-    const localConfig = {
-      usernameField,
+    const emailStrategyConfig = {
+      usernameField: emailField,
       passwordField,
       session: false,
     };
 
-    passport.use('local-login', new LocalStrategy(localConfig, passportLogin));
-    passport.use('local-signup', new LocalStrategy(localConfig, passportSignUp));
+    passport.use('email-login', new EmailStrategy(emailStrategyConfig, passportLogin));
+    passport.use('email-signup', new EmailStrategy(emailStrategyConfig, passportSignUp));
 
     const jwtConfig = {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -145,12 +145,12 @@ class LocalProvider {
 
     router.post(
       '/login',
-      this.passport.authenticate('local-login', { session: false }),
+      this.passport.authenticate('email-login', { session: false }),
     );
 
     router.post(
       '/signup',
-      this.passport.authenticate('local-signup', { session: false }),
+      this.passport.authenticate('email-signup', { session: false }),
     );
 
     router.get(
@@ -167,5 +167,5 @@ class LocalProvider {
 }
 
 module.exports = {
-  LocalProvider,
+  EmailProvider,
 };

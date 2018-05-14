@@ -9,7 +9,7 @@ class LoginForm extends PureComponent {
       throw new Error('LoginForm only accepts function as a child');
     }
     this.state = {
-      username: '',
+      email: '',
       password: '',
     };
     this.onFormDataChange = this.onFormDataChange.bind(this);
@@ -20,7 +20,7 @@ class LoginForm extends PureComponent {
   }
   login() {
     this.props.auth
-      .login('local', {
+      .login('email', {
         ...this.state,
       })
       .then((user) => {

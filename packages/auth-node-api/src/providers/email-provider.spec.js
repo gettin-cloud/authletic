@@ -1,18 +1,18 @@
 const express = require('express');
 const request = require('supertest');
 
-const { LocalProvider } = require('./local');
+const { EmailProvider } = require('./email-provider');
 const {
   UserPool,
   InMemoryAdapter: UserPoolAdapter,
 } = require('../user-pool');
 
-describe('LocalProvider', () => {
+describe('EmailProvider', () => {
   const app = express();
 
   const userPoolAdapter = new UserPoolAdapter();
   const userPool = new UserPool({ adapter: userPoolAdapter });
-  const provider = new LocalProvider({ userPool, jwtSecret: 'test' });
+  const provider = new EmailProvider({ userPool, jwtSecret: 'test' });
 
   app.use(provider.api());
 
@@ -32,7 +32,7 @@ describe('LocalProvider', () => {
   });
 
   describe('login', () => {
-    it('returns status 400 if a username is not provided', async () => {
+    it('returns status 400 if an email is not provided', async () => {
       await request(app)
         .post('/login')
         .send({ password: '123' })
@@ -44,7 +44,7 @@ describe('LocalProvider', () => {
     it('returns status 400 if a password is not provided', async () => {
       await request(app)
         .post('/login')
-        .send({ username: 'testuser' })
+        .send({ email: 'testuser' })
         .then((response) => {
           expect(response.statusCode).toBe(400);
         });
@@ -53,7 +53,7 @@ describe('LocalProvider', () => {
     it('returns status 401 if a user is not found', async () => {
       await request(app)
         .post('/login')
-        .send({ username: 'testuser', password: '123' })
+        .send({ email: 'testuser', password: '123' })
         .then((response) => {
           expect(response.statusCode).toBe(401);
         });
@@ -61,7 +61,7 @@ describe('LocalProvider', () => {
 
     it('puts login info into req if credentials are ok', async () => {
       const userInfo = {
-        username: 'testuser',
+        email: 'testuser',
         password: '123',
       };
 
@@ -73,11 +73,11 @@ describe('LocalProvider', () => {
           expect(response.statusCode).toBe(200);
           expect(response.body.accessToken).toBeDefined();
           expect(response.body).toMatchObject({
-            provider: 'local',
+            provider: 'email',
             userId: 'testuser',
             profile: {
               id: 'testuser',
-              username: 'testuser',
+              email: 'testuser',
             },
           });
         });
@@ -85,7 +85,7 @@ describe('LocalProvider', () => {
   });
 
   describe('signup', () => {
-    it('returns status 400 if a username is not provided', async () => {
+    it('returns status 400 if an email is not provided', async () => {
       await request(app)
         .post('/signup')
         .send({ password: '123' })
@@ -97,7 +97,7 @@ describe('LocalProvider', () => {
     it('returns status 400 if a password is not provided', async () => {
       await request(app)
         .post('/signup')
-        .send({ username: 'testuser' })
+        .send({ email: 'testuser' })
         .then((response) => {
           expect(response.statusCode).toBe(400);
         });
@@ -107,7 +107,7 @@ describe('LocalProvider', () => {
     // it('returns status 401 if a user is not found', async () => {
     //   await request(app)
     //     .post('/signup')
-    //     .send({ username: 'testuser', password: '123' })
+    //     .send({ email: 'testuser', password: '123' })
     //     .then((response) => {
     //       expect(response.statusCode).toBe(401);
     //     });
@@ -116,7 +116,7 @@ describe('LocalProvider', () => {
     // TODO: sign up if a user exists
     // it('puts login info into req if credentials are ok', async () => {
     //   const userInfo = {
-    //     username: 'testuser',
+    //     email: 'testuser',
     //     password: '123',
     //   };
 
@@ -128,11 +128,11 @@ describe('LocalProvider', () => {
     //       expect(response.statusCode).toBe(200);
     //       expect(response.body.accessToken).toBeDefined();
     //       expect(response.body).toMatchObject({
-    //         provider: 'local',
+    //         provider: 'email',
     //         userId: 'testuser',
     //         profile: {
     //           id: 'testuser',
-    //           username: 'testuser',
+    //           email: 'testuser',
     //         },
     //       });
     //     });
@@ -165,7 +165,7 @@ describe('LocalProvider', () => {
 
     it('returns status 200 and profile data if accessToken is valid', async () => {
       const userInfo = {
-        username: 'testuser',
+        email: 'testuser',
         password: '123',
       };
 

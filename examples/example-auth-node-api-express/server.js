@@ -1,7 +1,7 @@
 const express = require('express');
 
 const {
-  LocalProvider,
+  EmailProvider,
   Auth,
   InMemoryIdentityPool,
   InMemoryUserPool,
@@ -10,12 +10,12 @@ const {
 const app = express();
 
 const userPool = new InMemoryUserPool();
-const localProvider = new LocalProvider({ userPool, jwtSecret: 'test' });
+const emailProvider = new EmailProvider({ userPool, jwtSecret: 'test' });
 
 const identityPool = new InMemoryIdentityPool();
 const auth = new Auth({ identityPool, jwtSecret: 'test' });
 
-auth.use(localProvider);
+auth.use(emailProvider);
 
 app.use('/', auth.api());
 

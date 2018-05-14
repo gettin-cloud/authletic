@@ -8,7 +8,7 @@ class Login extends Component {
     return (
       <LoginForm>
         {({ formData, formErrors, onFormDataChange, login }) => (
-          //const { username, password } = formData;
+          //const { email, password } = formData;
           <div className="app flex-row align-items-center">
           <Container>
             <Row className="justify-content-center">
@@ -26,9 +26,9 @@ class Login extends Component {
                         </InputGroupAddon>
                         <Input
                           type="text"
-                          placeholder="Username"
-                          value={formData.username}
-                          onChange={e => onFormDataChange({ username: e.target.value })}
+                          placeholder="Email"
+                          value={formData.email}
+                          onChange={e => onFormDataChange({ email: e.target.value })}
                         />
                       </InputGroup>
                       <InputGroup className="mb-4">

@@ -26,7 +26,7 @@ import { create } from 'domain';
 // import { renderRoutes } from 'react-router-config';
 
 const auth = new Auth({ service: {}});
-auth.addProvider('local', {
+auth.addProvider('email', {
   login: (options) => {
     console.log(options);
     return Promise.resolve({ user: 'AAA' });
