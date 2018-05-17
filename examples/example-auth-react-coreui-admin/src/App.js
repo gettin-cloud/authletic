@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { HashRouter, Route, Switch, withRouter } from 'react-router-dom';
 
-import { Auth } from '@saasless/auth-client';
-import { Authenticator } from '@saasless/auth-react';
-import { PrivateRoute } from '@saasless/auth-react-router';
+import { Auth, MockProvider } from '@saasless/auth-client';
+import { Authenticator, PrivateRoute } from '@saasless/auth-react';
 
 import './App.css';
 // Styles
@@ -25,22 +24,31 @@ import { create } from 'domain';
 
 // import { renderRoutes } from 'react-router-config';
 
-const auth = new Auth({ service: {}});
-auth.addProvider('email', {
-  login: (options) => {
-    console.log(options);
-    return Promise.resolve({ user: 'AAA' });
-  }
+const auth = new Auth({
+  service: {},
+  routing: {
+    loginPath: '/login',
+    defaultPath: '/',
+  },
 });
+const mockProvider = new MockProvider();
+// const mockProvider = {
+//   login: (options) => {
+//     console.log(options);
+//     return Promise.resolve({ user: 'AAA' });
+//   }
+// };
+
+auth.addProvider('email', mockProvider);
 //auth.login();
 
-PrivateRoute.configure({ loginPath: '/login' });
+//PrivateRoute.configure({ loginPath: '/login' });
 
 class App extends Component {
   render() {
     return (
-      <Authenticator auth={auth}>
-        <HashRouter>
+      <HashRouter>
+        <Authenticator auth={auth}>
           <Switch>
             <Route exact path="/login" name="Login Page" component={Login} />
             <Route exact path="/register" name="Register Page" component={Register} />
@@ -48,8 +56,8 @@ class App extends Component {
             <Route exact path="/500" name="Page 500" component={Page500} />
             <PrivateRoute path="/" name="Home" component={DefaultLayout} />
           </Switch>
-        </HashRouter>
-      </Authenticator>
+        </Authenticator>
+      </HashRouter>
     );
   }
 }

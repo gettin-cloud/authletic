@@ -3,11 +3,8 @@
 import { InMemoryStore } from './client-store';
 
 
-function onStateChanged() {
-  const { onStateChange } = this.options;
-  if (onStateChange) {
-    onStateChange();
-  }
+function notifySubscribers(eventType, eventData) {
+  this.listeners.forEach(l => l({ eventType, eventData }));
 }
 
 export class Auth {
@@ -22,6 +19,11 @@ export class Auth {
     }
 
     this.options = {
+      routing: {
+        loginPath: '/login',
+        defaultPath: '/',
+        ...authOptions.routing,
+      },
       ...authOptions,
     };
     this.service = service;
@@ -31,6 +33,20 @@ export class Auth {
     this.currentUser = undefined;
     this.sessionStoreKey = `${this.options.appName || 'Auth'}_credentials`;
     this.providers = {};
+    this.listeners = [];
+  }
+
+  subscribe(listener) {
+    if (typeof listener !== 'function') {
+      throw new Error('An Auth listener should be a function');
+    }
+    this.listeners.push(listener);
+  }
+
+  unsubscribe(listener) {
+    const newListeners = this.listeners.filter(l => l !== listener);
+    this.listeners.length = 0;
+    this.listeners.push(...newListeners);
   }
 
   addProvider(providerName, provider) {
@@ -38,6 +54,10 @@ export class Auth {
       throw new Error(`A provider with the '${providerName}' hame is already added.`);
     }
     this.providers[providerName] = provider;
+  }
+
+  setNavigationHistory(history) {
+    this.history = history;
   }
 
   getProvider(providerName) {
@@ -67,7 +87,7 @@ export class Auth {
         .login(options)
         .then((credentials) => {
           this.sessionStore.setItem(this.sessionStoreKey, JSON.stringify(credentials));
-          onStateChanged.call(this);
+          notifySubscribers.call(this, 'loggedIn', credentials);
           resolve(credentials);
         })
         .catch(reject);
@@ -76,7 +96,8 @@ export class Auth {
 
   logout() {
     this.sessionStore.removeItem(this.sessionStoreKey);
-    onStateChanged.call(this);
+    notifySubscribers.call(this, 'loggedOut');
+    return Promise.resolve();
   }
 
   getProfile(providerName, options) {

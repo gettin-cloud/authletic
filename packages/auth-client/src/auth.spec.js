@@ -66,6 +66,7 @@ describe('Auth', () => {
     });
 
     it('stores credentials', () => {
+      expect(true).toBe(false);
     });
   });
 
@@ -118,6 +119,7 @@ describe('Auth', () => {
     beforeEach(() => {
       store.clear();
     });
+
     it('clears credentials', async () => {
       expect(auth.isAuthenticated()).toBeFalsy();
       store.setItem('testApp_credentials', {});

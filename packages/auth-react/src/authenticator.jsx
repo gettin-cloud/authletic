@@ -1,13 +1,24 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
 const AuthContext = React.createContext();
 
-export class Authenticator extends PureComponent {
+class Authenticator extends PureComponent {
   constructor(props) {
     super(props);
     if (!props.auth) {
       throw new Error('The \'auth\' prop of an <Authenticator> should be specified');
+    }
+    this.auth = props.auth;
+    this.auth.setNavigationHistory(props.history);
+  }
+  componentWillReceiveProps(nextProps) {
+    const { auth } = this;
+    const { auth: nextAuth } = nextProps;
+
+    if (auth !== nextAuth) {
+      throw new Error('<Authenticator> does not support changing `auth` on the fly.');
     }
   }
   render() {
@@ -42,3 +53,4 @@ Authenticator.defaultProps = {
   auth: undefined,
 };
 
+export default withRouter(Authenticator);

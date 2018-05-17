@@ -4,28 +4,21 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-import { withAuth } from '@saasless/auth-react';
-
-let config = {
-  loginPath: '/login',
-};
+import { withAuth } from './';
 
 const PrivateRoute = ({ auth, component: Component, ...rest }) => {
+  const { loginPath } = auth.options.routing;
   const render = (props) => {
     return auth.isAuthenticated() ? (<Component {...props} />) : (
       <Redirect
         to={{
-          pathname: config.loginPath,
+          pathname: loginPath,
           state: { from: props.location }
         }}
       />
     );
   };
   return <Route {...rest} render={render} />;
-};
-
-PrivateRoute.configure = (options) => {
-  config = { ...config, options };
 };
 
 export default withAuth(PrivateRoute);

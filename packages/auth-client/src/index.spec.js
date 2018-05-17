@@ -1,11 +1,15 @@
-import { Auth, InMemoryStore } from './index';
+import {
+  Auth,
+  InMemoryStore,
+  EmailProvider,
+  MockProvider,
+} from './index';
 
 describe('Package public API', () => {
-  it('exports Auth', () => {
+  it('exports necessary modules', () => {
     expect(Auth).toBeDefined();
-  });
-
-  it('exports InMemoryStore', () => {
     expect(InMemoryStore).toBeDefined();
+    expect(EmailProvider).toBeDefined();
+    expect(MockProvider).toBeDefined();
   });
 });
