@@ -33,15 +33,15 @@ class ConnectAuth extends PureComponent {
 }
 
 ConnectAuth.propTypes = {
-  children: PropTypes.any,
+  auth: PropTypes.object.isRequired,
+  children: PropTypes.any.isRequired,
 };
 
 ConnectAuth.defaultProps = {
-  children: undefined,
 };
 
 
-export const withAuth = (WrappedComponent) => {
+const withAuth = (WrappedComponent) => {
   const C = ({ children, ...restProps }) => (
     <Authenticator.Context.Consumer>
       {auth => (
@@ -66,3 +66,5 @@ export const withAuth = (WrappedComponent) => {
 
   return hoistStatics(C, WrappedComponent);
 };
+
+export default withAuth;

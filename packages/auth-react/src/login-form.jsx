@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withAuth } from './index';
 
@@ -27,7 +27,9 @@ class LoginForm extends PureComponent {
         console.log('logged in');
         console.log(user);
       })
-      .catch(error => {});
+      .catch((error) => {
+        console.error(error);
+      });
 
     console.log('login');
     console.log(this.state);
@@ -41,5 +43,10 @@ class LoginForm extends PureComponent {
     });
   }
 }
+
+LoginForm.propTypes = {
+  auth: PropTypes.object.isRequired,
+  children: PropTypes.func.isRequired,
+};
 
 export default withAuth(LoginForm);

@@ -1,27 +1,55 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
+import { Router } from 'react-router-dom';
+import createHistory from 'history/createMemoryHistory';
 import { Authenticator } from './index';
 
 describe('A <Authenticator>', () => {
   const node = document.createElement('div');
+  const authMock = {
+    setNavigationHistory: jest.fn(),
+  };
+
+  let history;
+  beforeEach(() => {
+    history = createHistory();
+  });
 
   afterEach(() => {
     ReactDOM.unmountComponentAtNode(node);
   });
 
+  it('sets history to the auth', () => {
+    ReactDOM.render(
+      <Router history={history}>
+        <Authenticator auth={authMock}>
+          <div />
+        </Authenticator>
+      </Router>,
+      node,
+    );
+
+    expect(authMock.setNavigationHistory.mock.calls).toHaveLength(1);
+    expect(authMock.setNavigationHistory.mock.calls[0][0]).toBe(history);
+  });
+
   describe('without an auth provided', () => {
     it('throws an error', () => {
-      jest.spyOn(console, 'error');
+      const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
       expect(() => {
         ReactDOM.render(
-          <Authenticator>
-            <div />
-          </Authenticator>,
+          <Router history={history}>
+            <Authenticator>
+              <div />
+            </Authenticator>
+          </Router>,
           node,
         );
-      }).toThrow(/The 'auth' prop of an <Authenticator> should be specified/);
+      }).toThrow();
+
+      spy.mockRestore();
     });
   });
 
@@ -52,18 +80,17 @@ describe('A <Authenticator>', () => {
       authContext = undefined;
     });
 
-    const createAuth = () => ({});
-
     it('can be consumed', () => {
-      const auth = createAuth();
       ReactDOM.render(
-        <Authenticator auth={auth}>
-          <ContextTester />
-        </Authenticator>,
+        <Router history={history}>
+          <Authenticator auth={authMock}>
+            <ContextTester />
+          </Authenticator>
+        </Router>,
         node,
       );
 
-      expect(authContext).toBe(auth);
+      expect(authContext).toBe(authMock);
     });
   });
 });

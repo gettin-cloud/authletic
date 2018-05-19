@@ -47,6 +47,7 @@ Authenticator.propTypes = {
     logout: PropTypes.func,
     getProfile: PropTypes.func,
   }),
+  history: PropTypes.object.isRequired,
 };
 
 Authenticator.defaultProps = {

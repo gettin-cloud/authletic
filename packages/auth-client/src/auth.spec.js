@@ -28,7 +28,9 @@ describe('Auth', () => {
   });
 
   describe('#signUp', () => {
-    const auth = new Auth({ service: {} });
+    const sessionStore = new InMemoryStore();
+    const auth = new Auth({ sessionStore, appName: 'testApp' });
+
     const provider = {
       signUp: jest.fn(),
     };
@@ -37,6 +39,7 @@ describe('Auth', () => {
 
     beforeEach(() => {
       provider.signUp.mockReset();
+      sessionStore.clear();
     });
 
     it('throws if signs up without a provider', () => {
@@ -66,12 +69,21 @@ describe('Auth', () => {
     });
 
     it('stores credentials', () => {
-      expect(true).toBe(false);
+      expect.assertions(1);
+      const options = {};
+      const credentials = { test: 'credentials' };
+
+      provider.signUp.mockReturnValueOnce(Promise.resolve(credentials));
+      return auth.signUp('test', options).then(() => {
+        expect(JSON.parse(sessionStore.getItem('testApp_credentials'))).toEqual(credentials);
+      });
     });
   });
 
   describe('#login', () => {
-    const auth = new Auth({ service: {} });
+    const sessionStore = new InMemoryStore();
+    const auth = new Auth({ sessionStore, appName: 'testApp' });
+
     const provider = {
       login: jest.fn(),
     };
@@ -80,6 +92,7 @@ describe('Auth', () => {
 
     beforeEach(() => {
       provider.login.mockReset();
+      sessionStore.clear();
     });
 
     it('throws if logs in without a provider', () => {
@@ -109,20 +122,27 @@ describe('Auth', () => {
     });
 
     it('stores credentials', () => {
+      expect.assertions(1);
+      const credentials = { test: 'credentials' };
+
+      provider.login.mockReturnValueOnce(Promise.resolve(credentials));
+      return auth.login('test').then(() => {
+        expect(JSON.parse(sessionStore.getItem('testApp_credentials'))).toEqual(credentials);
+      });
     });
   });
 
   describe('#logout', () => {
-    const store = new InMemoryStore();
-    const auth = new Auth({ sessionStore: store, appName: 'testApp' });
+    const sessionStore = new InMemoryStore();
+    const auth = new Auth({ sessionStore, appName: 'testApp' });
 
     beforeEach(() => {
-      store.clear();
+      sessionStore.clear();
     });
 
     it('clears credentials', async () => {
       expect(auth.isAuthenticated()).toBeFalsy();
-      store.setItem('testApp_credentials', {});
+      sessionStore.setItem('testApp_credentials', {});
       expect(auth.isAuthenticated()).toBeTruthy();
       auth.logout();
       expect(auth.isAuthenticated()).toBeFalsy();

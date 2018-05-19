@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withAuth } from './index';
 
@@ -16,7 +16,9 @@ class Logout extends PureComponent {
       .then(() => {
         console.log('logged out');
       })
-      .catch(error => {});
+      .catch((error) => {
+        console.error(error);
+      });
 
     console.log('loging out');
   }
@@ -27,5 +29,10 @@ class Logout extends PureComponent {
     });
   }
 }
+
+Logout.propTypes = {
+  auth: PropTypes.object.isRequired,
+  children: PropTypes.func.isRequired,
+};
 
 export default withAuth(Logout);

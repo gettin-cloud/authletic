@@ -77,7 +77,17 @@ export class Auth {
   }
 
   signUp(providerName, options) {
-    return this.getProvider(providerName).signUp(options);
+    const provider = this.getProvider(providerName);
+    return new Promise((resolve, reject) => {
+      provider
+        .signUp(options)
+        .then((credentials) => {
+          this.sessionStore.setItem(this.sessionStoreKey, JSON.stringify(credentials));
+          notifySubscribers.call(this, 'loggedIn', credentials);
+          resolve(credentials);
+        })
+        .catch(reject);
+    });
   }
 
   login(providerName, options) {
