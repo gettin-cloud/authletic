@@ -26,7 +26,10 @@ const PrivateRoute = ({ auth, component: Component, ...rest }) => {
 PrivateRoute.propTypes = {
   location: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  component: PropTypes.element.isRequired,
+  component: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.func,
+  ]).isRequired,
 };
 
 export default withAuth(PrivateRoute);
