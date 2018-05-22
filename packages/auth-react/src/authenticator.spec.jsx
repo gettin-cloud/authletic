@@ -3,17 +3,21 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
 import createHistory from 'history/createMemoryHistory';
-import { Authenticator } from './index';
+import { Authenticator, withAuth } from './index';
 
 describe('A <Authenticator>', () => {
   const node = document.createElement('div');
   const authMock = {
+    isAuthenticated: jest.fn().mockImplementation(() => false),
     setNavigationHistory: jest.fn(),
+    subscribe: jest.fn(),
+    unsubscribe: jest.fn(),
   };
 
   let history;
   beforeEach(() => {
     history = createHistory();
+    Object.keys(authMock).forEach(key => authMock[key].mockClear());
   });
 
   afterEach(() => {
@@ -32,6 +36,61 @@ describe('A <Authenticator>', () => {
 
     expect(authMock.setNavigationHistory.mock.calls).toHaveLength(1);
     expect(authMock.setNavigationHistory.mock.calls[0][0]).toBe(history);
+  });
+
+  it('subscribes to and unsubscribes from auth', () => {
+    expect(authMock.subscribe.mock.calls).toHaveLength(0);
+    expect(authMock.unsubscribe.mock.calls).toHaveLength(0);
+
+    ReactDOM.render(
+      <Router history={history}>
+        <Authenticator auth={authMock}>
+          <div />
+        </Authenticator>
+      </Router>,
+      node,
+    );
+
+    expect(authMock.subscribe.mock.calls).toHaveLength(1);
+    expect(authMock.unsubscribe.mock.calls).toHaveLength(0);
+
+    ReactDOM.unmountComponentAtNode(node);
+    expect(authMock.subscribe.mock.calls).toHaveLength(1);
+    expect(authMock.unsubscribe.mock.calls).toHaveLength(1);
+  });
+
+  it('authentication events force dependencies to update', () => {
+    const Cmp = jest.fn().mockImplementation(() => null);
+    const CmpWithAuth = withAuth(Cmp);
+
+    ReactDOM.render(
+      <Router history={history}>
+        <Authenticator auth={authMock}>
+          <Cmp />
+          <CmpWithAuth />
+        </Authenticator>
+      </Router>,
+      node,
+    );
+
+    expect(Cmp.mock.calls).toHaveLength(2);
+    expect(Object.keys(Cmp.mock.calls[0][0])).toHaveLength(0); // props
+    expect(Cmp.mock.calls[1][0]).toEqual({
+      auth: authMock,
+      isAuthenticated: false,
+    }); // props
+
+    authMock.subscribe.mock.calls[0][0]({
+      eventType: 'unknownEvent',
+    });
+
+    expect(Cmp.mock.calls).toHaveLength(2);
+
+    authMock.subscribe.mock.calls[0][0]({
+      eventType: 'loggedIn',
+    });
+
+    expect(Cmp.mock.calls).toHaveLength(3);
   });
 
   describe('without an auth provided', () => {
@@ -90,7 +149,10 @@ describe('A <Authenticator>', () => {
         node,
       );
 
-      expect(authContext).toBe(authMock);
+      expect(authContext).toEqual({
+        auth: authMock,
+        isAuthenticated: false,
+      });
     });
   });
 });

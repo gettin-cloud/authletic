@@ -12,6 +12,10 @@ class Authenticator extends PureComponent {
     }
     this.auth = props.auth;
     this.auth.setNavigationHistory(props.history);
+    this.onAuthStateChange = this.onAuthStateChange.bind(this);
+  }
+  componentDidMount() {
+    this.auth.subscribe(this.onAuthStateChange);
   }
   componentWillReceiveProps(nextProps) {
     const { auth } = this;
@@ -21,10 +25,22 @@ class Authenticator extends PureComponent {
       throw new Error('<Authenticator> does not support changing `auth` on the fly.');
     }
   }
+  componentWillUnmount() {
+    this.auth.unsubscribe(this.onAuthStateChange);
+  }
+  onAuthStateChange(e) {
+    if (e.eventType === 'loggedIn' || e.eventType === 'loggedOut') {
+      this.forceUpdate();
+    }
+  }
   render() {
     const { auth, children } = this.props;
+    const contextValue = {
+      auth,
+      isAuthenticated: auth.isAuthenticated(),
+    };
     return (
-      <AuthContext.Provider value={auth}>
+      <AuthContext.Provider value={contextValue}>
         {children}
       </AuthContext.Provider>
     );

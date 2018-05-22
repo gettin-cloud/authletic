@@ -46,30 +46,4 @@ describe('withAuth', () => {
     expect(passedProps.auth).toBe(authMock);
     expect(passedProps.isAuthenticated).toBe('test');
   });
-
-
-  it('subscribes to and unsubscribes from auth', () => {
-    const Cmp = () => null;
-    const CmpWithAuth = withAuth(Cmp);
-
-    expect(authMock.subscribe.mock.calls).toHaveLength(0);
-    expect(authMock.unsubscribe.mock.calls).toHaveLength(0);
-
-    ReactDOM.render(
-      <Router history={history}>
-        <Authenticator auth={authMock}>
-          <CmpWithAuth />
-          <CmpWithAuth />
-        </Authenticator>
-      </Router>,
-      node,
-    );
-
-    expect(authMock.subscribe.mock.calls).toHaveLength(2);
-    expect(authMock.unsubscribe.mock.calls).toHaveLength(0);
-
-    ReactDOM.unmountComponentAtNode(node);
-    expect(authMock.subscribe.mock.calls).toHaveLength(2);
-    expect(authMock.unsubscribe.mock.calls).toHaveLength(2);
-  });
 });
