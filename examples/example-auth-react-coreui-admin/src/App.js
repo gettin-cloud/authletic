@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter, Route, Switch, withRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router-dom';
 
 import { Auth, MockProvider } from '@saasless/auth-client';
 import { Authenticator, PrivateRoute } from '@saasless/auth-react';
@@ -47,7 +47,7 @@ auth.addProvider('email', mockProvider);
 class App extends Component {
   render() {
     return (
-      <HashRouter>
+      <Router>
         <Authenticator auth={auth}>
           <Switch>
             <Route exact path="/login" name="Login Page" component={Login} />
@@ -57,7 +57,7 @@ class App extends Component {
             <PrivateRoute path="/" name="Home" component={DefaultLayout} />
           </Switch>
         </Authenticator>
-      </HashRouter>
+      </Router>
     );
   }
 }
