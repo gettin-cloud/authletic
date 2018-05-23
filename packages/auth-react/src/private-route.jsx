@@ -7,29 +7,15 @@ import {
 
 import { withAuth } from './';
 
-const PrivateRoute = ({ auth, component: Component, ...rest }) => {
-  const { loginPath } = auth.options.routing;
-  const render = (props) => {
-    const { location } = props;
-    return auth.isAuthenticated() ? (<Component {...props} />) : (
-      <Redirect
-        to={{
-          pathname: loginPath,
-          state: { from: location },
-        }}
-      />
-    );
-  };
-  return <Route {...rest} render={render} />;
-};
+const PrivateRoute = ({ auth, isAuthenticated, ...props }) => (
+  isAuthenticated ?
+    <Route {...props} /> :
+    <Redirect to={{ pathname: auth.getLoginPath() }} />
+);
 
 PrivateRoute.propTypes = {
-  location: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
   auth: PropTypes.object.isRequired,
-  component: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.func,
-  ]).isRequired,
 };
 
 export default withAuth(PrivateRoute);

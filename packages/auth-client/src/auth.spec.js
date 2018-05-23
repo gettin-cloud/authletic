@@ -3,20 +3,8 @@ import { InMemoryStore } from './client-store';
 
 describe('Auth', () => {
   describe('#constructor', () => {
-    it('throws if options are not passed', () => {
-      expect(() => new Auth()).toThrow();
-    });
-
-    // it('throws if the \'service\' option is not passed', () => {
-    //   expect(() => new Auth({})).toThrow();
-    // });
-
-    it('doesn\'t throw if proper options are passed', () => {
-      expect(() => new Auth({ service: {} })).toBeDefined();
-    });
-
     it('exposes the public API', () => {
-      const auth = new Auth({ service: {} });
+      const auth = new Auth();
 
       expect(auth.addProvider).toBeDefined();
       expect(auth.signUp).toBeDefined();
@@ -24,6 +12,37 @@ describe('Auth', () => {
       expect(auth.logout).toBeDefined();
       expect(auth.getUser).toBeDefined();
       expect(auth.getProfile).toBeDefined();
+      expect(auth.getLoginPath).toBeDefined();
+    });
+
+    it('has default configuration', () => {
+      const auth = new Auth();
+      expect(auth.getLoginPath()).toBe('/login');
+    });
+  });
+
+  describe('#addProvider', () => {
+    it('adds a provider', () => {
+      const auth = new Auth();
+      const provider = {};
+      expect(auth.providers).toEqual({});
+      auth.addProvider('test', provider);
+      expect(auth.getProvider('test')).toBe(provider);
+    });
+
+    it('throws if a provider is registered with existing name', () => {
+      const auth = new Auth();
+      expect(() => {
+        auth.addProvider('test', {});
+        auth.addProvider('test', {});
+      }).toThrow();
+    });
+
+    it('throws if a provider is not registered', () => {
+      const auth = new Auth();
+      expect(() => {
+        auth.getProvider('test');
+      }).toThrow();
     });
   });
 
@@ -155,7 +174,7 @@ describe('Auth', () => {
   });
 
   describe('getUser', () => {
-    const auth = new Auth({ service: {} });
+    const auth = new Auth();
     const provider = {
       login: jest.fn(),
     };

@@ -1,5 +1,3 @@
-/* */
-
 import { InMemoryStore } from './client-store';
 
 
@@ -8,15 +6,8 @@ function notifySubscribers(eventType, eventData) {
 }
 
 export class Auth {
-  constructor(authOptions) {
-    if (authOptions === undefined) {
-      throw new Error('Options should be provided to create an Auth');
-    }
-
-    const { service, sessionStore } = authOptions;
-    if (service === undefined) {
-      // throw new Error('The \'service\' option should be specified');
-    }
+  constructor(options) {
+    const authOptions = options || {};
 
     this.options = {
       routing: {
@@ -26,7 +17,7 @@ export class Auth {
       },
       ...authOptions,
     };
-    this.service = service;
+    const { sessionStore } = authOptions;
     this.sessionStore = sessionStore || (window && window.localStorage
       ? window.localStorage
       : new InMemoryStore());
@@ -34,6 +25,10 @@ export class Auth {
     this.sessionStoreKey = `${this.options.appName || 'Auth'}_credentials`;
     this.providers = {};
     this.listeners = [];
+  }
+
+  getLoginPath() {
+    return this.options.routing.loginPath;
   }
 
   subscribe(listener) {
@@ -51,7 +46,7 @@ export class Auth {
 
   addProvider(providerName, provider) {
     if (this.providers[providerName]) {
-      throw new Error(`A provider with the '${providerName}' hame is already added.`);
+      throw new Error(`A provider with the '${providerName}' name is already added.`);
     }
     this.providers[providerName] = provider;
   }
