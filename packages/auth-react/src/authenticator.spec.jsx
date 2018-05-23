@@ -24,6 +24,42 @@ describe('A <Authenticator>', () => {
     ReactDOM.unmountComponentAtNode(node);
   });
 
+  it('throws if auth is changed on the fly', () => {
+    const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    class Tester extends React.Component {
+      constructor() {
+        super();
+        this.state = { authMock };
+      }
+      changeAuth() {
+        this.setState({
+          authMock: { ...authMock },
+        });
+      }
+      render() {
+        return (
+          <Router history={history}>
+            <Authenticator auth={this.state.authMock}>
+              <div />
+            </Authenticator>
+          </Router>
+        );
+      }
+    }
+
+    const tester = ReactDOM.render(
+      <Tester />,
+      node,
+    );
+
+    expect(() => {
+      tester.changeAuth();
+    }).toThrow();
+
+    spy.mockRestore();
+  });
+
   it('sets history to the auth', () => {
     ReactDOM.render(
       <Router history={history}>
