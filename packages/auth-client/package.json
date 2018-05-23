@@ -39,5 +39,8 @@
     "rollup": "0.50.0",
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-license": "^0.6.0"
+  },
+  "dependencies": {
+    "query-string": "^6.1.0"
   }
 }

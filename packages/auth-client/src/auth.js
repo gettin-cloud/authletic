@@ -1,5 +1,5 @@
+import * as queryString from 'query-string';
 import { InMemoryStore } from './client-store';
-
 
 function notifySubscribers(eventType, eventData) {
   this.listeners.forEach(l => l({ eventType, eventData }));
@@ -25,6 +25,7 @@ export class Auth {
     this.sessionStoreKey = `${this.options.appName || 'Auth'}_credentials`;
     this.providers = {};
     this.listeners = [];
+    this.onLogin = this.onLogin.bind(this);
   }
 
   getLoginPath() {
@@ -71,14 +72,23 @@ export class Auth {
     return this.currentUser;
   }
 
+  onLogin(credentials) {
+    this.sessionStore.setItem(this.sessionStoreKey, JSON.stringify(credentials));
+    notifySubscribers.call(this, 'loggedIn', credentials);
+    if (this.history) { // TODO use default history
+      const query = queryString.parse(this.history.location.search);
+      const backPath = query.redirect || '/';
+      this.history.replace(backPath);
+    }
+  }
+
   signUp(providerName, options) {
     const provider = this.getProvider(providerName);
     return new Promise((resolve, reject) => {
       provider
         .signUp(options)
         .then((credentials) => {
-          this.sessionStore.setItem(this.sessionStoreKey, JSON.stringify(credentials));
-          notifySubscribers.call(this, 'loggedIn', credentials);
+          this.onLogin(credentials);
           resolve(credentials);
         })
         .catch(reject);
@@ -91,8 +101,7 @@ export class Auth {
       provider
         .login(options)
         .then((credentials) => {
-          this.sessionStore.setItem(this.sessionStoreKey, JSON.stringify(credentials));
-          notifySubscribers.call(this, 'loggedIn', credentials);
+          this.onLogin(credentials);
           resolve(credentials);
         })
         .catch(reject);

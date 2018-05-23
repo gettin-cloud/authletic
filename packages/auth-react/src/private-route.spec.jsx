@@ -81,8 +81,61 @@ describe('PrivateRoute', () => {
     expect(renderer.mock.calls).toHaveLength(0);
     expect(history.location).toMatchObject({
       pathname: '/test-login-path',
+      search: '?redirect=/',
       hash: '',
-      search: '',
     });
+  });
+
+  it('saves current uri if redirects for authentication', () => {
+    authMock.isAuthenticated.mockReturnValue(false);
+
+    history.push('/some-uri/not-exact');
+    expect(history.location.pathname).toBe('/some-uri/not-exact');
+
+    ReactDOM.render(
+      <Router history={history}>
+        <Authenticator auth={authMock}>
+          <Switch>
+            <Route exact path="/test-login-path" />
+            <PrivateRoute path="/some-uri" />
+          </Switch>
+        </Authenticator>
+      </Router>,
+      node,
+    );
+
+    expect(history.location).toMatchObject({
+      pathname: '/test-login-path',
+      search: '?redirect=/some-uri/not-exact',
+      hash: '',
+    });
+  });
+
+  it('works with the outside back redirect after authentication', () => {
+    authMock.isAuthenticated.mockReturnValue(false);
+
+    history.push('/some-uri/not-exact');
+
+    ReactDOM.render(
+      <Router history={history}>
+        <Authenticator auth={authMock}>
+          <Switch>
+            <Route exact path="/test-login-path" />
+            <PrivateRoute path="/some-uri" />
+          </Switch>
+        </Authenticator>
+      </Router>,
+      node,
+    );
+
+    expect(history.location.pathname).toBe('/test-login-path');
+
+    history.replace('/some-uri/not-exact');
+    expect(history.location.pathname).toBe('/test-login-path');
+
+    authMock.isAuthenticated.mockReturnValue(true);
+    history.replace('/some-uri/not-exact');
+    expect(history.location.pathname).toBe('/some-uri/not-exact');
+
   });
 });

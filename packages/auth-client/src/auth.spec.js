@@ -102,6 +102,11 @@ describe('Auth', () => {
   describe('#login', () => {
     const sessionStore = new InMemoryStore();
     const auth = new Auth({ sessionStore, appName: 'testApp' });
+    const history = {
+      replace: jest.fn(),
+    };
+
+    auth.setNavigationHistory(history);
 
     const provider = {
       login: jest.fn(),
@@ -112,6 +117,8 @@ describe('Auth', () => {
     beforeEach(() => {
       provider.login.mockReset();
       sessionStore.clear();
+      history.replace.mockClear();
+      history.location = {};
     });
 
     it('throws if logs in without a provider', () => {
@@ -147,6 +154,17 @@ describe('Auth', () => {
       provider.login.mockReturnValueOnce(Promise.resolve(credentials));
       return auth.login('test').then(() => {
         expect(JSON.parse(sessionStore.getItem('testApp_credentials'))).toEqual(credentials);
+      });
+    });
+
+    it('redirects back after authentication', () => {
+      provider.login.mockReturnValueOnce(Promise.resolve({}));
+      history.location = {
+        search: '?redirect=/back-uri',
+      };
+      return auth.login('test').then(() => {
+        expect(auth.history.replace.mock.calls).toHaveLength(1);
+        expect(auth.history.replace.mock.calls[0][0]).toBe('/back-uri');
       });
     });
   });

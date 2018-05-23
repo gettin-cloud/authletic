@@ -1,21 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
+  withRouter,
   Route,
   Redirect,
 } from 'react-router-dom';
 
 import { withAuth } from './';
 
-const PrivateRoute = ({ auth, isAuthenticated, ...props }) => (
+const PrivateRoute = ({
+  auth,
+  isAuthenticated,
+  location,
+  ...props
+}) => (
   isAuthenticated ?
     <Route {...props} /> :
-    <Redirect to={{ pathname: auth.getLoginPath() }} />
+    <Redirect to={{ pathname: auth.getLoginPath(), search: `redirect=${location.pathname}` }} />
 );
 
 PrivateRoute.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   auth: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
-export default withAuth(PrivateRoute);
+export default withAuth(withRouter(PrivateRoute));

@@ -28,7 +28,6 @@ const auth = new Auth({
   service: {},
   routing: {
     loginPath: '/login',
-    defaultPath: '/',
   },
 });
 const mockProvider = new MockProvider();
