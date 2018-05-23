@@ -12,6 +12,7 @@ describe('LoginForm', () => {
     setNavigationHistory: jest.fn(),
     subscribe: jest.fn(),
     unsubscribe: jest.fn(),
+    login: jest.fn().mockImplementation(() => (Promise.resolve())),
   };
 
   let history;
@@ -57,55 +58,82 @@ describe('LoginForm', () => {
   });
 
   it('passes proper arguments to the child function', () => {
-    const formRenderer = jest.fn().mockImplementation(() => null);
+    const renderer = jest.fn().mockImplementation(() => null);
 
     ReactDOM.render(
       <Router history={history}>
         <Authenticator auth={authMock}>
-          <LoginForm>{formRenderer}</LoginForm>
+          <LoginForm>{renderer}</LoginForm>
         </Authenticator>
       </Router>,
       node,
     );
 
-    expect(formRenderer.mock.calls).toHaveLength(1);
-    expect(Object.keys(formRenderer.mock.calls[0][0])).toHaveLength(3);
-    expect(formRenderer.mock.calls[0][0].formData).toEqual({
+    expect(renderer.mock.calls).toHaveLength(1);
+    expect(Object.keys(renderer.mock.calls[0][0])).toHaveLength(3);
+    expect(renderer.mock.calls[0][0].formData).toEqual({
       email: '',
       password: '',
     });
-    expect(formRenderer.mock.calls[0][0].login).toBeDefined();
-    expect(formRenderer.mock.calls[0][0].onFormDataChange).toBeDefined();
+    expect(renderer.mock.calls[0][0].login).toBeDefined();
+    expect(renderer.mock.calls[0][0].onFormDataChange).toBeDefined();
   });
 
   it('passes formData back to the child if it changes', () => {
-    const formRenderer = jest.fn().mockImplementation(() => null);
+    const renderer = jest.fn().mockImplementation(() => null);
 
     ReactDOM.render(
       <Router history={history}>
         <Authenticator auth={authMock}>
-          <LoginForm>{formRenderer}</LoginForm>
+          <LoginForm>{renderer}</LoginForm>
         </Authenticator>
       </Router>,
       node,
     );
 
-    expect(formRenderer.mock.calls).toHaveLength(1);
-    const { onFormDataChange } = formRenderer.mock.calls[0][0];
+    expect(renderer.mock.calls).toHaveLength(1);
+    const { onFormDataChange } = renderer.mock.calls[0][0];
 
     onFormDataChange({ email: 'changed_email' });
-    expect(formRenderer.mock.calls).toHaveLength(2);
-    expect(formRenderer.mock.calls[1][0].formData).toEqual({
+    expect(renderer.mock.calls).toHaveLength(2);
+    expect(renderer.mock.calls[1][0].formData).toEqual({
       email: 'changed_email',
       password: '',
     });
 
     onFormDataChange({ password: 'changed_pwd', unknown: 'unknown' });
-    expect(formRenderer.mock.calls).toHaveLength(3);
-    expect(formRenderer.mock.calls[2][0].formData).toEqual({
+    expect(renderer.mock.calls).toHaveLength(3);
+    expect(renderer.mock.calls[2][0].formData).toEqual({
       email: 'changed_email',
       password: 'changed_pwd',
       unknown: 'unknown',
     });
+  });
+
+  it('delegates login to auth', () => {
+    const renderer = jest.fn().mockImplementation(() => null);
+
+    ReactDOM.render(
+      <Router history={history}>
+        <Authenticator auth={authMock}>
+          <LoginForm>{renderer}</LoginForm>
+        </Authenticator>
+      </Router>,
+      node,
+    );
+
+    expect(renderer.mock.calls).toHaveLength(1);
+    const { login, onFormDataChange } = renderer.mock.calls[0][0];
+
+    const formData = {
+      email: 'email',
+      password: 'pwd',
+    };
+    onFormDataChange(formData);
+    expect(authMock.login.mock.calls).toHaveLength(0);
+    login();
+    expect(authMock.login.mock.calls).toHaveLength(1);
+    expect(authMock.login.mock.calls[0][0]).toBe('email');
+    expect(authMock.login.mock.calls[0][1]).toEqual(formData);
   });
 });

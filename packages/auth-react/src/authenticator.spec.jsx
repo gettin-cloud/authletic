@@ -48,8 +48,9 @@ describe('A <Authenticator>', () => {
       }
     }
 
-    const tester = ReactDOM.render(
-      <Tester />,
+    let tester;
+    ReactDOM.render(
+      <Tester ref={(ref) => { tester = ref; }} />,
       node,
     );
 
