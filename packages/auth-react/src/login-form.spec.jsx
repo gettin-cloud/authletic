@@ -193,4 +193,37 @@ describe('LoginForm', () => {
       });
     });
   });
+
+  it('clear login errors on further attempts', async () => {
+    const renderer = jest.fn().mockImplementation(() => null);
+
+    ReactDOM.render(
+      <Router history={history}>
+        <Authenticator auth={authMock}>
+          <LoginForm>{renderer}</LoginForm>
+        </Authenticator>
+      </Router>,
+      node,
+    );
+    expect(renderer.mock.calls).toHaveLength(1);
+
+    const { login } = renderer.mock.calls[0][0];
+    const error = new Error('test');
+    authMock.login.mockReturnValueOnce(Promise.reject(error));
+    await login();
+    expect(renderer.mock.calls).toHaveLength(3);
+
+    authMock.login.mockReturnValueOnce(Promise.resolve());
+    return login().then(() => {
+      expect(renderer.mock.calls).toHaveLength(5);
+      expect(renderer.mock.calls[3][0]).toMatchObject({
+        isLogginIn: true,
+        error: undefined,
+      });
+      expect(renderer.mock.calls[4][0]).toMatchObject({
+        isLogginIn: false,
+        error: undefined,
+      });
+    });
+  });
 });
