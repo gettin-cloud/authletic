@@ -30,13 +30,21 @@ const auth = new Auth({
     loginPath: '/login',
   },
 });
-const mockProvider = new MockProvider();
-// const mockProvider = {
-//   login: (options) => {
-//     console.log(options);
-//     return Promise.resolve({ user: 'AAA' });
-//   }
-// };
+
+
+const fakeLogin = (formData) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (formData.email !== '123' ) {
+        reject(new Error('User not found. Use 123'))
+      }
+      else {
+        resolve({ userName: 'test' });
+      };
+    }, 1000);
+  });
+};
+const mockProvider = new MockProvider({ login: fakeLogin});
 
 auth.addProvider('email', mockProvider);
 //auth.login();

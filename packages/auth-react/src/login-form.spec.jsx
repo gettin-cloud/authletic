@@ -70,10 +70,14 @@ describe('LoginForm', () => {
     );
 
     expect(renderer.mock.calls).toHaveLength(1);
-    expect(Object.keys(renderer.mock.calls[0][0])).toHaveLength(3);
-    expect(renderer.mock.calls[0][0].formData).toEqual({
-      email: '',
-      password: '',
+    expect(Object.keys(renderer.mock.calls[0][0])).toHaveLength(5);
+    expect(renderer.mock.calls[0][0]).toMatchObject({
+      formData: {
+        email: '',
+        password: '',
+      },
+      isLogginIn: false,
+      error: undefined,
     });
     expect(renderer.mock.calls[0][0].login).toBeDefined();
     expect(renderer.mock.calls[0][0].onFormDataChange).toBeDefined();
@@ -131,9 +135,62 @@ describe('LoginForm', () => {
     };
     onFormDataChange(formData);
     expect(authMock.login.mock.calls).toHaveLength(0);
-    login();
-    expect(authMock.login.mock.calls).toHaveLength(1);
-    expect(authMock.login.mock.calls[0][0]).toBe('email');
-    expect(authMock.login.mock.calls[0][1]).toEqual(formData);
+    return login().then(() => {
+      expect(authMock.login.mock.calls).toHaveLength(1);
+      expect(authMock.login.mock.calls[0][0]).toBe('email');
+      expect(authMock.login.mock.calls[0][1]).toEqual(formData);
+    });
+  });
+
+  it('sets loading state while logging in', () => {
+    const renderer = jest.fn().mockImplementation(() => null);
+
+    ReactDOM.render(
+      <Router history={history}>
+        <Authenticator auth={authMock}>
+          <LoginForm>{renderer}</LoginForm>
+        </Authenticator>
+      </Router>,
+      node,
+    );
+
+    expect(renderer.mock.calls).toHaveLength(1);
+    expect(renderer.mock.calls[0][0]).toMatchObject({ isLogginIn: false });
+    const { login } = renderer.mock.calls[0][0];
+
+    authMock.login.mockReturnValueOnce(Promise.resolve());
+    return login().then(() => {
+      expect(renderer.mock.calls).toHaveLength(3);
+      expect(renderer.mock.calls[1][0]).toMatchObject({ isLogginIn: true });
+      expect(renderer.mock.calls[2][0]).toMatchObject({ isLogginIn: false });
+    });
+  });
+
+  it('passes login errors to the form', () => {
+    const renderer = jest.fn().mockImplementation(() => null);
+
+    ReactDOM.render(
+      <Router history={history}>
+        <Authenticator auth={authMock}>
+          <LoginForm>{renderer}</LoginForm>
+        </Authenticator>
+      </Router>,
+      node,
+    );
+    expect(renderer.mock.calls).toHaveLength(1);
+
+    const { login } = renderer.mock.calls[0][0];
+    const error = new Error('test');
+    authMock.login.mockReturnValueOnce(Promise.reject(error));
+    return login().then(() => {
+      expect(renderer.mock.calls).toHaveLength(3);
+      expect(renderer.mock.calls[1][0]).toMatchObject({
+        isLogginIn: true,
+      });
+      expect(renderer.mock.calls[2][0]).toMatchObject({
+        isLogginIn: false,
+        error,
+      });
+    });
   });
 });

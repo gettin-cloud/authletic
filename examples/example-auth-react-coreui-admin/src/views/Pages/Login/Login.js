@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardGroup, Col, Container, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
+import { Alert, Button, Card, CardBody, CardGroup, Col, Container, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 
 import { LoginForm } from '@saasless/auth-react';
 
@@ -7,7 +7,7 @@ class Login extends Component {
   render() {
     return (
       <LoginForm>
-        {({ formData, formErrors, onFormDataChange, login }) => (
+        {({ formData, error, isLogginIn, onFormDataChange, login }) => (
           //const { email, password } = formData;
           <div className="app flex-row align-items-center">
           <Container>
@@ -18,6 +18,11 @@ class Login extends Component {
                     <CardBody>
                       <h1>Login</h1>
                       <p className="text-muted">Sign In to your account</p>
+                      {
+                        error
+                        ? (<Alert color="danger">Can't login: {error.message}</Alert>)
+                        : null
+                      }
                       <InputGroup className="mb-3">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
@@ -46,7 +51,7 @@ class Login extends Component {
                       </InputGroup>
                       <Row>
                         <Col xs="6">
-                          <Button color="primary" className="px-4" onClick={login}>Login</Button>
+                          <Button color="primary" className="px-4" onClick={login}>{isLogginIn ? 'Wait...' : 'Login'}</Button>
                         </Col>
                         <Col xs="6" className="text-right">
                           <Button color="link" className="px-0">Forgot password?</Button>

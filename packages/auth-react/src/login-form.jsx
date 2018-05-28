@@ -9,37 +9,50 @@ class LoginForm extends PureComponent {
       throw new Error('LoginForm only accepts function as a child');
     }
     this.state = {
-      email: '',
-      password: '',
+      formData: {
+        email: '',
+        password: '',
+      },
+      isLogginIn: false,
+      error: undefined,
     };
     this.onFormDataChange = this.onFormDataChange.bind(this);
     this.login = this.login.bind(this);
   }
   onFormDataChange(formData) {
-    this.setState(formData);
+    this.setState({
+      formData: {
+        ...this.state.formData,
+        ...formData,
+      },
+    });
   }
   login() {
-    this.props.auth
+    this.setState({
+      isLogginIn: true,
+    });
+    return this.props.auth
       .login('email', {
-        ...this.state,
+        ...this.state.formData,
       })
-      .then((user) => {
-        console.log('logged in');
-        console.log(user);
+      .then(() => {
+        this.setState({
+          isLogginIn: false,
+        });
       })
       .catch((error) => {
-        console.error(error);
+        this.setState({
+          error,
+          isLogginIn: false,
+        });
       });
-
-    console.log('login');
-    console.log(this.state);
   }
   render() {
     const { children } = this.props;
     return children({
-      formData: this.state,
       onFormDataChange: this.onFormDataChange,
       login: this.login,
+      ...this.state,
     });
   }
 }

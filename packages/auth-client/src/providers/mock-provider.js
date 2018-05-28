@@ -1,19 +1,16 @@
 export class MockProvider {
   constructor(options) {
     this.options = {
-      loginResult: {
-        __mock: true,
-      },
       ...options,
     };
   }
-  login() {
-    const { failOnLogin, loginResult } = this.options;
+  login(...args) {
+    const { login } = this.options;
 
-    if (failOnLogin) {
-      return Promise.reject(failOnLogin);
+    if (login) {
+      return login(...args);
     }
 
-    return Promise.resolve(loginResult);
+    return Promise.resolve({ __mock: true });
   }
 }
