@@ -1,4 +1,4 @@
 export { Auth } from './auth';
 export { InMemoryStore } from './client-store';
-export { EmailProvider } from './providers/email-provider';
-export { MockProvider } from './providers/mock-provider';
+export { FormAuthProvider } from './providers/form-auth-provider';
+export { MockAuthProvider } from './providers/mock-auth-provider';

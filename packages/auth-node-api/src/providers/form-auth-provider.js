@@ -7,7 +7,7 @@ const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 
 const nullEncrypt = password => password;
 
-class EmailProvider {
+class FormAuthProvider {
   constructor(options) {
     // rootPath
     // emailField
@@ -23,10 +23,10 @@ class EmailProvider {
       ...options,
     };
     if (!options.userPool) {
-      throw new Error('The \'userPool\' option of EmailProvider is required');
+      throw new Error('The \'userPool\' option of FormAuthProvider is required');
     }
     if (!options.jwtSecret) {
-      throw new Error('The \'jwtSecret\' option of EmailProvider is required');
+      throw new Error('The \'jwtSecret\' option of FormAuthProvider is required');
     }
     this.passport = new Passport();
     this.setupPassport(this.passport);
@@ -64,7 +64,7 @@ class EmailProvider {
             { expiresIn: '1h' },
           );
           const userInfo = {
-            provider: 'email',
+            provider: 'form',
             userId: user.id,
             userEmail: user.email,
             profile: removeSensitiveData(user),
@@ -91,7 +91,7 @@ class EmailProvider {
             { expiresIn: '1h' },
           );
           const userInfo = {
-            provider: 'email',
+            provider: 'form',
             userId: user.id,
             userEmail: user.email,
             profile: removeSensitiveData(user),
@@ -123,8 +123,8 @@ class EmailProvider {
       session: false,
     };
 
-    passport.use('email-login', new EmailStrategy(emailStrategyConfig, passportLogin));
-    passport.use('email-signup', new EmailStrategy(emailStrategyConfig, passportSignUp));
+    passport.use('form-login', new EmailStrategy(emailStrategyConfig, passportLogin));
+    passport.use('form-signup', new EmailStrategy(emailStrategyConfig, passportSignUp));
 
     const jwtConfig = {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -145,12 +145,12 @@ class EmailProvider {
 
     router.post(
       '/login',
-      this.passport.authenticate('email-login', { session: false }),
+      this.passport.authenticate('form-login', { session: false }),
     );
 
     router.post(
       '/signup',
-      this.passport.authenticate('email-signup', { session: false }),
+      this.passport.authenticate('form-signup', { session: false }),
     );
 
     router.get(
@@ -167,5 +167,5 @@ class EmailProvider {
 }
 
 module.exports = {
-  EmailProvider,
+  FormAuthProvider,
 };

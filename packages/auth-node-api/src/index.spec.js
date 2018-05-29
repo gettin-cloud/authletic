@@ -1,11 +1,11 @@
 const {
   Auth,
-  EmailProvider,
+  FormAuthProvider,
 } = require('./index');
 
 describe('Package public API', () => {
   it('exports are ok', () => {
     expect(Auth).toBeDefined();
-    expect(EmailProvider).toBeDefined();
+    expect(FormAuthProvider).toBeDefined();
   });
 });

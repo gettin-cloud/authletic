@@ -1,10 +1,10 @@
-import { EmailProvider } from './email-provider';
+import { FormAuthProvider } from './form-auth-provider';
 
-describe('EmailProvider', () => {
+describe('FormAuthProvider', () => {
   describe('#login', () => {
     const mockUser = {};
     const fetch = jest.fn().mockResolvedValue(mockUser);
-    const provider = new EmailProvider({
+    const provider = new FormAuthProvider({
       baseUrl: 'https://test/',
       fetch,
     });

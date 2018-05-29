@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router-dom';
 
-import { Auth, MockProvider } from '@saasless/auth-client';
+import { Auth, MockAuthProvider } from '@saasless/auth-client';
 import { Authenticator, PrivateRoute } from '@saasless/auth-react';
 
 import './App.css';
@@ -44,9 +44,9 @@ const fakeLogin = (formData) => {
     }, 1000);
   });
 };
-const mockProvider = new MockProvider({ login: fakeLogin});
+const mockAuthProvider = new MockAuthProvider({ login: fakeLogin});
 
-auth.addProvider('email', mockProvider);
+auth.addProvider('form', mockAuthProvider);
 //auth.login();
 
 //PrivateRoute.configure({ loginPath: '/login' });

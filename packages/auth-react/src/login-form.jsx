@@ -33,7 +33,7 @@ class LoginForm extends PureComponent {
       error: undefined,
     });
     return this.props.auth
-      .login('email', {
+      .login('form', {
         ...this.state.formData,
       })
       .then(() => {

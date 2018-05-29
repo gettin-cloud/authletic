@@ -1,11 +1,11 @@
 const { Auth } = require('./auth');
-const { EmailProvider } = require('./providers/email-provider');
+const { FormAuthProvider } = require('./providers/form-auth-provider');
 const { InMemoryIdentityPool } = require('./identity-pool');
 const { InMemoryUserPool } = require('./user-pool');
 
 module.exports = {
   Auth,
-  EmailProvider,
+  FormAuthProvider,
   InMemoryUserPool,
   InMemoryIdentityPool,
 };

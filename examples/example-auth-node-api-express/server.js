@@ -1,7 +1,7 @@
 const express = require('express');
 
 const {
-  EmailProvider,
+  FormAuthProvider,
   Auth,
   InMemoryIdentityPool,
   InMemoryUserPool,
@@ -10,12 +10,12 @@ const {
 const app = express();
 
 const userPool = new InMemoryUserPool();
-const emailProvider = new EmailProvider({ userPool, jwtSecret: 'test' });
+const formAuthProvider = new FormAuthProvider({ userPool, jwtSecret: 'test' });
 
 const identityPool = new InMemoryIdentityPool();
 const auth = new Auth({ identityPool, jwtSecret: 'test' });
 
-auth.use(emailProvider);
+auth.use(formAuthProvider);
 
 app.use('/', auth.api());
 

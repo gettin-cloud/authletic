@@ -1,7 +1,7 @@
-export class EmailProvider {
+export class FormAuthProvider {
   constructor(options) {
     if (options === undefined) {
-      throw new Error('Options should be provided to create an EmailProvider');
+      throw new Error('Options should be provided to create an FormAuthProvider');
     }
 
     const { baseUrl } = options;
@@ -12,7 +12,7 @@ export class EmailProvider {
     this.fetch = options.fetch || window.fetch;
 
     this.options = {
-      providerRelativePath: '/email',
+      providerRelativePath: '/form',
       ...options,
     };
   }
@@ -36,6 +36,6 @@ export class EmailProvider {
     if (!credentials || !credentials.email || !credentials.password) {
       throw new Error('Creadentials should be provided to the \'login\' method as an object { email, password }');
     }
-    return this.postData(this.url('/email/login'), credentials);
+    return this.postData(this.url('/form/login'), credentials);
   }
 }

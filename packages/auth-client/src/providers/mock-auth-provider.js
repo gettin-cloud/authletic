@@ -1,4 +1,4 @@
-export class MockProvider {
+export class MockAuthProvider {
   constructor(options) {
     this.options = {
       ...options,

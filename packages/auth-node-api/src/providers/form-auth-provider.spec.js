@@ -1,18 +1,18 @@
 const express = require('express');
 const request = require('supertest');
 
-const { EmailProvider } = require('./email-provider');
+const { FormAuthProvider } = require('./form-auth-provider');
 const {
   UserPool,
   InMemoryAdapter: UserPoolAdapter,
 } = require('../user-pool');
 
-describe('EmailProvider', () => {
+describe('FormAuthProvider', () => {
   const app = express();
 
   const userPoolAdapter = new UserPoolAdapter();
   const userPool = new UserPool({ adapter: userPoolAdapter });
-  const provider = new EmailProvider({ userPool, jwtSecret: 'test' });
+  const provider = new FormAuthProvider({ userPool, jwtSecret: 'test' });
 
   app.use(provider.api());
 
@@ -73,7 +73,7 @@ describe('EmailProvider', () => {
           expect(response.statusCode).toBe(200);
           expect(response.body.accessToken).toBeDefined();
           expect(response.body).toMatchObject({
-            provider: 'email',
+            provider: 'form',
             userId: 'testuser',
             profile: {
               id: 'testuser',
@@ -128,7 +128,7 @@ describe('EmailProvider', () => {
     //       expect(response.statusCode).toBe(200);
     //       expect(response.body.accessToken).toBeDefined();
     //       expect(response.body).toMatchObject({
-    //         provider: 'email',
+    //         provider: 'form',
     //         userId: 'testuser',
     //         profile: {
     //           id: 'testuser',

@@ -137,7 +137,7 @@ describe('LoginForm', () => {
     expect(authMock.login.mock.calls).toHaveLength(0);
     return login().then(() => {
       expect(authMock.login.mock.calls).toHaveLength(1);
-      expect(authMock.login.mock.calls[0][0]).toBe('email');
+      expect(authMock.login.mock.calls[0][0]).toBe('form');
       expect(authMock.login.mock.calls[0][1]).toEqual(formData);
     });
   });
