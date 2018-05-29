@@ -67,7 +67,7 @@ class DefaultHeader extends Component {
               <DropdownItem><i className="fa fa-file"></i> Projects<Badge color="primary">42</Badge></DropdownItem>
               <DropdownItem divider />
               <DropdownItem><i className="fa fa-shield"></i> Lock Account</DropdownItem>
-              <Logout>{({ logout }) => <DropdownItem onClick={logout}><i className="fa fa-lock"></i> Logout 123</DropdownItem>}</Logout>
+              <Logout>{({ logout }) => <DropdownItem onClick={logout}><i className="fa fa-lock"></i> Logout</DropdownItem>}</Logout>
             </DropdownMenu>
           </AppHeaderDropdown>
         </Nav>
