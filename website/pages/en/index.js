@@ -44,6 +44,7 @@ Button.defaultProps = {
 
 const SplashContainer = props => (
   <div className="homeContainer">
+    <div className="homeContainerBG"></div>
     <div className="homeSplashFade">
       <div className="wrapper homeWrapper">{props.children}</div>
     </div>
@@ -58,7 +59,7 @@ const Logo = props => (
 
 const ProjectTitle = props => (
   <h2 className="projectTitle">
-    {siteConfig.title}
+    {siteConfig.slogan}
     <small>{siteConfig.tagline}</small>
   </h2>
 );
@@ -76,14 +77,13 @@ class HomeSplash extends React.Component {
     let language = this.props.language || '';
     return (
       <SplashContainer>
-        <Logo img_src={imgUrl('docusaurus.svg')} />
         <div className="inner">
           <ProjectTitle />
-          <PromoSection>
+          {/* <PromoSection>
             <Button href="#try">Try It Out</Button>
             <Button href={docUrl('doc1.html', language)}>Example Link</Button>
             <Button href={docUrl('doc2.html', language)}>Example Link 2</Button>
-          </PromoSection>
+          </PromoSection> */}
         </div>
       </SplashContainer>
     );
@@ -104,7 +104,7 @@ const Features = props => (
     {[
       {
         content: 'This is the content of my feature',
-        image: imgUrl('docusaurus.svg'),
+        image: imgUrl('email.png'),
         imageAlign: 'top',
         title: 'Feature One',
       },

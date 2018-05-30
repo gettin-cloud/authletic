@@ -5,13 +5,45 @@ body {
   font-family: 'Sunflower', sans-serif;
 }
 
+.fixedHeaderContainer {
+  background: #00171d;
+}
+
 .navigationSlider .slidingNav ul li a {
   font-size: 1em;
   font-weight: 400;
   color: #fff;
+  border-radius: 5px;
+  margin-left: 5px;
 }
-.navigationSlider .slidingNav ul li a:hover {
-  opacity: 0.8;
+
+.homeContainer {
+  background: -webkit-linear-gradient(top, #000c0e 0%,#123f5d 100%);
+  position: relative;
+  height: 350px;
+}
+
+.homeContainerBG {
+  background: #000c0e url(/img/water-bg.jpg) no-repeat bottom;
+  background-size: cover;
+  opacity: 0.1;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+}
+
+.projectTitle {
+  color: #fff;
+  font-size: 52px;
+  margin-top: 30px;
+}
+
+.projectTitle small {
+  max-width: 680px;
+  margin: 2em auto 0;
+  line-height: 1.2em;
 }
 
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
@@ -27,4 +59,11 @@ body {
 }
 
 @media only screen and (min-width: 1500px) {
+}
+
+@media only screen and (max-width: 735px) {
+  .navigationSlider .slidingNav ul li a {
+    border-radius: 0;
+    margin-left: 0;
+  }
 }

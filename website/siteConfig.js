@@ -21,8 +21,9 @@ const users = [
 ];
 
 const siteConfig = {
-  title: 'Test Site' /* title for your website */,
-  tagline: 'A website for testing',
+  title: 'Saasless' /* title for your website */,
+  slogan: 'No More Spendings on SaaS' /* title for your website */,
+  tagline: 'Build scalable web applications at least 100X faster with open-source production-ready JavaScript libraries',
   url: 'https://your-docusaurus-test-site.com' /* your website url */,
   baseUrl: '/' /* base url for your project */,
   // For github.io type URLs, you would set the url and baseUrl like:
@@ -55,7 +56,7 @@ const siteConfig = {
   /* colors for website */
   colors: {
     primaryColor: '#1c384e',
-    secondaryColor: '#09416c',
+    secondaryColor: '#002028',
   },
 
   /* custom fonts for website */
