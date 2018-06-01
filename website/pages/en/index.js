@@ -30,7 +30,7 @@ class Button extends React.Component {
   render() {
     return (
       <div className="pluginWrapper buttonWrapper">
-        <a className="button" href={this.props.href} target={this.props.target}>
+        <a className={`button${this.props.highlight ? ' highlight' : ''}`} href={this.props.href} target={this.props.target}>
           {this.props.children}
         </a>
       </div>
@@ -60,7 +60,7 @@ const Logo = props => (
 const ProjectTitle = props => (
   <h2 className="projectTitle">
     {siteConfig.slogan}
-    <small>{siteConfig.tagline}</small>
+    <div className="subtitle">{siteConfig.tagline}</div>
   </h2>
 );
 
@@ -79,11 +79,10 @@ class HomeSplash extends React.Component {
       <SplashContainer>
         <div className="inner">
           <ProjectTitle />
-          {/* <PromoSection>
-            <Button href="#try">Try It Out</Button>
-            <Button href={docUrl('doc1.html', language)}>Example Link</Button>
-            <Button href={docUrl('doc2.html', language)}>Example Link 2</Button>
-          </PromoSection> */}
+          <PromoSection>
+          <Button href="#try" highlight>Solutions</Button>
+          <Button href="#try">Why Sassless?</Button>
+          </PromoSection>
         </div>
       </SplashContainer>
     );
@@ -124,6 +123,106 @@ const FeatureCallout = props => (
     style={{textAlign: 'center'}}>
     <h2>Feature Callout</h2>
     <MarkdownBlock>These are features of this project</MarkdownBlock>
+  </div>
+);
+
+const Technologies = props => (
+  <div
+    className="productShowcaseSection paddingBottom"
+    style={{textAlign: 'center'}}>
+    <h2>API Technology Stack</h2>
+
+    <Block layout="fourColumn">
+      {[
+        {
+          content: 'This is the content of my feature',
+          image: imgUrl('email.png'),
+          imageAlign: 'top',
+          title: 'NodeJS',
+        },
+        {
+          content: 'The content of my second feature',
+          image: imgUrl('docusaurus.svg'),
+          imageAlign: 'top',
+          title: 'Express',
+        },
+        {
+          content: 'This is the content of my feature',
+          image: imgUrl('email.png'),
+          imageAlign: 'top',
+          title: 'Hapi',
+        },
+        {
+          content: 'The content of my second feature',
+          image: imgUrl('docusaurus.svg'),
+          imageAlign: 'top',
+          title: 'Serverless',
+        },
+      ]}
+    </Block>
+
+    <h2>UI Technology Stack</h2>
+
+    <Block layout="fourColumn">
+      {[
+        {
+          content: 'This is the content of my feature',
+          image: imgUrl('email.png'),
+          imageAlign: 'top',
+          title: 'Angular',
+        },
+        {
+          content: 'The content of my second feature',
+          image: imgUrl('docusaurus.svg'),
+          imageAlign: 'top',
+          title: 'React',
+        },
+        {
+          content: 'This is the content of my feature',
+          image: imgUrl('email.png'),
+          imageAlign: 'top',
+          title: 'Vue',
+        },
+        {
+          content: 'The content of my second feature',
+          image: imgUrl('docusaurus.svg'),
+          imageAlign: 'top',
+          title: 'Custom',
+        },
+      ]}
+    </Block>
+
+    <h2>Integrated Products</h2>
+
+    <Block layout="fourColumn">
+      {[
+        {
+          content: 'This is the content of my feature',
+          image: imgUrl('email.png'),
+          imageAlign: 'top',
+          title: 'Bootstrap 4',
+        },
+        {
+          content: 'The content of my second feature',
+          image: imgUrl('docusaurus.svg'),
+          imageAlign: 'top',
+          title: 'Semantic UI',
+        },
+        {
+          content: 'This is the content of my feature',
+          image: imgUrl('email.png'),
+          imageAlign: 'top',
+          title: 'Material UI',
+        },
+        {
+          content: 'The content of my second feature',
+          image: imgUrl('docusaurus.svg'),
+          imageAlign: 'top',
+          title: 'Custom',
+        },
+      ]}
+    </Block>
+
   </div>
 );
 
@@ -204,6 +303,7 @@ class Index extends React.Component {
       <div>
         <HomeSplash language={language} />
         <div className="mainContainer">
+          <Technologies />
           <Features />
           <FeatureCallout />
           <LearnHow />

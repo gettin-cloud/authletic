@@ -22,8 +22,8 @@ const users = [
 
 const siteConfig = {
   title: 'Saasless' /* title for your website */,
-  slogan: 'No More Spendings on SaaS' /* title for your website */,
-  tagline: 'Build scalable web applications at least 100X faster with Saasless JS libraries and your favorite frameworks',
+  slogan: 'No More Wasting on SaaS' /* title for your website */,
+  tagline: 'Build scalable web applications at least 100X faster with Saasless JS libraries and your ❤️ frameworks',
   url: 'https://your-docusaurus-test-site.com' /* your website url */,
   baseUrl: '/' /* base url for your project */,
   // For github.io type URLs, you would set the url and baseUrl like:
@@ -40,7 +40,7 @@ const siteConfig = {
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
     {doc: 'doc1', label: 'Docs'},
-    {doc: 'doc4', label: 'API'},
+    {doc: 'doc4', label: 'Demos'},
     {page: 'help', label: 'Help'},
     {blog: true, label: 'Blog'},
   ],
