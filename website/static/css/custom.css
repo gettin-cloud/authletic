@@ -22,6 +22,10 @@ body {
   position: relative;
 }
 
+.homeContainer .homeWrapper {
+  padding-bottom: 70px;
+}
+
 .homeContainerBG {
   background: #000c0e url(/img/water-bg.jpg) no-repeat bottom;
   background-size: cover;
@@ -36,6 +40,7 @@ body {
 .projectTitle {
   color: #fff;
   font-size: 62px;
+  line-height: 72px;
 }
 
 .projectTitle .subtitle {
@@ -56,10 +61,12 @@ body {
 .promoRow .button {
   padding: 12px 16px;
   border: solid 2px rgba(255, 255, 255, 0.6);
-  border-radius: 5px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
   color: #fff;
-  background-color: rgba(0, 0, 0, 0.5);
-  width: 150px;
+  width: 180px;
+  font-size: 0.9em;
+  white-space: nowrap;
 }
 
 .promoRow .button.highlight {
@@ -67,7 +74,11 @@ body {
 }
 
 .promoRow .button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.promoRow .button.highlight:hover {
+  background-color: rgba(90, 0, 20, 0.7);
 }
 
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {

@@ -60,7 +60,7 @@ const Logo = props => (
 const ProjectTitle = props => (
   <h2 className="projectTitle">
     {siteConfig.slogan}
-    <div className="subtitle">{siteConfig.tagline}</div>
+    <div className="subtitle"><MarkdownBlock>{siteConfig.tagline}</MarkdownBlock></div>
   </h2>
 );
 
@@ -81,7 +81,7 @@ class HomeSplash extends React.Component {
           <ProjectTitle />
           <PromoSection>
           <Button href="#try" highlight>Solutions</Button>
-          <Button href="#try">Why Sassless?</Button>
+          <Button href="#try">Why Saasless?</Button>
           </PromoSection>
         </div>
       </SplashContainer>
@@ -135,25 +135,21 @@ const Technologies = props => (
     <Block layout="fourColumn">
       {[
         {
-          content: 'This is the content of my feature',
           image: imgUrl('email.png'),
           imageAlign: 'top',
           title: 'NodeJS',
         },
         {
-          content: 'The content of my second feature',
           image: imgUrl('docusaurus.svg'),
           imageAlign: 'top',
           title: 'Express',
         },
         {
-          content: 'This is the content of my feature',
           image: imgUrl('email.png'),
           imageAlign: 'top',
           title: 'Hapi',
         },
         {
-          content: 'The content of my second feature',
           image: imgUrl('docusaurus.svg'),
           imageAlign: 'top',
           title: 'Serverless',
