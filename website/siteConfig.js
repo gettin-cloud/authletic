@@ -22,8 +22,8 @@ const users = [
 
 const siteConfig = {
   title: 'Saasless' /* title for your website */,
-  slogan: 'No More Wasting on SaaS' /* title for your website */,
-  tagline: 'Build scalable web applications at least 100X faster with free Saasless JS libraries and your favorite ❤️ frameworks',
+  slogan: 'SaaS for Devs is Obsolete' /* title for your website */,
+  tagline: 'Build scalable web applications for free at least 100X faster with Saasless JS libraries and your favorite frameworks',
   url: 'https://your-docusaurus-test-site.com' /* your website url */,
   baseUrl: '/' /* base url for your project */,
   // For github.io type URLs, you would set the url and baseUrl like:

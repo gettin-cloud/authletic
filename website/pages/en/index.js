@@ -57,6 +57,23 @@ const Logo = props => (
   </div>
 );
 
+const Framework = props => (
+  <img src={imgUrl(props.image)} title={props.name} className="frameworkLogo" />
+);
+
+const Frameworks = props => (
+  <div className="frameworks">
+    <Framework image="logo_node.png" name="NodeJS" />
+    <Framework image="logo_express.png" name="Express" />
+    <Framework image="logo_serverless.png" name="Serverless" />
+    <Framework image="logo_aws.png" name="Amazon Web Services" />
+    <Framework image="logo_react.png" name="React" />
+    <Framework image="logo_angular.png" name="Angular" />
+    <Framework image="logo_vue.png" name="Vue" />
+    <Framework image="logo_bootstrap.png" name="Bootstrap" />
+  </div>
+);
+
 const ProjectTitle = props => (
   <h2 className="projectTitle">
     {siteConfig.slogan}
@@ -89,178 +106,6 @@ class HomeSplash extends React.Component {
   }
 }
 
-const Block = props => (
-  <Container
-    padding={['bottom', 'top']}
-    id={props.id}
-    background={props.background}>
-    <GridBlock align="center" contents={props.children} layout={props.layout} />
-  </Container>
-);
-
-const Features = props => (
-  <Block layout="fourColumn">
-    {[
-      {
-        content: 'This is the content of my feature',
-        image: imgUrl('email.png'),
-        imageAlign: 'top',
-        title: 'Feature One',
-      },
-      {
-        content: 'The content of my second feature',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'top',
-        title: 'Feature Two',
-      },
-    ]}
-  </Block>
-);
-
-const FeatureCallout = props => (
-  <div
-    className="productShowcaseSection paddingBottom"
-    style={{textAlign: 'center'}}>
-    <h2>Feature Callout</h2>
-    <MarkdownBlock>These are features of this project</MarkdownBlock>
-  </div>
-);
-
-const Technologies = props => (
-  <div
-    className="productShowcaseSection paddingBottom"
-    style={{textAlign: 'center'}}>
-    <h2>API Technology Stack</h2>
-
-    <Block layout="fourColumn">
-      {[
-        {
-          image: imgUrl('email.png'),
-          imageAlign: 'top',
-          title: 'NodeJS',
-        },
-        {
-          image: imgUrl('docusaurus.svg'),
-          imageAlign: 'top',
-          title: 'Express',
-        },
-        {
-          image: imgUrl('email.png'),
-          imageAlign: 'top',
-          title: 'Hapi',
-        },
-        {
-          image: imgUrl('docusaurus.svg'),
-          imageAlign: 'top',
-          title: 'Serverless',
-        },
-      ]}
-    </Block>
-
-    <h2>UI Technology Stack</h2>
-
-    <Block layout="fourColumn">
-      {[
-        {
-          content: 'This is the content of my feature',
-          image: imgUrl('email.png'),
-          imageAlign: 'top',
-          title: 'Angular',
-        },
-        {
-          content: 'The content of my second feature',
-          image: imgUrl('docusaurus.svg'),
-          imageAlign: 'top',
-          title: 'React',
-        },
-        {
-          content: 'This is the content of my feature',
-          image: imgUrl('email.png'),
-          imageAlign: 'top',
-          title: 'Vue',
-        },
-        {
-          content: 'The content of my second feature',
-          image: imgUrl('docusaurus.svg'),
-          imageAlign: 'top',
-          title: 'Custom',
-        },
-      ]}
-    </Block>
-
-    <h2>Integrated Products</h2>
-
-    <Block layout="fourColumn">
-      {[
-        {
-          content: 'This is the content of my feature',
-          image: imgUrl('email.png'),
-          imageAlign: 'top',
-          title: 'Bootstrap 4',
-        },
-        {
-          content: 'The content of my second feature',
-          image: imgUrl('docusaurus.svg'),
-          imageAlign: 'top',
-          title: 'Semantic UI',
-        },
-        {
-          content: 'This is the content of my feature',
-          image: imgUrl('email.png'),
-          imageAlign: 'top',
-          title: 'Material UI',
-        },
-        {
-          content: 'The content of my second feature',
-          image: imgUrl('docusaurus.svg'),
-          imageAlign: 'top',
-          title: 'Custom',
-        },
-      ]}
-    </Block>
-
-  </div>
-);
-
-const LearnHow = props => (
-  <Block background="light">
-    {[
-      {
-        content: 'Talk about learning how to use this',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'right',
-        title: 'Learn How',
-      },
-    ]}
-  </Block>
-);
-
-const TryOut = props => (
-  <Block id="try">
-    {[
-      {
-        content: 'Talk about trying this out',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'left',
-        title: 'Try it Out',
-      },
-    ]}
-  </Block>
-);
-
-const Description = props => (
-  <Block background="dark">
-    {[
-      {
-        content: 'This is another description of how this project is useful',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'right',
-        title: 'Description',
-      },
-    ]}
-  </Block>
-);
-
 const Showcase = props => {
   if ((siteConfig.users || []).length === 0) {
     return null;
@@ -279,8 +124,8 @@ const Showcase = props => {
 
   return (
     <div className="productShowcaseSection paddingBottom">
-      <h2>{"Who's Using This?"}</h2>
-      <p>This project is used by all these people</p>
+      <h2>What is Saasless?</h2>
+      <p>Saasless is a set of high-level JavaScript solutions that can replace existing SaaS products for developers. Just to save your money.</p>
       <div className="logos">{showcase}</div>
       <div className="more-users">
         <a className="button" href={pageUrl('users.html', props.language)}>
@@ -299,12 +144,7 @@ class Index extends React.Component {
       <div>
         <HomeSplash language={language} />
         <div className="mainContainer">
-          <Technologies />
-          <Features />
-          <FeatureCallout />
-          <LearnHow />
-          <TryOut />
-          <Description />
+          <Frameworks />
           <Showcase language={language} />
         </div>
       </div>

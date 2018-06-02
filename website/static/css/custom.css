@@ -55,7 +55,7 @@ body {
 }
 
 .promoRow .buttonWrapper {
-    margin: 0 5px;
+    margin: 0 15px;
 }
 
 .promoRow .button {
@@ -79,6 +79,25 @@ body {
 
 .promoRow .button.highlight:hover {
   background-color: rgba(90, 0, 20, 0.7);
+}
+
+.mainContainer {
+  background: #fff;
+}
+
+.frameworks {
+  padding: 20px;
+  text-align: center;
+  border-bottom: dashed 2px #e5eaee;
+}
+
+.frameworkLogo {
+  height: 30px;
+  margin: 20px;
+}
+
+footer.nav-footer {
+  background: #00171d;
 }
 
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
