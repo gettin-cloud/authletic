@@ -62,15 +62,22 @@ const Framework = props => (
 );
 
 const Frameworks = props => (
-  <div className="frameworks">
-    <Framework image="logo_node.png" name="NodeJS" />
-    <Framework image="logo_express.png" name="Express" />
-    <Framework image="logo_serverless.png" name="Serverless" />
-    <Framework image="logo_aws.png" name="Amazon Web Services" />
-    <Framework image="logo_react.png" name="React" />
-    <Framework image="logo_angular.png" name="Angular" />
-    <Framework image="logo_vue.png" name="Vue" />
-    <Framework image="logo_bootstrap.png" name="Bootstrap" />
+  <div className="frameworksRoot">
+    <h2>Target Technology Stack</h2>
+    <div className="frameworks">
+      <div className="frameworkTitle">Server API:</div>
+      <Framework image="logo_node.png" name="NodeJS" />
+      <Framework image="logo_express.png" name="Express" />
+      <Framework image="logo_serverless.png" name="Serverless" />
+      <Framework image="logo_aws.png" name="Amazon Web Services" />
+    </div>
+    <div className="frameworks">
+      <div className="frameworkTitle">Client UI:</div>
+      <Framework image="logo_react.png" name="React" />
+      <Framework image="logo_angular.png" name="Angular" />
+      <Framework image="logo_vue.png" name="Vue" />
+      <Framework image="logo_bootstrap.png" name="Bootstrap" />
+    </div>
   </div>
 );
 
