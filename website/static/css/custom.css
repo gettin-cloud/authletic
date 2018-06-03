@@ -82,21 +82,21 @@ body {
 }
 
 .mainContainer {
-  background: #fff;
 }
 
 .mainContainer h2 {
   color: #142e42;
   font-size: 50px;
   line-height: 1em;
-  margin: 20px 0 30px;
+  margin: 0 0 30px;
   text-align: center;
-  padding: 10px 0;
+  padding: 30px 0 10px;
 }
 
 .frameworksRoot {
+  background: #fff;
   border-bottom: dashed 2px #e5eaee;
-  padding-bottom: 30px;
+  padding-bottom: 40px;
 }
 
 .frameworks {
