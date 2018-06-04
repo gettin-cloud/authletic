@@ -98,7 +98,6 @@ const PromoSection = props => (
 
 class HomeSplash extends React.Component {
   render() {
-    let language = this.props.language || '';
     return (
       <SplashContainer>
         <div className="inner">
@@ -113,46 +112,33 @@ class HomeSplash extends React.Component {
   }
 }
 
-const Showcase = props => {
-  if ((siteConfig.users || []).length === 0) {
-    return null;
-  }
-  const showcase = siteConfig.users
-    .filter(user => {
-      return user.pinned;
-    })
-    .map((user, i) => {
-      return (
-        <a href={user.infoLink} key={i}>
-          <img src={user.image} alt={user.caption} title={user.caption} />
-        </a>
-      );
-    });
-
+const WhatIsSaasless = props => {
   return (
-    <div className="productShowcaseSection paddingBottom">
+    <div className="whatIsSaasless">
       <h2>What is Saasless?</h2>
-      <p>Saasless is a set of high-level JavaScript solutions that can replace existing SaaS products for developers. Just to save your money.</p>
-      <div className="logos">{showcase}</div>
-      <div className="more-users">
-        <a className="button" href={pageUrl('users.html', props.language)}>
-          More {siteConfig.title} Users
-        </a>
-      </div>
+      <p>Saasless is a set of high-level JavaScript libraries implementing the most demanded web development tasks. Saasless is an alternative to the paid developer-oriented SaaS products. Every Saasless solution consists of a server API library,  clien-side SDK and UI components.</p>
+    </div>
+  );
+};
+
+const Solutions = props => {
+  return (
+    <div className="solutions">
+      <h2>Saasless Solutions</h2>
+      <p>TODO</p>
     </div>
   );
 };
 
 class Index extends React.Component {
   render() {
-    let language = this.props.language || '';
-
     return (
       <div>
-        <HomeSplash language={language} />
+        <HomeSplash />
         <div className="mainContainer">
           <Frameworks />
-          <Showcase language={language} />
+          <WhatIsSaasless />
+          <Solutions />
         </div>
       </div>
     );

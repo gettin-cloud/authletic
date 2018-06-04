@@ -6,7 +6,8 @@ body {
 }
 
 .fixedHeaderContainer {
-  background: #00171d;
+  background: #001d24;
+  border-bottom: solid 1px #032d36;
 }
 
 .navigationSlider .slidingNav ul li a {
@@ -113,6 +114,28 @@ body {
   font-size: 1em;
   margin-right: 30px;
   text-transform: uppercase;
+}
+
+.whatIsSaasless {
+  color: #fff;
+  background: #001318;
+  text-align: center;
+  padding: 20px 0 60px;
+
+  background: #0c273d; /* Old browsers */
+  background: -webkit-radial-gradient(center, ellipse cover,  #152430 0%,#000000 100%); /* Chrome10-25,Safari5.1-6 */
+}
+
+.whatIsSaasless h2 {
+  color: #fff;
+}
+
+.whatIsSaasless p {
+  font-style: italic;
+  padding: 0 10%;
+  text-align: center;
+  display: inline-block;
+  max-width: 800px;
 }
 
 footer.nav-footer {
