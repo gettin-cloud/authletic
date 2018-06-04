@@ -115,8 +115,13 @@ class HomeSplash extends React.Component {
 const WhatIsSaasless = props => {
   return (
     <div className="whatIsSaasless">
-      <h2>What is Saasless?</h2>
-      <p>Saasless is a set of high-level JavaScript libraries implementing the most demanded web development tasks. Saasless is an alternative to the paid developer-oriented SaaS products. Every Saasless solution consists of a server API library,  clien-side SDK and UI components.</p>
+      <div className="whatIsSaaslessBG">
+        <h2>What is Saasless?</h2>
+        <p>
+          Saasless is a free alternative to the paid developer-oriented SaaS products.
+          It's a set of high-level and production-ready JavaScript libraries that solve the most common web development tasks.
+        </p>
+      </div>
     </div>
   );
 };
@@ -125,7 +130,7 @@ const Solutions = props => {
   return (
     <div className="solutions">
       <h2>Saasless Solutions</h2>
-      <p>TODO</p>
+      <p className="subtitle">Each solution consists of server API and client UI libraries</p>
     </div>
   );
 };
