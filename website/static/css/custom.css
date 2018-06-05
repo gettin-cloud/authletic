@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Sunflower', sans-serif;
 }
@@ -134,23 +138,81 @@ body {
 
 .whatIsSaasless p {
   font-size: 1.5em;
-  padding: 20px 10%;
+  padding: 20px 40px;
   text-align: center;
   display: inline-block;
-  max-width: 800px;
+  max-width: 1000px;
 }
 
 
 .solutions {
   text-align: center;
+  background: rgb(228, 228, 228);
+  padding: 0 40px 50px;
+}
+
+.solutions h2 {
+  font-size: 5em;
+  font-weight: 800;
 }
 
 .solutions .subtitle {
-  font-size: 1.5em;
-  padding: 0 10%;
+  font-size: 2em;
+  padding: 0 40px;
   text-align: center;
   display: inline-block;
-  max-width: 800px;
+  max-width: 1000px;
+  margin-bottom: 50px;
+}
+
+.solutions .container {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.solutions .item {
+  width: 50%;
+  padding: 20px;
+}
+
+.solutions .card {
+  width: 100%;
+  border-radius: 10px;
+  border: solid 0px #bdc8cf;
+  background: #fff;
+}
+
+.solutions .card .colored {
+  border-radius: 10px 10px 0 0;
+  text-align: center;
+}
+
+.solutions .card h3 {
+  color: #fff;
+  font-size: 2em;
+  border-radius: 10px 10px 0 0;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 20px 0;
+}
+
+.solutions .card .image {
+  display: inline-block;
+  width: 160px;
+  height: 160px;
+  border-radius: 80px;
+  margin: 20px;
+  background: #fff;
+  padding-top: 35px;
+}
+
+.solutions .card img {
+  width: 100px;
+}
+
+.solutions .card p {
+  padding: 10px;
 }
 
 footer.nav-footer {
@@ -161,6 +223,9 @@ footer.nav-footer {
 }
 
 @media only screen and (min-width: 1024px) {
+  .solutions .item {
+    width: 33.3%;
+  }
 }
 
 @media only screen and (max-width: 1023px) {
@@ -176,5 +241,8 @@ footer.nav-footer {
   .navigationSlider .slidingNav ul li a {
     border-radius: 0;
     margin-left: 0;
+  }
+  .solutions .item {
+    width: 100%;
   }
 }

@@ -118,19 +118,57 @@ const WhatIsSaasless = props => {
       <div className="whatIsSaaslessBG">
         <h2>What is Saasless?</h2>
         <p>
-          Saasless is a free alternative to the paid developer-oriented SaaS products.
-          It's a set of high-level and production-ready JavaScript libraries that solve the most common web development tasks.
+          It's a set of high-level and production-ready JS libraries that solve the most common web development problems. Saasless is an alternative to paid SaaS products and writing things from scratch.
         </p>
       </div>
     </div>
   );
 };
 
+const Solution = props => (
+  <div className="item">
+    <div className="card">
+      <div className="colored" style={{ backgroundColor: props.color }}>
+        <h3>{props.title}</h3>
+        <div className="image"><img src={imgUrl('email.png')} /></div>
+      </div>
+      <p>{props.description}</p>
+    </div>
+  </div>
+);
+
 const Solutions = props => {
   return (
     <div className="solutions">
-      <h2>Saasless Solutions</h2>
-      <p className="subtitle">Each solution consists of server API and client UI libraries</p>
+      <h2>Solutions</h2>
+      <p className="subtitle">Each solution includes server&nbsp;API and&nbsp;client&nbsp;UI&nbsp;libraries</p>
+      <div className="container">
+        <Solution
+          title="Authentication"
+          description="Some textual description"
+          color="#039be5"
+        />
+        <Solution
+          title="Authentication"
+          description="Some textual description"
+          color="#ef6c00"
+        />
+        <Solution
+          title="Authentication"
+          description="Some textual description"
+          color="#304ffe"
+        />
+        <Solution
+          title="Authentication"
+          description="Some textual description"
+          color="#039be5"
+        />
+        <Solution
+          title="Authentication"
+          description="Some textual description"
+          color="#8bc34a"
+        />
+      </div>
     </div>
   );
 };

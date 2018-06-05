@@ -59,7 +59,7 @@ const siteConfig = {
     secondaryColor: '#002028',
   },
 
-  stylesheets: [ 'https://fonts.googleapis.com/css?family=Sunflower' ],
+  stylesheets: [ 'https://fonts.googleapis.com/css?family=Sunflower:300,500,700' ],
 
   /* custom fonts for website */
   /*fonts: {
