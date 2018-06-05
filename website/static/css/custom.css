@@ -7,8 +7,8 @@ body {
 }
 
 .fixedHeaderContainer {
-  background: #001d24;
-  border-bottom: solid 1px #032d36;
+  background: #1c618c;
+  border-bottom: solid 1px #0e4961;
 }
 
 .navigationSlider .slidingNav ul li a {
@@ -17,10 +17,19 @@ body {
   color: #fff;
   border-radius: 5px;
   margin-left: 5px;
+  padding: 0 15px;
+}
+
+.navigationSlider .slidingNav ul li a:focus,
+.navigationSlider .slidingNav ul li a:hover,
+.navigationSlider .slidingNav ul li.siteNavItemActive a,
+.navigationSlider .slidingNav ul li.siteNavGroupActive a {
+  background: #3874a5;
 }
 
 .homeContainer {
-  background: -webkit-linear-gradient(top, #000c0e 0%,#123f5d 100%);
+  background: #000c0e url(/img/water_bg.jpg) no-repeat bottom;
+  background-size: cover;
   position: relative;
 }
 
@@ -29,8 +38,6 @@ body {
 }
 
 .homeContainerBG {
-  background: #000c0e url(/img/water_bg.jpg) no-repeat bottom;
-  background-size: cover;
   opacity: 0.1;
   top: 0;
   left: 0;
@@ -46,10 +53,10 @@ body {
 }
 
 .projectTitle .subtitle {
-  max-width: 680px;
+  max-width: 800px;
   margin: 1.5em auto 1.5em;
   line-height: 1.2em;
-  font-size: 40%;
+  font-size: 50%;
 }
 
 .promoSection {
@@ -62,26 +69,26 @@ body {
 
 .promoRow .button {
   padding: 12px 16px;
-  border: solid 2px rgba(255, 255, 255, 0.6);
+  border: solid 2px rgba(255, 255, 255, 0.8);
   border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgb(56, 82, 102);
   color: #fff;
-  width: 180px;
+  width: 220px;
   font-size: 1.2em;
   white-space: nowrap;
   text-transform: none;
 }
 
 .promoRow .button.highlight {
-  background-color: rgba(255, 0, 50, 0.8);
+  background-color: rgba(255, 0, 90, 1);
 }
 
 .promoRow .button:hover {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(56, 82, 102, 0.8);
 }
 
 .promoRow .button.highlight:hover {
-  background-color: rgba(90, 0, 20, 0.7);
+  background-color: rgb(255, 0, 60, 0.8);
 }
 
 .mainContainer {
@@ -127,7 +134,7 @@ body {
 }
 
 .whatIsSaaslessBG {
-  background: rgba(88, 110, 133, 0.89);
+  background: rgba(88, 110, 133, 0.95);
   padding: 20px 0 40px;
 }
 

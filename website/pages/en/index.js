@@ -180,7 +180,7 @@ class Index extends React.Component {
         <HomeSplash />
         <div className="mainContainer">
           <Frameworks />
-          <WhatIsSaasless />
+          {/* <WhatIsSaasless /> */}
           <Solutions />
         </div>
       </div>
