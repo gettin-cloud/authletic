@@ -65,14 +65,14 @@ const Frameworks = props => (
   <div className="frameworksRoot">
     <h2>Target Technology Stack</h2>
     <div className="frameworks">
-      <div className="frameworkTitle">Server API:</div>
+      <div className="frameworkTitle">API:</div>
       <Framework image="logo_node.png" name="NodeJS" />
       <Framework image="logo_express.png" name="Express" />
       <Framework image="logo_serverless.png" name="Serverless" />
       <Framework image="logo_aws.png" name="Amazon Web Services" />
     </div>
     <div className="frameworks">
-      <div className="frameworkTitle">Client UI:</div>
+      <div className="frameworkTitle">UI:</div>
       <Framework image="logo_react.png" name="React" />
       <Framework image="logo_angular.png" name="Angular" />
       <Framework image="logo_vue.png" name="Vue" />
@@ -84,7 +84,11 @@ const Frameworks = props => (
 const ProjectTitle = props => (
   <h2 className="projectTitle">
     {siteConfig.slogan}
-    <div className="subtitle"><MarkdownBlock>{siteConfig.tagline}</MarkdownBlock></div>
+    <div className="subtitle">
+      <MarkdownBlock>
+        Build scalable web applications at least 20X faster with Saasless JS libraries and your favorite frameworks
+      </MarkdownBlock>
+    </div>
   </h2>
 );
 
@@ -103,27 +107,13 @@ class HomeSplash extends React.Component {
         <div className="inner">
           <ProjectTitle />
           <PromoSection>
-          <Button href="#try" highlight>Solutions</Button>
-          <Button href="#try">Why Saasless?</Button>
+          <Button href="#try" highlight>Saasless Solutions</Button>
           </PromoSection>
         </div>
       </SplashContainer>
     );
   }
 }
-
-const WhatIsSaasless = props => {
-  return (
-    <div className="whatIsSaasless">
-      <div className="whatIsSaaslessBG">
-        <h2>What is Saasless?</h2>
-        <p>
-          It's a set of high-level and production-ready JS libraries that solve the most common web development problems. Saasless is an alternative to paid SaaS products and writing things from scratch.
-        </p>
-      </div>
-    </div>
-  );
-};
 
 const Solution = props => (
   <div className="item">
@@ -132,7 +122,7 @@ const Solution = props => (
         <h3>{props.title}</h3>
         <div className="image"><img src={imgUrl('email.png')} /></div>
       </div>
-      <p>{props.description}</p>
+      <div className="desc"><p>{props.description}</p></div>
     </div>
   </div>
 );
@@ -141,32 +131,52 @@ const Solutions = props => {
   return (
     <div className="solutions">
       <h2>Solutions</h2>
-      <p className="subtitle">Each solution includes server&nbsp;API and&nbsp;client&nbsp;UI&nbsp;libraries</p>
+      <p className="subtitle">NodeJS&nbsp;API and&nbsp;UI&nbsp;for React, Angular and Vue</p>
       <div className="container">
         <Solution
           title="Authentication"
-          description="Some textual description"
+          description="Login Forms and Social Networks"
           color="#039be5"
         />
         <Solution
-          title="Authentication"
-          description="Some textual description"
+          title="Sending Emails"
+          description="Transactional and Marketing"
           color="#ef6c00"
         />
         <Solution
-          title="Authentication"
-          description="Some textual description"
+          title="File Management"
+          description="Upload, Processing and Storing"
           color="#304ffe"
         />
         <Solution
-          title="Authentication"
-          description="Some textual description"
-          color="#039be5"
+          title="Image Processing"
+          description="Resizing, Cropping, Watermarks"
+          color="#009688"
         />
         <Solution
-          title="Authentication"
-          description="Some textual description"
+          title="CRUD"
+          description="Manage you Domain Entities"
           color="#8bc34a"
+        />
+        <Solution
+          title="Notifications"
+          description="Live Updates via WebScokets"
+          color="#8c0032"
+        />
+        <Solution
+          title="Logging"
+          description="Errors and Activities"
+          color="#33691e"
+        />
+        <Solution
+          title="Analytics"
+          description="Collect and Analyse Events"
+          color="#8532b7"
+        />
+        <Solution
+          title="Suggest a Solution"
+          description="Experiencing a Dev Pain?"
+          color="#607d8b"
         />
       </div>
     </div>
@@ -180,7 +190,6 @@ class Index extends React.Component {
         <HomeSplash />
         <div className="mainContainer">
           <Frameworks />
-          {/* <WhatIsSaasless /> */}
           <Solutions />
         </div>
       </div>
