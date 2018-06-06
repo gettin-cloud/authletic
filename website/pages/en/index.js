@@ -121,8 +121,15 @@ const Solution = props => (
       <div className="colored" style={{ backgroundColor: props.color }}>
         <h3>{props.title}</h3>
         <div className="image"><img src={imgUrl('email.png')} /></div>
+        <p className="features">
+          {props.features}
+        </p>
       </div>
-      <div className="desc"><p>{props.description}</p></div>
+      <div className="desc">
+        <p>{props.description}</p>
+        <a href="#">Gettin Started</a>
+        <a href="#">Demo</a>
+      </div>
     </div>
   </div>
 );
@@ -137,46 +144,71 @@ const Solutions = props => {
           title="Authentication"
           description="Login Forms and Social Networks"
           color="#039be5"
+          features="Setup and deploy a user registration and authentication API service in minutes. Take ready-to-use Login and Sign Up form UI components."
         />
         <Solution
           title="Sending Emails"
           description="Transactional and Marketing"
           color="#ef6c00"
+          features={[
+
+          ]}
         />
         <Solution
           title="File Management"
           description="Upload, Processing and Storing"
           color="#304ffe"
+          features={[
+
+          ]}
         />
         <Solution
           title="Image Processing"
           description="Resizing, Cropping, Watermarks"
           color="#009688"
+          features={[
+
+          ]}
         />
         <Solution
           title="CRUD"
           description="Manage you Domain Entities"
           color="#8bc34a"
+          features={[
+
+          ]}
         />
         <Solution
           title="Notifications"
           description="Live Updates via WebScokets"
           color="#8c0032"
+          features={[
+
+          ]}
         />
         <Solution
           title="Logging"
           description="Errors and Activities"
           color="#33691e"
+          features={[
+
+          ]}
         />
         <Solution
           title="Analytics"
           description="Collect and Analyse Events"
           color="#8532b7"
+          features={[
+
+          ]}
         />
         <Solution
           title="Suggest a Solution"
           description="Experiencing a Dev Pain?"
           color="#607d8b"
+          features={[
+
+          ]}
         />
       </div>
     </div>
