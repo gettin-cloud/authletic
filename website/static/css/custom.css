@@ -165,6 +165,7 @@ body {
   position: relative;
   border-radius: 10px 10px 0 0;
   text-align: center;
+  overflow: hidden;
 }
 
 .solutions .card h3 {
@@ -190,7 +191,7 @@ body {
 
 .solutions .card:hover .image {
   opacity: 0;
-  transform: scale(1.2, 1.2) rotate(720deg);
+  transform: scale(1.5, 1.5) rotate(720deg);
 }
 
 .solutions .card img {
@@ -202,7 +203,7 @@ body {
   position: absolute;
   left: 0px;
   top: 60px;
-  text-align: left;
+  text-align: center;
   color: #fff;
   padding: 20px;
   font-size: 1.3em;
@@ -216,11 +217,50 @@ body {
 }
 
 .solutions .card .desc {
+  position: relative;
   height: 100px;
   padding: 10px 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.solutions .card .desc p {
+  position: absolute;
+  opacity: 1;
+  transform: translate3d(0px, 0px, 0px);
+  transition: all 0.2s ease;
+}
+
+.solutions .card .desc .buttons {
+  position: absolute;
+  opacity: 0;
+  transform: translate3d(0px, 30px, 0px);
+  transition: all 0.2s ease;
+}
+
+.solutions .card .desc .buttons a {
+  transition: all 0.2s ease;
+  display: inline-block;
+  width: 180px;
+  height: 40px;
+  padding-top: 7px;
+  margin: 5px 15px;
+  border: solid 2px #83a7c2;
+  color: #5e83a0;
+  border-radius: 10px;
+}
+
+.solutions .card:hover .desc p {
+  position: absolute;
+  opacity: 0;
+  transform: translate3d(0px, -30px, 0px);
+}
+
+.solutions .card:hover .desc .buttons {
+  position: absolute;
+  opacity: 1;
+  transform: translate3d(0px, 0px, 0px);
 }
 
 .solutions .card p {
