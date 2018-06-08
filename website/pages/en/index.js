@@ -153,55 +153,55 @@ const Solutions = props => {
           title="Authentication"
           description="Login Forms and Social Networks"
           color="#039be5"
-          features="Setup and deploy scalable user registration and authentication API in minutes. Easily connect your Login and Sign Up forms to the API."
+          features="Setup and deploy scalable user registration and authentication API in minutes. Easily connect your Login and Sign Up forms to the API"
         />
         <Solution
           title="Sending Emails"
           description="Transactional and Marketing"
           color="#ef6c00"
-          features={"Create, store and manage email templates. Send emails to single recepients or user groups. Seamlessly integrate with Saasless Analytics."}
+          features={"Create, store and manage email templates. Send emails to single recepients or user groups. Seamlessly integrate with Saasless Analytics"}
         />
         <Solution
           title="File Management"
           description="Upload, Process, Store, Download"
           color="#304ffe"
-          features={"Upload multiple files at once. Allow your users to copy-paste and drag'n'drop files to upload. Manage file folders. Enable CDN for downloading."}
+          features={"Upload multiple files at once. Allow your users to copy-paste and drag'n'drop files to upload. Manage file folders. Enable CDN for downloading"}
         />
         <Solution
           title="Image Processing"
           description="Resizing, Cropping, Watermarks"
           color="#009688"
-          features={"Create thumbnails, resize and crop images on-the-fly. Provide image editing capability for you end-users. Protect images by watermarks."}
+          features={"Create thumbnails, resize and crop images on-the-fly. Provide image editing capability for you end-users. Protect images by watermarks"}
         />
         <Solution
           title="CRUD"
           description="Manage you Domain Entities"
           color="#8bc34a"
-          features={""}
+          features={"Store your app data in SQL or NoSQL data bases. Describe entity properties and relationships and get a ready-to-use CMS UI automatically"}
         />
         <Solution
           title="Notifications"
           description="Live Updates via WebScokets"
           color="#8c0032"
-          features={""}
+          features={"Empower you app UI with instant updates. Send push notifications controlling their target recepients and process them on the client-side"}
         />
         <Solution
           title="Logging"
           description="Errors and Activities"
           color="#33691e"
-          features={""}
+          features={"Seamlessly enable loggin in your application on both server and client sides. Track and record errors with the action trails that cause them"}
         />
         <Solution
           title="Analytics"
           description="Collect and Analyse Events"
           color="#8532b7"
-          features={""}
+          features={"Collect, store, process and visualize data to analyse. Build simple charts and complex dashboards with Saasless Analytics API and UI suite"}
         />
         <Solution
           title="Suggest a Solution"
           description="Experiencing a Dev Pain?"
           color="#607d8b"
-          features={""}
+          features={"Let us know if we can do something to simplify a JavaScript developer life. What are you struggling with right now? What can we improve?"}
         />
       </div>
     </div>

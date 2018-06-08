@@ -116,8 +116,8 @@ body {
 .frameworkTitle {
   color: #888;
   height: 81px;
-  line-height: 81px;
-  font-size: 2em;
+  line-height: 88px;
+  font-size: 1.2em;
   margin-right: 30px;
   text-transform: uppercase;
 }
