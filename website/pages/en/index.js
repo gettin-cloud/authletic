@@ -63,7 +63,7 @@ const Framework = props => (
 
 const Frameworks = props => (
   <div className="frameworksRoot">
-    <h2>Target Technology Stack</h2>
+    <h2>Friendly Technology Stack</h2>
     <div className="frameworks">
       <div className="frameworkTitle">API:</div>
       <Framework image="logo_node.png" name="NodeJS" />
@@ -86,7 +86,7 @@ const ProjectTitle = props => (
     {siteConfig.slogan}
     <div className="subtitle">
       <MarkdownBlock>
-        Build scalable web applications at least 20X faster with Saasless JS libraries and your favorite frameworks
+        Don't spend money on paid SaaS for developers. Use free Saasless JS libraries and your favorite frameworks to build modern and scalable web applications in minutes
       </MarkdownBlock>
     </div>
   </h2>
@@ -107,7 +107,7 @@ class HomeSplash extends React.Component {
         <div className="inner">
           <ProjectTitle />
           <PromoSection>
-          <Button href="#try" highlight>Saasless Solutions</Button>
+          <Button href="#try" highlight>Explore Solutions</Button>
           </PromoSection>
         </div>
       </SplashContainer>
@@ -147,7 +147,7 @@ const Solutions = props => {
   return (
     <div className="solutions">
       <h2>Solutions</h2>
-      <p className="subtitle">NodeJS&nbsp;API and&nbsp;UI&nbsp;for React, Angular and Vue</p>
+      <p className="subtitle">NodeJS&nbsp;APIs bound to&nbsp;React, Angular or Vue UI</p>
       <div className="container">
         <Solution
           title="Authentication"
@@ -163,15 +163,15 @@ const Solutions = props => {
         />
         <Solution
           title="File Management"
-          description="Upload, Processing and Storing"
+          description="Upload, Process, Store, Download"
           color="#304ffe"
-          features={""}
+          features={"Upload multiple files at once. Allow your users to copy-paste and drag'n'drop files to upload. Manage file folders. Enable CDN for downloading."}
         />
         <Solution
           title="Image Processing"
           description="Resizing, Cropping, Watermarks"
           color="#009688"
-          features={""}
+          features={"Create thumbnails, resize and crop images on-the-fly. Provide image editing capability for you end-users. Protect images by watermarks."}
         />
         <Solution
           title="CRUD"
