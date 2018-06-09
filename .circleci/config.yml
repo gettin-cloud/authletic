@@ -15,15 +15,15 @@ jobs:
       - run: yarn run build
       - run: yarn run lint
       - run:
-          name: "Linter"
-          command: yarn run lint -- --format junit -o lint-results.xml
+          name: "JavaScript Linter"
+          command: yarn run lint -- --format junit -o reports/junit/js-lint-results.xml
       - run:
-          name: "Test Suite"
-          command: yarn run test -- --runInBand --ci --testResultsProcessor="jest-junit"
+          name: "JavaScript Test Suite"
+          command: yarn run test -- -- -- --runInBand --ci --testResultsProcessor="jest-junit"
           environment:
             JEST_JUNIT_OUTPUT: "~repo/test-results.xml"
 
       - store_test_results:
-          path: ~repo
+          path: ~/repo
       - store_artifacts:
-          path: ~repo/**/*.xml
+          path: ~/repo
