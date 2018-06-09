@@ -15,7 +15,11 @@ jobs:
       - run: yarn run build
       - run: yarn run lint
       - run:
-          command: yarn run test -- -- -- --runInBand --ci --testResultsProcessor="jest-junit"
+          name: "JavaScript Linter"
+          command: yarn run lint -- --format junit -o reports/junit/js-lint-results.xml
+      - run:
+          name: "JavaScript Test Suite"
+          command: yarn run test -- --runInBand --ci --testResultsProcessor="jest-junit"
           environment:
             JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
 
