@@ -1,35 +1,23 @@
 const siteConfig = {
-  title: 'Saasless' /* title for your website */,
+  title: 'Saasless',
   tagline: 'scalable JavaScript solutions for Node.js, React, Angular and Vue',
   disableHeaderTitle: true,
-  slogan: 'SaaS for Devs is Obsolete' /* slogan for your website */,
-  url: 'https://saasless.io' /* your website url */,
-  baseUrl: '/' /* base url for your project */,
-  // For github.io type URLs, you would set the url and baseUrl like:
-  //   url: 'https://facebook.github.io',
-  //   baseUrl: '/test-site/',
+  url: 'https://saasless.io',
+  baseUrl: '/',
 
-  // Used for publishing and more
-  projectName: 'test-site',
-  organizationName: 'facebook',
-  // For top-level user or org sites, the organization is still the same.
-  // e.g., for the https://JoelMarcey.github.io site, it would be set like...
-  //   organizationName: 'JoelMarcey'
+  projectName: 'saasless',
+  organizationName: 'saasless',
 
-  // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    {doc: 'doc1', label: 'Docs'},
-    {doc: 'doc4', label: 'Demos'},
-    {page: 'help', label: 'Help'},
-    {blog: true, label: 'Blog'},
+    { doc: 'doc1', label: 'Docs' },
+    { page: 'help', label: 'Demos' },
+    { blog: true, label: 'Blog' },
   ],
 
-  /* path to images for header/footer */
   headerIcon: 'img/logo.png',
   footerIcon: 'img/logo.png',
   favicon: 'img/favicon.png',
 
-  /* colors for website */
   colors: {
     primaryColor: '#1c384e',
     secondaryColor: '#002028',
@@ -37,42 +25,21 @@ const siteConfig = {
 
   stylesheets: [ 'https://fonts.googleapis.com/css?family=Sunflower:300,500,700' ],
 
-  /* custom fonts for website */
-  /*fonts: {
-    myFont: [
-      "Times New Roman",
-      "Serif"
-    ],
-    myOtherFont: [
-      "-apple-system",
-      "system-ui"
-    ]
-  },*/
-
-  // This copyright info is used in /core/Footer.js and blog rss/atom feeds.
   copyright:
     'Copyright © ' +
     new Date().getFullYear() +
-    ' Your Name or Your Company Name',
+    ' Saasless',
 
   highlight: {
-    // Highlight.js theme to use for syntax highlighting in code blocks
     theme: 'default',
   },
 
-  // Add custom scripts here that would be placed in <script> tags
   scripts: ['https://buttons.github.io/buttons.js'],
 
-  /* On page navigation for the current documentation page */
   onPageNav: 'separate',
 
-  /* Open Graph and Twitter card images */
-  ogImage: 'img/docusaurus.png',
-  twitterImage: 'img/docusaurus.png',
-
-  // You may provide arbitrary config keys to be used as needed by your
-  // template. For example, if you need your repo's URL...
-  //   repoUrl: 'https://github.com/facebook/test-site',
+  ogImage: 'img/logo.png',
+  twitterImage: 'img/logo.png',
 };
 
 module.exports = siteConfig;

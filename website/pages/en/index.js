@@ -83,7 +83,7 @@ const Frameworks = props => (
 
 const ProjectTitle = props => (
   <h2 className="projectTitle">
-    {siteConfig.slogan}
+    SaaS for Devs is Obsolete
     <div className="subtitle">
       <MarkdownBlock>
         Don't spend money on paid SaaS for developers. Use free Saasless JS libraries and your favorite frameworks to build modern and scalable web applications in minutes
@@ -174,7 +174,7 @@ const Solutions = props => {
           features={"Create thumbnails, resize and crop images on-the-fly. Provide image editing capability for you end-users. Protect images by watermarks"}
         />
         <Solution
-          title="CRUD"
+          title="CRUD / CMS"
           description="Manage you Domain Entities"
           color="#8bc34a"
           features={"Store your app data in SQL or NoSQL data bases. Describe entity properties and relationships and get a ready-to-use CMS UI automatically"}
