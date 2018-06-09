@@ -14,13 +14,9 @@ class Logout extends PureComponent {
     this.props.auth
       .logout()
       .then(() => {
-        console.log('logged out');
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
       });
-
-    console.log('loging out');
   }
   render() {
     const { children } = this.props;

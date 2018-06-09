@@ -136,6 +136,5 @@ describe('PrivateRoute', () => {
     authMock.isAuthenticated.mockReturnValue(true);
     history.replace('/some-uri/not-exact');
     expect(history.location.pathname).toBe('/some-uri/not-exact');
-
   });
 });

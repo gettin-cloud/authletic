@@ -14,5 +14,4 @@ describe('InMemoryStore', () => {
     store.removeItem('test');
     expect(store.getItem('test')).toBeUndefined();
   });
-
 });
