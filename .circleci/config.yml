@@ -15,3 +15,8 @@ jobs:
       - run: yarn run build
       - run: yarn run lint
       - run: yarn run test:coverage -- -- -- --maxWorkers=2
+      - store_artifacts:
+          path: ./test-results
+          prefix: tests
+      - store_test_results:
+          path: test-results

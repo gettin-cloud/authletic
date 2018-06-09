@@ -13,6 +13,9 @@
   "files": [
     "dist"
   ],
+  "jest": {
+    "coverageDirectory": "../../test-results/auth-react"
+  },
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
