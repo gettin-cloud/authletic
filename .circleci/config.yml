@@ -20,10 +20,8 @@ jobs:
       - run:
           name: "JavaScript Test Suite"
           command: yarn run test -- maxWorkers=2 --ci --testResultsProcessor="jest-junit"
-          environment:
-            JEST_JUNIT_OUTPUT: "test-results.xml"
 
       - store_test_results:
-          path: ~/repo/auth-react/test-results.xml
+          path: packages/auth-react/junit.xml
       - store_artifacts:
-          path: ~/repo/auth-react/test-results.xml
+          path: packages/auth-react/junit.xml
