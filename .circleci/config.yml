@@ -19,9 +19,9 @@ jobs:
           command: yarn run lint -- --format junit -o reports/junit/js-lint-results.xml
       - run:
           name: "JavaScript Test Suite"
-          command: yarn run test -- -- -- --runInBand --ci --testResultsProcessor="jest-junit"
+          command: yarn run test -- --runInBand --ci --testResultsProcessor="jest-junit"
           environment:
-            JEST_JUNIT_OUTPUT: "~repo/test-results.xml"
+            JEST_JUNIT_OUTPUT: "test-results.xml"
 
       - store_test_results:
           path: ~/repo
