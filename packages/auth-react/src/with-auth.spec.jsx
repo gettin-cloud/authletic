@@ -44,6 +44,6 @@ describe('withAuth', () => {
     );
 
     expect(passedProps.auth).toBe(authMock);
-    expect(passedProps.isAuthenticated).toBe('test');
+    expect(passedProps.isAuthenticated).toBe('test1');
   });
 });

@@ -5,6 +5,8 @@ coverage
 test-results
 .vscode
 *.log
+junit.xml
+
 
 lib/core/metadata.js
 lib/core/MetadataBlog.js
