@@ -14,7 +14,12 @@ jobs:
       - run: yarn --no-progress
       - run: yarn run build
       - run: yarn run lint
-      - run: yarn run test -- -- -- --runInBand --ci --testResultsProcessor="jest-junit"
+      - run:
+          command: yarn run test -- -- -- --runInBand --ci --testResultsProcessor="jest-junit"
+          environment:
+            JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
 
       - store_test_results:
-          path: test-results
+          path: reports/junit
+      - store_artifacts:
+          path: reports/junit
