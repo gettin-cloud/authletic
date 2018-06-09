@@ -19,4 +19,4 @@ jobs:
           path: ./test-results
           prefix: tests
       - store_test_results:
-          path: test-results/**/clover.xml
+          path: test-results/auth-client/clover.xml
