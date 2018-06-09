@@ -15,11 +15,12 @@
   },
   "scripts": {
     "postinstall": "check-node-version --quiet --node \">=6.11.1\" --npm \">=5.3.0\" --yarn \">=1.0.0\"",
+    "test": "lerna run test",
+    "test:coverage": "lerna run test:coverage",
     "build": "lerna run build",
     "build:watch": "lerna run --parallel build:watch",
     "lint": "lerna run lint",
-    "lint:ci": "lerna run lint:ci",
-    "test": "lerna run test"
+    "lint:ci": "lerna run lint:ci"
   },
   "workspaces": {
     "packages": [
