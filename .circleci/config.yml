@@ -24,6 +24,6 @@ jobs:
             JEST_JUNIT_OUTPUT: "test-results.xml"
 
       - store_test_results:
-          path: ~repo/packages/auth-client
+          path: ~repo
       - store_artifacts:
-          path: ~repo/packages/auth-client
+          path: ~repo
