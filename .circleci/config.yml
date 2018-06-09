@@ -21,9 +21,9 @@ jobs:
           name: "Test Suite"
           command: yarn run test -- --runInBand --ci --testResultsProcessor="jest-junit"
           environment:
-            JEST_JUNIT_OUTPUT: "test-results.xml"
+            JEST_JUNIT_OUTPUT: "~repo/test-results.xml"
 
       - store_test_results:
           path: ~repo
       - store_artifacts:
-          path: ~repo
+          path: ~repo/**/*.xml
