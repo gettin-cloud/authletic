@@ -3,6 +3,7 @@
   "localized-strings": {
     "next": "Next",
     "previous": "Previous",
+    "tagline": "scalable JavaScript solutions for Node.js, React, Angular and Vue",
     "doc1": "Latin-ish",
     "Example Page": "Example Page",
     "doc2": "document number 2",

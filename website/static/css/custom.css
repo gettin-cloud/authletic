@@ -11,6 +11,10 @@ body {
   border-bottom: solid 1px #0e4961;
 }
 
+.fixedHeaderContainer .logo {
+  height: 25px;
+}
+
 .navigationSlider .slidingNav ul li a {
   font-size: 1.2em;
   font-weight: 300;

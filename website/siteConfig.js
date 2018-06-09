@@ -1,29 +1,9 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-// See https://docusaurus.io/docs/site-config.html for all the possible
-// site configuration options.
-
-/* List of projects/orgs using your project for the users page */
-const users = [
-  {
-    caption: 'User1',
-    // You will need to prepend the image path with your baseUrl
-    // if it is not '/', like: '/test-site/img/docusaurus.svg'.
-    image: '/img/docusaurus.svg',
-    infoLink: 'https://www.facebook.com',
-    pinned: true,
-  },
-];
-
 const siteConfig = {
   title: 'Saasless' /* title for your website */,
-  slogan: 'SaaS for Devs is Obsolete' /* title for your website */,
-  url: 'https://your-docusaurus-test-site.com' /* your website url */,
+  tagline: 'scalable JavaScript solutions for Node.js, React, Angular and Vue',
+  disableHeaderTitle: true,
+  slogan: 'SaaS for Devs is Obsolete' /* slogan for your website */,
+  url: 'https://saasless.io' /* your website url */,
   baseUrl: '/' /* base url for your project */,
   // For github.io type URLs, you would set the url and baseUrl like:
   //   url: 'https://facebook.github.io',
@@ -44,12 +24,9 @@ const siteConfig = {
     {blog: true, label: 'Blog'},
   ],
 
-  // If you have users set above, you add it here:
-  users,
-
   /* path to images for header/footer */
-  headerIcon: 'img/docusaurus.svg',
-  footerIcon: 'img/docusaurus.svg',
+  headerIcon: 'img/logo.png',
+  footerIcon: 'img/logo.png',
   favicon: 'img/favicon.png',
 
   /* colors for website */

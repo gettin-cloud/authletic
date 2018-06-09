@@ -147,7 +147,7 @@ const Solutions = props => {
   return (
     <div className="solutions">
       <h2>Solutions</h2>
-      <p className="subtitle">NodeJS&nbsp;APIs bound to&nbsp;React, Angular or Vue UI</p>
+      <p className="subtitle">Node.js&nbsp;APIs bound to&nbsp;React, Angular or Vue UI</p>
       <div className="container">
         <Solution
           title="Authentication"
