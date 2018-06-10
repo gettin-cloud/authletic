@@ -16,6 +16,9 @@
   "jest": {
     "coverageDirectory": "../../test-results/auth-client"
   },
+  "jest-junit": {
+    "output": "../../test-results/auth-client/junit.xml"
+  },
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",

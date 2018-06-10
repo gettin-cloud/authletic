@@ -15,6 +15,9 @@
   "jest": {
     "coverageDirectory": "../../test-results/auth-node-api"
   },
+  "jest-junit": {
+    "output": "../../test-results/auth-node-api/junit.xml"
+  },
   "devDependencies": {
     "express": "^4.16.3",
     "jest": "^22.1.2",

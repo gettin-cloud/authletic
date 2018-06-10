@@ -14,11 +14,10 @@
     "dist"
   ],
   "jest": {
-    "coverageDirectory": "../../test-results/auth-react",
-    "reporters": [
-      "default",
-      [ "jest-junit", { "output": "../../test-results/auth-react/junit.xml" } ]
-    ]
+    "coverageDirectory": "../../test-results/auth-react"
+  },
+  "jest-junit": {
+    "output": "../../test-results/auth-react/junit.xml"
   },
   "scripts": {
     "test": "jest",
