@@ -17,7 +17,7 @@ describe('Auth', () => {
 
     it('has default configuration', () => {
       const auth = new Auth();
-      expect(auth.getLoginPath()).toBe('/login1');
+      expect(auth.getLoginPath()).toBe('/login');
     });
   });
 
