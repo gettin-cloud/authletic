@@ -17,6 +17,7 @@
     "postinstall": "check-node-version --quiet --node \">=6.11.1\" --npm \">=5.3.0\" --yarn \">=1.0.0\"",
     "test": "lerna run test",
     "test:coverage": "lerna run test:coverage",
+    "test:ci": "lerna run test -- -- --maxWorkers=2 --ci --testResultsProcessor=\"jest-junit\"",
     "build": "lerna run build",
     "build:watch": "lerna run --parallel build:watch",
     "lint": "lerna run lint",
