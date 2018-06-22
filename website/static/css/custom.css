@@ -128,7 +128,7 @@ body {
 
 .solutions {
   text-align: center;
-  background: rgb(228, 228, 228);
+  background: #edebeb;
   padding: 20px 40px 50px;
 }
 
@@ -163,6 +163,7 @@ body {
   border-radius: 10px;
   border: solid 0px #bdc8cf;
   background: #fff;
+  box-shadow: 1px 3px 24px -4px rgba(0,0,0,0.26);
 }
 
 .solutions .card .colored {
