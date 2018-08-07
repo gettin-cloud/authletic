@@ -83,10 +83,10 @@ const Frameworks = props => (
 
 const ProjectTitle = props => (
   <h2 className="projectTitle">
-    SaaS for Devs is Obsolete
+    SaaS Bricks for Modern Apps
     <div className="subtitle">
       <MarkdownBlock>
-        Don't spend money on paid SaaS for developers. Use free Saasless JS libraries and your favorite frameworks to build modern and scalable web applications in minutes
+        Don't reinvent the wheel. Use scalable and secure solutions with zero development, deployment and maintanance costs.
       </MarkdownBlock>
     </div>
   </h2>
@@ -147,7 +147,7 @@ const Solutions = props => {
   return (
     <div className="solutions">
       <h2>Solutions</h2>
-      <p className="subtitle">Node.js&nbsp;APIs bound to&nbsp;React, Angular or Vue UI</p>
+      <p className="subtitle">Hosted&nbsp;RESTful APIs bound to&nbsp;React, Angular or Vue UI</p>
       <div className="container">
         <Solution
           title="Authentication"
