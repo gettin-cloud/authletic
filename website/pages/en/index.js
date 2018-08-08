@@ -83,10 +83,10 @@ const Frameworks = props => (
 
 const ProjectTitle = props => (
   <h2 className="projectTitle">
-    SaaS Bricks for Modern Apps
+    Essential APIs for&nbsp;Web&nbsp;Apps
     <div className="subtitle">
       <MarkdownBlock>
-        Don't reinvent the wheel. Use scalable and secure solutions with zero development, deployment and maintanance costs.
+        Don't reinvent the wheel. Use scalable full-stack solutions with no development, deployment and maintanance costs.
       </MarkdownBlock>
     </div>
   </h2>
@@ -147,7 +147,7 @@ const Solutions = props => {
   return (
     <div className="solutions">
       <h2>Solutions</h2>
-      <p className="subtitle">Hosted&nbsp;RESTful APIs bound to&nbsp;React, Angular or Vue UI</p>
+      <p className="subtitle">Hosted&nbsp;microservices with ready-to-use UI <br/>for React, Angular and Vue</p>
       <div className="container">
         <Solution
           title="Authentication"
