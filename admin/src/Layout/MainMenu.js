@@ -1,4 +1,6 @@
 import React from 'react';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -18,36 +20,61 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Orders" />
-    </ListItem>
+    <ListSubheader>Web Services</ListSubheader>
     <ListItem button>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Customers" />
+      <ListItemText primary="Authentication" />
+    </ListItem>
+    <ListItem button>
+      <ListItemIcon>
+        <ShoppingCartIcon />
+      </ListItemIcon>
+      <ListItemText primary="Sending Emails" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
         <BarChartIcon />
       </ListItemIcon>
-      <ListItemText primary="Reports" />
+      <ListItemText primary="File Management" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
         <LayersIcon />
       </ListItemIcon>
-      <ListItemText primary="Integrations" />
+      <ListItemText primary="Image Processing" />
+    </ListItem>
+    <ListItem button>
+      <ListItemIcon>
+        <PeopleIcon />
+      </ListItemIcon>
+      <ListItemText primary="CMS / CRUD" />
+    </ListItem>
+    <ListItem button>
+      <ListItemIcon>
+        <ShoppingCartIcon />
+      </ListItemIcon>
+      <ListItemText primary="Notifications" />
+    </ListItem>
+    <ListItem button>
+      <ListItemIcon>
+        <BarChartIcon />
+      </ListItemIcon>
+      <ListItemText primary="Logging" />
+    </ListItem>
+    <ListItem button>
+      <ListItemIcon>
+        <LayersIcon />
+      </ListItemIcon>
+      <ListItemText primary="Analytics" />
     </ListItem>
   </div>
 );
 
 export const secondaryListItems = (
   <div>
-    <ListSubheader inset>Saved reports</ListSubheader>
+    <ListSubheader>Saved reports</ListSubheader>
     <ListItem button>
       <ListItemIcon>
         <AssignmentIcon />
@@ -68,3 +95,14 @@ export const secondaryListItems = (
     </ListItem>
   </div>
 );
+
+const MainMenu = () => (
+  <React.Fragment>
+    <Divider />
+    <List>{mainListItems}</List>
+    <Divider />
+    <List>{secondaryListItems}</List>
+  </React.Fragment>
+);
+
+export default MainMenu;

@@ -6,15 +6,14 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './ListItems';
+import MainMenu from './MainMenu';
+import InnerMenu from './InnerMenu';
 
 const drawerWidth = 240;
 
@@ -80,7 +79,7 @@ const styles = theme => ({
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
+    padding: 0,//theme.spacing.unit * 3,
     height: '100vh',
     overflow: 'auto',
   },
@@ -150,13 +149,11 @@ class Dashboard extends React.Component {
                 <ChevronLeftIcon />
               </IconButton>
             </div>
-            <Divider />
-            <List>{mainListItems}</List>
-            <Divider />
-            <List>{secondaryListItems}</List>
+            <MainMenu />
           </Drawer>
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
+            <InnerMenu />
             <Typography variant="display1" gutterBottom>
               Orders
             </Typography>

@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Dashboard from './Dashboard/Dashboard';
+import Layout from './Layout/Layout';
 
 export default function App() {
   return (
-    <Dashboard />
+    <Layout />
   );
 }
 
