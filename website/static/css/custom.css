@@ -7,12 +7,8 @@ body {
 }
 
 .fixedHeaderContainer {
-  background: #1c618c;
+  background: #3b495a;
   border-bottom: solid 1px #0e4961;
-}
-
-.fixedHeaderContainer .logo {
-  height: 25px;
 }
 
 .navigationSlider .slidingNav ul li a {
@@ -32,7 +28,7 @@ body {
 }
 
 .homeContainer {
-  background: #000c0e url(/img/water_bg.jpg) no-repeat bottom;
+  background: #647bfd;/* url(/img/water_bg.jpg) no-repeat bottom;*/
   background-size: cover;
   position: relative;
 }
