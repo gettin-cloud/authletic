@@ -2,10 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Layout from './Layout/Layout';
 
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
+
 export default function App() {
   return (
-    <Layout />
+    <Router>
+      <Route exact path="/" component={Layout}/>
+    </Router>
   );
 }
-
-ReactDOM.render(<App />, document.querySelector('#app'));
