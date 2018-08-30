@@ -7,6 +7,7 @@ import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -18,9 +19,10 @@ import {
   Link
 } from 'react-router-dom'
 
+import { Logout } from '@saasless/auth-react';
 
-import MainMenu from './MainMenu';
-import InnerMenu from './InnerMenu';
+import MainMenu from '../views/MainMenu';
+import InnerMenu from '../views/InnerMenu';
 
 const drawerWidth = 240;
 
@@ -142,6 +144,11 @@ class Dashboard extends React.Component {
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
+              <Logout>{({ logout }) => (
+                <Button color="inherit" onClick={logout}>
+                  Log Out
+                </Button>
+              )}</Logout>
             </Toolbar>
           </AppBar>
           <Drawer
