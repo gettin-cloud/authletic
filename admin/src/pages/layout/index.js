@@ -1,4 +1,7 @@
 import React from 'react';
+
+import { Route, Switch, withRouter } from 'react-router-dom';
+
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -14,15 +17,10 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
-import {
-  Route,
-  Link
-} from 'react-router-dom'
-
 import { Logout } from '@saasless/auth-react';
 
-import MainMenu from '../views/MainMenu';
-import InnerMenu from '../views/InnerMenu';
+import { MainMenu } from './main-menu';
+import { Dashboard } from '../dashboard';
 
 const drawerWidth = 240;
 
@@ -100,7 +98,7 @@ const styles = theme => ({
   },
 });
 
-class Dashboard extends React.Component {
+class Layout extends React.Component {
   state = {
     open: true,
   };
@@ -137,7 +135,7 @@ class Dashboard extends React.Component {
                 <MenuIcon />
               </IconButton>
               <Typography variant="title" color="inherit" noWrap className={classes.title}>
-                Dashboard
+                My Application
               </Typography>
               <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">
@@ -167,19 +165,9 @@ class Dashboard extends React.Component {
           </Drawer>
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
-            <InnerMenu />
-            <Typography variant="display1" gutterBottom>
-              Orders
-            </Typography>
-            <Typography component="div" className={classes.chartContainer}>
-              123
-            </Typography>
-            <Typography variant="display1" gutterBottom>
-              Products
-            </Typography>
-            <div className={classes.tableContainer}>
-              123
-            </div>
+            <Switch>
+            <Route path="/" name="Dashboard" component={Dashboard} />
+          </Switch>
           </main>
         </div>
       </React.Fragment>
@@ -187,8 +175,8 @@ class Dashboard extends React.Component {
   }
 }
 
-Dashboard.propTypes = {
+Layout.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Dashboard);
+export default withStyles(styles)(Layout);
