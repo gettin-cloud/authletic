@@ -21,6 +21,7 @@ import { Logout } from '@saasless/auth-react';
 
 import { MainMenu } from './main-menu';
 import { Dashboard } from '../dashboard';
+import { Authentication } from '../authentication';
 
 const drawerWidth = 240;
 
@@ -166,8 +167,9 @@ class Layout extends React.Component {
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             <Switch>
-            <Route path="/" name="Dashboard" component={Dashboard} />
-          </Switch>
+              <Route exact path="/" component={Dashboard} />
+              <Route path="/auth" component={Authentication} />
+            </Switch>
           </main>
         </div>
       </React.Fragment>
