@@ -13,13 +13,8 @@ import LayersIcon from '@material-ui/icons/Layers';
 
 export const AuthMenu = () => (
   <List>
-    <ListItem button>
-      <ListItemIcon>
-        <SettingsIcon />
-      </ListItemIcon>
-      <ListItemText primary="Settings" />
-    </ListItem>
-    <ListItem button>
+    <ListSubheader>Admin</ListSubheader>
+    <ListItem button selected>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
@@ -42,6 +37,19 @@ export const AuthMenu = () => (
         <LayersIcon />
       </ListItemIcon>
       <ListItemText primary="Logs" />
+    </ListItem>
+    <ListSubheader>Developer</ListSubheader>
+    <ListItem button>
+      <ListItemIcon>
+        <SettingsIcon />
+      </ListItemIcon>
+      <ListItemText primary="Configuration" />
+    </ListItem>
+    <ListItem button>
+      <ListItemIcon>
+        <SettingsIcon />
+      </ListItemIcon>
+      <ListItemText primary="Documentation" />
     </ListItem>
   </List>
 );

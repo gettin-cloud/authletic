@@ -13,14 +13,22 @@ import { AuthMenu } from './menu';
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    paddingTop: theme.spacing.unit * 2,
-    paddingLeft: theme.spacing.unit * 3,
-    backgroundColor: theme.palette.grey
+    height: 'calc(100% - 64px)'
+  },
+  gridContainer: {
+    height: '100%'
+  },
+  contentGridItem: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 2
+  },
+  menuGridItem: {
+    borderRight: 'solid 1px #ddd',
   },
   paper: {
     padding: theme.spacing.unit * 2,
-    margin: theme.spacing.unit * 2,
-    textAlign: 'center',
+    marginTop: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2,
     color: theme.palette.text.secondary,
   },
 });
@@ -29,16 +37,15 @@ class Authentication extends Component {
   render() {
     return (
       <div className={this.props.classes.root}>
-        <Typography variant="headline" gutterBottom>
-          Authentication
-        </Typography>
-        <Divider/>
-        <Grid container spacing={24}>
-          <Grid item>
+        <Grid container spacing={0} className={this.props.classes.gridContainer}>
+          <Grid item className={this.props.classes.menuGridItem}>
             <AuthMenu />
           </Grid>
-          <Grid item>
-            <Paper className={this.props.classes.paper}>Content</Paper>
+          <Grid item className={this.props.classes.contentGridItem}>
+            <Typography variant="headline" gutterBottom>
+              Users
+            </Typography>
+            <Divider/>
           </Grid>
         </Grid>
       </div>
