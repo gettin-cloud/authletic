@@ -42,10 +42,6 @@ class Authentication extends Component {
             <AuthMenu />
           </Grid>
           <Grid item className={this.props.classes.contentGridItem}>
-            <Typography variant="headline" gutterBottom>
-              Users
-            </Typography>
-            <Divider/>
           </Grid>
         </Grid>
       </div>

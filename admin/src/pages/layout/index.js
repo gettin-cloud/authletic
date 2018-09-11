@@ -16,6 +16,7 @@ import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import PeopleIcon from '@material-ui/icons/People';
 
 import { Logout } from '@saasless/auth-react';
 
@@ -97,6 +98,14 @@ const styles = theme => ({
   tableContainer: {
     height: 320,
   },
+  titleIcon: {
+    marginBottom: -4,
+    marginRight: 4,
+  },
+  crumbsDivider: {
+    marginLeft: 10,
+    marginRight: 10,
+  }
 });
 
 class Layout extends React.Component {
@@ -136,7 +145,7 @@ class Layout extends React.Component {
                 <MenuIcon />
               </IconButton>
               <Typography variant="title" color="inherit" noWrap className={classes.title}>
-                My Application > Authentication
+                Authentication <span className={classes.crumbsDivider}>/</span> <PeopleIcon className={classes.titleIcon}/> Users
               </Typography>
               <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">
